@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+    <body>
+        <h4>Thanks <span th:text="${user.name}"></span> for signing up to Raku!</h4>
+        <p>
+            Please confirm your email address to complete your Raku registration.
+        </p>
+        <p><a th:href="@{${baseUrl} + '/auth/email-verify?key=' + ${user.emailVerificationKey}}">Verify your account</a></p>
+        <hr>
+        <p>
+            © 2020 - <span th:text="${#dates.year(#dates.createNow())}"></span> Raku Ltd. All rights reserved
+        </p>
+    </body>
+</html>
