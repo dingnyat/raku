@@ -91,6 +91,7 @@ public class AuthController {
         if (userDTO == null) {
             return new ApiResponse<>(false, "Can't find the account!");
         } else {
+            userService.verifyAccount(userDTO.getId());
             return new ApiResponse<>(true, "Account is verified successfully!");
         }
     }

@@ -5,6 +5,7 @@ import com.nyat.raku.security.Role;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Data
 @Entity
@@ -46,4 +47,39 @@ public class User {
     @Column(name = "auth_provider")
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_repost_track",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "track_id"})})
+    private Set<Track> repostTracks;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_history_track",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "track_id"})})
+    private Set<Track> historyTracks;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_like_track",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "like_track_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "like_track_id"})})
+    private Set<Track> likeTracks;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_follower",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "follower_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "follower_id"})})
+    private Set<User> followers;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_following_user",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "following_user_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "following_user_id"})})
+    private Set<User> followingUsers;
 }

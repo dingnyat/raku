@@ -22,4 +22,6 @@ public interface UserService {
     boolean existsByUsername(String username);
 
     UserDTO getByVerificationKey(String key);
+
+    void verifyAccount(Integer id);
 }

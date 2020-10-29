@@ -99,4 +99,11 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
+
+    @Override
+    public void verifyAccount(Integer id) {
+        User user = userDAO.get(id);
+        user.setEmailVerified(true);
+        userDAO.update(user);
+    }
 }
