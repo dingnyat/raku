@@ -1,0 +1,116 @@
+.close-dialog {
+  cursor: pointer;
+}
+
+.header-dialog {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 40px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: 1px solid #aeaeae;
+}
+
+.title-dialog {
+  text-transform: uppercase;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.content-dialog {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.login-section {
+  border-right: 1px solid #aeaeae;
+}
+
+.login-form {
+  display: flex;
+  float: left;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  width: 100%;
+  padding-top: 10px;
+}
+
+.txt-alert-required {
+  font-size: 0.7em;
+  color: #6c757d;
+  padding-bottom: 10px;
+}
+
+.login-form .input-control input {
+  width: 60%;
+}
+
+.login-form .input-control input:focus {
+  border: 1px solid #ff5500;
+  box-shadow: none;
+  outline: 0;
+}
+
+.box-more-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60%;
+}
+
+.box-more-option a {
+  text-decoration: none;
+}
+
+.login-submit-btn {
+  background-color: #ff5500;
+  border-color: #ff5500;
+  width: 60%;
+}
+
+.login-submit-btn:active, .login-submit-btn:focus {
+  background-color: #ff5500 !important;
+  border-color: #ff5500 !important;
+  box-shadow: 0 0 0 0.1rem rgba(255, 85, 0, .5) !important;
+}
+
+.line-w {
+  border-bottom: 1px solid #aeaeae;
+  width: 33%;
+}
+
+.title-or {
+  width: 33%;
+  text-align: center;
+}
+
+.btn-login-social:hover {
+  cursor: pointer;
+}
+
+.btn-login-social fa-icon {
+  font-size: 2em;
+}
+
+.login-error span {
+  color: red;
+  font-size: 0.8em;
+}
+
+.box-show-btn button {
+  background-color: #ff5500;
+  color: white;
+}
+
+.box-show-btn button:active, .box-show-btn button:focus {
+  background-color: #ff5500 !important;
+  border-color: #ff5500 !important;
+  box-shadow: 0 0 0 0.1rem rgba(255, 85, 0, .5) !important;
+}
+
+.btn-login-social .name-social:hover{
+  color: #ff5500;
+}

@@ -1,4 +1,7 @@
 <top-menu></top-menu>
-<content-body></content-body>
-<media-player></media-player>
-<router-outlet></router-outlet>
+<section class="main-container">
+  <div id="content" role="main">
+    <router-outlet></router-outlet>
+  </div>
+</section>
+<media-player *ngIf="songs != null && songs.length > 0" [songQueue]="songs" (songQueueChange)="songQueueChange($event)"></media-player>

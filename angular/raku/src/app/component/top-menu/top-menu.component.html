@@ -2,7 +2,7 @@
   <div class="bar-container">
     <div class="header-left">
       <div class="header-logo float-left">
-        <a href="/" title="Home" class="header-logo-link"></a>
+        <a routerLink="/" title="Home" class="header-logo-link"></a>
       </div>
       <div class="header-left-nav float-left">
         <ul class="header-list-nav float-left">
@@ -26,13 +26,17 @@
         </form>
       </div>
     </div>
-    <div class="header-right">
+    <div class="header-right d-flex justify-content-start align-items-center ml-2" *ngIf="!isAuthenticated">
+      <button id="signInBtn" (click)="showSignInUpDialog('signin')">Sign In</button>
+      <button id="signUpBtn" (click)="showSignInUpDialog('signup')">Create an account</button>
+    </div>
+    <div class="header-right" *ngIf="isAuthenticated">
       <a href="/" class="try-pro-link">Try Pro</a>
       <div class="header-uploader float-left">
-        <a href="/" class="header-upload-link">Upload</a>
+        <a routerLink="/upload" class="header-upload-link">Upload</a>
       </div>
       <div class="header-user-nav float-left p-0">
-        <a href="/" class="header-user-nav-button">
+        <a class="header-user-nav-button" (click)="showProfileMenu = !showProfileMenu">
           <div class="header-user-avatar">
             <span class="avatar-image" style="background-image: url('https://i1.sndcdn.com/avatars-000325402181-0z0ovj-t50x50.jpg'); width: 26px; height: 26px; opacity: 1;"></span>
           </div>
@@ -51,9 +55,19 @@
           </div>
         </a>
       </div>
-      <ul class="header-list-menu float-left p-0">
+    </div>
+  </div>
+  <div class="user-profile-dropdown" [class.d-none]="!showProfileMenu || !isAuthenticated">
+    <div class="profile-menu">
+      <ul class="menu-list">
         <li>
-          <a href="/" class="header-more-menu"></a>
+          <a class="menu-item"><fa-icon [icon]="faUser" class="ml-1 mr-2"></fa-icon>Profile</a>
+        </li>
+        <li>
+          <a class="menu-item"><fa-icon [icon]="faCog" class="ml-1 mr-2"></fa-icon>Settings</a>
+        </li>
+        <li (click)="logout()">
+          <span class="menu-item"><fa-icon [icon]="faSignOut" class="ml-1 mr-2"></fa-icon>Sign out</span>
         </li>
       </ul>
     </div>

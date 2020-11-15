@@ -28,11 +28,11 @@ public class Track {
     @Temporal(TemporalType.TIMESTAMP)
     private Date uploadTime;
 
-    @Column(name = "description")
+    @Column(name = "description", columnDefinition = "text")
     private String description;
 
-    @Column(name = "is_public", nullable = false)
-    private boolean isPublic;
+    @Column(name = "privacy", nullable = false)
+    private String privacy;
 
     @Column(name = "image_url")
     private String imageUrl;
@@ -57,4 +57,7 @@ public class Track {
             joinColumns = @JoinColumn(name = "track_id")
     )
     private Set<String> tags;
+
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "tracks")
+    private Set<Genre> genres;
 }

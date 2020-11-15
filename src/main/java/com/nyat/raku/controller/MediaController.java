@@ -18,10 +18,8 @@ import java.nio.file.Files;
 @Controller
 public class MediaController {
 
-    @Value("${music-path}")
     private String MUSIC_PATH;
 
-    @Value("${img-path}")
     private String IMAGE_PATH;
 
     @GetMapping(value = "/audio/{song-code:.+}")

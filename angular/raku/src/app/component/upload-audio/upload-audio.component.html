@@ -1,0 +1,24 @@
+<mat-tab-group>
+  <mat-tab label="Upload">
+    <div class="upload-tab d-flex justify-content-center align-items-center flex-column">
+      <ng-container *ngIf="selectedFiles != null">
+        <div *ngFor="let file of selectedFiles;" style="width: 65%" class="mt-5">
+          <upload-form [sourceFile]="file"></upload-form>
+        </div>
+      </ng-container>
+      <div *ngIf="selectedFiles == null"
+           class="upload-section d-flex justify-content-center align-items-center flex-column pt-5 px-5">
+        <h3 class="mb-3">Drag and drop your tracks & albums here</h3>
+        <input #FileChooserInput type="file" (change)="handleFilesInput($event)" multiple hidden>
+        <button class="my-2 choose-file-btn" (click)="openFileChooser()">or choose files to upload</button>
+        <p class="mt-5" style="font-size: 0.85em">
+          Provide FLAC, WAV, ALAC, or AIFF for highest audio quality. <a href="/">Learn more about lossless HD.</a>
+        </p>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Your tracks">
+
+  </mat-tab>
+  <mat-tab label="Insights"> Insights</mat-tab>
+</mat-tab-group>

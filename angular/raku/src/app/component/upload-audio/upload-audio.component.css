@@ -1,0 +1,21 @@
+.upload-tab {
+  min-height: 75vh !important;
+}
+
+.upload-section {
+  border: 1px solid #efefef;
+}
+
+.choose-file-btn {
+  background-color: #ff5500;
+  color: white;
+  border: 0;
+  border-radius: 5%;
+  line-height: 18px;
+  padding: 10px 15px;
+  height: 40px;
+}
+
+.choose-file-btn:focus {
+  outline: 1px solid white;
+}

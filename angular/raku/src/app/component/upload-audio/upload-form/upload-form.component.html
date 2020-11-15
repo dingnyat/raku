@@ -1,0 +1,94 @@
+<div class="d-flex justify-content-between align-items-center px-1">
+  <div class="font-weight-light file-name-title">{{file.name}}</div>
+  <div
+    class="font-weight-light file-name-title">{{progress == 100 ? "Uploaded. Click save to post this track." : "In progress"}}</div>
+</div>
+<div class="progress w-100 upload-progress">
+  <div
+    class="progress-bar progress-bar-info"
+    [class.bg-in-progress]="progress < 100" [class.bg-success]="progress == 100"
+    role="progressbar"
+    [attr.aria-valuenow]="progress"
+    aria-valuemin="0"
+    aria-valuemax="100"
+    [ngStyle]="{ width: progress + '%' }">
+  </div>
+</div>
+<div class="upload-form">
+  <form class="w-100 tab-form">
+    <div class="row py-4">
+      <div class="col-4">
+        <div *ngIf="imageBase64 != null && imageBase64 != undefined" style="width: 260px; height: 260px">
+          <img #ImageAudio class="image-audio" [src]="'data:image/jpeg;base64,' + imageBase64">
+        </div>
+        <div *ngIf="imageBase64 == null || imageBase64 == undefined" class="audio-image">
+        </div>
+        <button [class.upload-audio-image-btn]="image == null"
+                [class.upload-audio-image-btn-re]="image != null"
+                (click)="openUploadImage()">
+          <fa-icon [icon]="faCamera" class="mr-1"></fa-icon>{{image == null ? 'Upload Image' : 'Replace Image'}}
+        </button>
+        <input #UploadImageInp (change)="handleUploadImage($event)" type="file" hidden accept=".png, .jpg, .jpeg">
+      </div>
+      <div class="col-8 pl-4">
+        <div class="form-group">
+          <label>Title <span style="color: red;">*</span></label>
+          <input type="text" name="title" class="form-control" [(ngModel)]="title" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">raku.com/username/</div>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="code" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="form-group">
+          <label>Genre</label>
+          <br>
+          <mat-form-field class="w-100">
+            <mat-select [formControl]="genresControl" [multiple]="true" #genresSelect>
+              <mat-option>
+                <ngx-mat-select-search [formControl]="genresFilterCtrl" placeholderLabel="Select genres..."></ngx-mat-select-search>
+              </mat-option>
+              <mat-option *ngFor="let genre of filteredGenres | async" [value]="genre">
+                {{genre.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="form-group">
+          <label>Tags</label>
+          <tag-input [(ngModel)]="tags" [onAdding]="transform"
+                     [theme]="'minimal'"
+                     [ngModelOptions]="{standalone: true}">
+          </tag-input>
+        </div>
+        <div class="form-group">
+          <label>Description</label>
+          <textarea [(ngModel)]="description" class="form-control" rows="3" [ngModelOptions]="{standalone: true}"></textarea>
+        </div>
+        <div class="d-flex align-items-center">
+          <span class="mr-3">Privacy:</span>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="privacy" value="public" checked [formControl]="privacyCtrl">
+            <label class="form-check-label">
+              Public
+            </label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" name="privacy" value="private" [formControl]="privacyCtrl">
+            <label class="form-check-label">
+              Private
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-between align-items-center px-4 py-3 footer-btn">
+      <p class="m-0"><span style="color: red;">*</span> Required fields</p>
+      <div>
+        <button class="btn btn-light" (click)="cancel()">Cancel</button>
+        <button class="btn raku-btn" (click)="save()">Save</button>
+      </div>
+    </div>
+  </form>
+</div>

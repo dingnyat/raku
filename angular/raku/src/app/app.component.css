@@ -1,0 +1,14 @@
+.main-container {
+  padding: 46px 0 0;
+  width: 1240px;
+  margin: 0 auto;
+}
+
+.main-container:before, .main-container:after {
+  content: '';
+  display: table;
+}
+
+.main-container:after {
+  clear: both;
+}

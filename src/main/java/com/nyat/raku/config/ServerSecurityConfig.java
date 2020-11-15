@@ -90,7 +90,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/image/**",
                         "/api/webhook/transfer",
                         "/get-qr-code-image/*",
-                        "/api/*").permitAll()
+                        "/api/**").permitAll()
                 .anyRequest().authenticated();
         http.oauth2Login()
                 .authorizationEndpoint().baseUri("/oauth2/authorize")

@@ -1,0 +1,108 @@
+<div class="h-100">
+  <div class="header-dialog">
+    <span class="title-dialog">{{labels.dialogTitle}}</span>
+    <fa-icon class="close-dialog" (click)="closeDialog()" [icon]="faTimes"></fa-icon>
+  </div>
+  <div class="content-dialog">
+    <div class="col-8 login-section">
+      <form *ngIf="isLogin" [formGroup]="loginForm" class="login-form" (submit)="login()">
+        <div class="txt-alert-required">
+          (<span style="color:#e74c3c">*</span>) Required fields
+        </div>
+        <div class="input-control row col-12 d-flex justify-content-between align-items-center mb-2">
+          <label>Username<span style="color:#e74c3c">*</span></label>
+          <input formControlName="loginUsername" type="text" maxlength="30">
+        </div>
+        <div class="input-control row col-12 d-flex justify-content-between align-items-center mb-2">
+          <label>Password<span style="color:#e74c3c">*</span></label>
+          <input formControlName="loginPassword" type="password" maxlength="30">
+        </div>
+        <div class="row col-12 d-flex justify-content-end align-items-center">
+          <div class="box-more-option">
+          <span class="box-checkbox">
+            <!--<input checked="checked" type="checkbox" class="mr-2">
+            <label style="font-size:14px; width:90px;">Nhớ mật khẩu</label>-->
+          </span>
+            <span>
+              Forgot password?
+            </span>
+          </div>
+        </div>
+        <div class="login-error mb-2" style="{{hasError ? '' : 'height: 24px;'}}">
+          <span *ngIf="hasError">All fields need be filled</span>
+          <span *ngIf="authenError">Username or password is invalid</span>
+        </div>
+        <div class="row col-12 d-flex justify-content-end align-items-center mb-4">
+          <button class="btn btn-primary login-submit-btn" type="submit"
+                  title="Sign in">Sign in
+          </button>
+        </div>
+      </form>
+      <form *ngIf="!isLogin" [formGroup]="registerForm" class="login-form" (submit)="register()">
+        <div class="txt-alert-required">
+          (<span style="color:#e74c3c">*</span>) Required fields
+        </div>
+        <div class="input-control row col-12 d-flex justify-content-between align-items-center mb-2">
+          <label>Name<span style="color:#e74c3c">*</span></label>
+          <input formControlName="regName" type="text">
+        </div>
+        <div class="input-control row col-12 d-flex justify-content-between align-items-center mb-2">
+          <label>Username<span style="color:#e74c3c">*</span></label>
+          <input formControlName="regUsername" type="text">
+        </div>
+        <div class="input-control row col-12 d-flex justify-content-between align-items-center mb-2">
+          <label>Password<span style="color:#e74c3c">*</span></label>
+          <input formControlName="regPassword" type="password">
+        </div>
+        <div class="input-control row col-12 d-flex justify-content-between align-items-center mb-2">
+          <label>Confirm password<span style="color:#e74c3c">*</span></label>
+          <input formControlName="regRepeatPassword" type="password">
+        </div>
+        <div class="input-control row col-12 d-flex justify-content-between align-items-center mb-2">
+          <label>Email<span style="color:#e74c3c">*</span></label>
+          <input formControlName="regEmail" type="text">
+        </div>
+        <div class="login-error mb-1" style="{{hasError ? '' : 'height: 24px;'}}">
+          <span *ngIf="hasError">All fields need be filled</span>
+        </div>
+        <div class="mb-1 text-right" style="font-size: 0.7em; max-width: 400px">
+          <span>By clicking “Sign up for GitHub”, you agree to our <a href="#">Terms of Service and Privacy Statement</a>. We’ll occasionally send you account related emails.</span>
+        </div>
+        <div class="row col-12 d-flex justify-content-end align-items-center mb-4">
+          <button class="btn btn-primary login-submit-btn" type="submit"
+                  title="Sign Up">Sign Up
+          </button>
+        </div>
+      </form>
+    </div>
+    <div class="col-4 pt-1">
+      <div class="box-user-have-acc row col-12 mx-0 d-flex align-items-center justify-content-center flex-column">
+        <span class="txt-alert-user mb-1">{{labels.hasAccountTitle}}</span>
+        <div class="box-show-btn w-100">
+          <button class="btn w-100"
+                  (click)="isLogin ? showRegister() : showLogin()">{{labels.hasAccountBtnLbl}}</button>
+        </div>
+      </div>
+      <div class="box-line-or row col-12 mx-0 mt-2 d-flex align-items-center justify-content-center">
+        <div class="line-w"></div>
+        <div class="title-or"><p>Or</p></div>
+        <div class="line-w"></div>
+      </div>
+      <div class="d-flex flex-column justify-content-center align-items-start px-3">
+        <div class="btn-login-social" (click)="oauthFacebook()">
+          <span class="d-flex justify-content-between align-items-center">
+            <fa-icon [icon]="faFacebook" style="color: #4c6ef5;" class="mr-1"></fa-icon>
+            <span class="name-social">Sign in with Facebook</span>
+          </span>
+        </div>
+        <div class="btn-login-social" (click)="oauthGoogle()">
+          <span class="d-flex justify-content-between align-items-center">
+            <img src="../../../../assets/svg/google_logo.svg" width="29px" height="29px" class="mr-1">
+            <span class="name-social">Sign in with Google</span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
