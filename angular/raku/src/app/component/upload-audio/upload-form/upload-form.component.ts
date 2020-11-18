@@ -47,6 +47,7 @@ export class UploadFormComponent implements OnInit, AfterViewInit, OnDestroy {
   title: string;
   code: string;
   src: string;
+  composer: string;
 
   constructor(private fileUploadService: FileUploadService, private genreService: GenreService, private trackService: TrackService) {
   }
@@ -58,6 +59,7 @@ export class UploadFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.code = UploadFormComponent.handleSongCode(this.title);
     this.privacyCtrl = new FormControl("public");
     this.description = "";
+    this.composer = "";
     this.tags = [];
 
     this.genresControl = new FormControl();
@@ -164,7 +166,7 @@ export class UploadFormComponent implements OnInit, AfterViewInit, OnDestroy {
     this.imageBase64 = btoa(binaryString);
     setTimeout(() => {
       // @ts-ignore
-      $(this.ImageAudio.nativeElement).guillotine({width: 200, heigth: 200, init: {scale: 0.3}});
+      $(this.ImageAudio.nativeElement).guillotine({width: 260, height: 260, init: {scale: 0.3}});
     }, 20);
   }
 
@@ -177,9 +179,10 @@ export class UploadFormComponent implements OnInit, AfterViewInit, OnDestroy {
     formData.append("privacy", this.privacyCtrl.value);
     formData.append("tags", JSON.stringify(this.tags));
     formData.append("genresStr", JSON.stringify(this.genresControl.value));
+    formData.append("composer", this.composer);
     if (this.image != null) {
       // @ts-ignore
-      formData.append("imageData", JSON.stringify($(this.ImageAudio.nativeElement).guillotine("getData")));
+      formData.append("cropDataStr", JSON.stringify($(this.ImageAudio.nativeElement).guillotine("getData")));
       formData.append("image", this.image);
     }
     this.trackService.upload(formData).subscribe(data => {

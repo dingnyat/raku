@@ -6,7 +6,7 @@ import com.nyat.raku.model.TrackDTO;
 import java.util.List;
 
 public interface TrackService {
-    Track create(TrackDTO trackDTO);
+    Track create(TrackDTO trackDTO) throws Exception;
 
     TrackDTO get(Integer id);
 

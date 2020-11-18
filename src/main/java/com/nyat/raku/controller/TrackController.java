@@ -1,5 +1,6 @@
 package com.nyat.raku.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.service.TrackService;
@@ -9,6 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
 
 @Controller
 @RequestMapping("/api/track")

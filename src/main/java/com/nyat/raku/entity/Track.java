@@ -2,6 +2,7 @@ package com.nyat.raku.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Track {
 
     @Column(name = "upload_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     private Date uploadTime;
 
     @Column(name = "description", columnDefinition = "text")

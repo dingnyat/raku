@@ -38,11 +38,11 @@
       <div class="header-user-nav float-left p-0">
         <a class="header-user-nav-button" (click)="showProfileMenu = !showProfileMenu">
           <div class="header-user-avatar">
-            <span class="avatar-image" style="background-image: url('https://i1.sndcdn.com/avatars-000325402181-0z0ovj-t50x50.jpg'); width: 26px; height: 26px; opacity: 1;"></span>
+            <img class="avatar-image" [src]="userInfo.imageUrl ? userInfo.imageUrl : '/assets/images/avatar.png'" referrerpolicy="no-referrer" style="width: 26px; height: 26px; opacity: 1;"/>
           </div>
           <div class="header-user-name float-left">
             <div class="user-name">
-              <span>Username</span>
+              <span>{{userInfo.name}}</span>
             </div>
           </div>
         </a>

@@ -1,6 +1,7 @@
 package com.nyat.raku.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nyat.raku.util.CropData;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,7 +19,8 @@ public class TrackDTO {
     public String privacy;
     public String imageUrl;
     public MultipartFile image;
-    public String imageData;
+    public String cropDataStr;
+    public CropData cropData;
     public String composer;
     public String duration;
     public Integer plays;

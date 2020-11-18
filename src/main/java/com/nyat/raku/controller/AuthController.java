@@ -67,6 +67,7 @@ public class AuthController {
         userInfo.setName(userPrincipal.getName());
         userInfo.setUsername(userPrincipal.getUsername());
         userInfo.setImageUrl(userPrincipal.getImageUrl());
+        userInfo.setRole("member");
         return new ApiResponse<>(true, userInfo);
     }
 

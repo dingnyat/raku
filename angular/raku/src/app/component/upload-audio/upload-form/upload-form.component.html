@@ -63,6 +63,10 @@
           </tag-input>
         </div>
         <div class="form-group">
+          <label>Composer</label>
+          <input type="text" name="composer" class="form-control" [(ngModel)]="composer" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="form-group">
           <label>Description</label>
           <textarea [(ngModel)]="description" class="form-control" rows="3" [ngModelOptions]="{standalone: true}"></textarea>
         </div>

@@ -63,9 +63,7 @@ export class SignInUpFormComponent implements OnInit {
           }
         }
       }, error => {
-        if (error.toString().toLowerCase() === "Bad credentials".toLowerCase()) {
-          this.authenError = true;
-        }
+        this.authenError = true;
       });
     } else {
       this.hasError = true;

@@ -9,4 +9,5 @@ public class AuthUserInfo {
     private String username;
     private String name;
     private String imageUrl;
+    private String role;
 }

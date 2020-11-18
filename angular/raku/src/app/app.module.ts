@@ -1,6 +1,6 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {Injector, NgModule} from '@angular/core';
-import { TagInputModule } from 'ngx-chips';
+import {TagInputModule} from 'ngx-chips';
 import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {TopMenuComponent} from './component/top-menu/top-menu.component';
@@ -24,9 +24,10 @@ import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {UploadFormComponent} from './component/upload-audio/upload-form/upload-form.component';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {MatSelectModule} from "@angular/material/select";
-import { SignInUpFormComponent } from './component/top-menu/sign-in-up-form/sign-in-up-form.component';
+import {SignInUpFormComponent} from './component/top-menu/sign-in-up-form/sign-in-up-form.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { Oauth2RedirectComponent } from './component/oauth2-redirect/oauth2-redirect.component';
+import {Oauth2RedirectComponent} from './component/oauth2-redirect/oauth2-redirect.component';
+import {AuthGuard} from "./interceptor/auth.guard";
 
 export let InjectorInstance: Injector;
 
@@ -65,6 +66,7 @@ export let InjectorInstance: Injector;
     {provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     CookieService,
+    AuthGuard,
   ],
   bootstrap: [AppComponent]
 })

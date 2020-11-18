@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {Subject} from "rxjs";
+import {BehaviorSubject, Subject} from "rxjs";
 import {Song} from "../model/Song";
 import {UserPrincipal} from "../model/UserPrincipal";
 
@@ -16,7 +16,7 @@ export class AppService {
 
   playStateObs = this.playState.asObservable();
 
-  private currUser = new Subject<UserPrincipal>();
+  private currUser = new BehaviorSubject(null);
 
   userObs = this.currUser.asObservable();
 
@@ -37,5 +37,9 @@ export class AppService {
 
   setUser(user: UserPrincipal) {
     this.currUser.next(user);
+  }
+
+  getCurrentUser() {
+    return this.currUser.getValue();
   }
 }
