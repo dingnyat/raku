@@ -4,4 +4,4 @@
     <router-outlet></router-outlet>
   </div>
 </section>
-<media-player *ngIf="songs != null && songs.length > 0" [songQueue]="songs" (songQueueChange)="songQueueChange($event)"></media-player>
+<media-player *ngIf="showMediaPlayer"></media-player>

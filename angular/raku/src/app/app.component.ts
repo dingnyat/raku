@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
-import {Song} from "./model/Song";
 import * as moment from 'moment';
 import {AppService} from "./service/app.service";
 
@@ -11,31 +10,51 @@ import {AppService} from "./service/app.service";
 export class AppComponent implements OnInit, AfterViewInit {
 
   currentYear: number;
-
-  songs: Song[];
+  showMediaPlayer: boolean;
 
   constructor(public songApp: AppService) {
-    /*this.songs = [{
-      albumPhoto: "turn_back_time.jpg",
-      audioName: "NhacA-NhacHoa-WayV-TurnBackTime",
-      code: "turn-back-time",
-      genres: [{code: "24", name: "Nhạc Hoa"}, {code: "14", name: "Châu Á"}],
-      title: "Turn Back Time",
-      singers: [{code: "64", name: "WayV", description: "Châu Á Nhạc Hoa"}],
-      view: 158,
-      vip: false,
-      type: "",
-      src: "http://localhost:8081/audio/NhacA-NhacHoa-WayV-TurnBackTime.mp3"
-    }];
-    songApp.songsObs.subscribe(songs => {
-      this.songs = songs as Song[];
-      this.songs.forEach(song => {
-        song.src = "http://localhost:8081/audio/" + song.audioName + ".mp3";
-      });
-      setTimeout(() => {
-        this.songApp.setPlayState(true);
-      }, 500);
-    })*/
+    songApp.songQueueObs.subscribe(songQueue => {
+      this.showMediaPlayer = !(songQueue == null || songQueue?.length == 0);
+    });
+
+    songApp.setSongQueue([{
+      artist: "Versio",
+      code: "electro-pop-versio-feel-it-ft-nar",
+      composer: "",
+      description: "jljl",
+      duration: "03:51",
+      ext: ".mp3",
+      id: 66,
+      plays: 0,
+      privacy: "_PRIVATE",
+      uploader: {name: "nhat do", username: "nhatkap1"},
+      title: "[Electro Pop] Versio - Feel It (ft. Nar)",
+      uploadTime: new Date(),
+      imageUrl: null,
+      link: "/nhatkap1/electro-pop-versio-feel-it-ft-nar",
+      src: "http://localhost:8081/nhatkap1/audio/electro-pop-versio-feel-it-ft-nar",
+      tags: [],
+      genres: []
+    }, {
+      artist: "Versio",
+      code: "electro-pop-versio-feel-it-ft-nar",
+      composer: "",
+      description: "jljl",
+      duration: "03:51",
+      ext: ".mp3",
+      id: 66,
+      plays: 0,
+      privacy: "_PRIVATE",
+      uploader: {name: "nhat do", username: "nhatkap1"},
+      title: "[Electro Pop] Versio - Feel It (ft. Nar)",
+      uploadTime: new Date(),
+      imageUrl: null,
+      link: "/nhatkap1/electro-pop-versio-feel-it-ft-nar",
+      src: "http://localhost:8081/nhatkap1/audio/electro-pop-versio-feel-it-ft-nar",
+      tags: [],
+      genres: []
+    }]);
+    this.songApp.setQueueIdx(0);
   }
 
   ngOnInit(): void {
@@ -44,9 +63,5 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     window.scrollTo(0, 0);
-  }
-
-  songQueueChange($event: any[]) {
-    this.songs = $event;
   }
 }

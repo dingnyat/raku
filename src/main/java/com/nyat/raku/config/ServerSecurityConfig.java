@@ -86,8 +86,9 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/auth/**", "/oauth/**", "/oauth2/**",
                         "/swagger-ui.html", "/webjars/**", "/swagger-resources/**", "/v2/api-docs/**",
-                        "/audio/**",
-                        "/image/**",
+                        "/**/audio/**",
+                        "/**/audio-download/**",
+                        "/**/image/**",
                         "/api/webhook/transfer",
                         "/get-qr-code-image/*",
                         "/api/**").permitAll()

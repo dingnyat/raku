@@ -1,0 +1,88 @@
+package com.nyat.raku.util;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.ZoneId;
+import java.util.Calendar;
+import java.util.Date;
+
+public class DateTimeUtils {
+    public static String DDHHMM = "ddHHmm";
+    public static String DD_MM_YYYY_HH_MM_SS = "dd/MM/yyyy HH:mm:ss";
+    public static String DD_MM_YYYY = "dd/MM/yyyy";
+    public static String MM_YYYY = "MM/yyyy";
+    public static String HH_MM_SS = "HH:mm:ss";
+    public static String DD_MM_YYYY_HH_MM = "dd/MM/yyyy HH:mm";
+    public static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
+
+    public static Date parseDate(String date, String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        try {
+            return sdf.parse(date);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static String formatDate(Date date, String pattern) {
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern);
+        return sdf.format(date);
+    }
+
+    public static Date addMonth(Date date, int month) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.MONTH, month);
+        return calendar.getTime();
+    }
+
+    public static Date getEndOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 23);
+        calendar.set(Calendar.MINUTE, 59);
+        calendar.set(Calendar.SECOND, 59);
+        calendar.set(Calendar.MILLISECOND, 999);
+        return calendar.getTime();
+    }
+
+    public static Date getStartOfDay(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTime();
+    }
+
+    public static Date getYesterday(Date date) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.DATE, -1);
+        return calendar.getTime();
+    }
+
+    public static long dateDiff(Date from, Date to) {
+        return (to.getTime() - from.getTime()) / (24 * 60 * 60 * 1000);
+    }
+
+    public static String getTimespan(Date startDate, Date endDate) {
+        Duration duration = Duration.between(startDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                endDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
+        long second = duration.toMillis() / 1000;
+        long minute = duration.toMinutes();
+        long hour = duration.toHours();
+        long day = duration.toDays();
+        long week = duration.toDays() / 7;
+        long year = duration.toDays() / 365;
+        if (year > 0) return year + (year > 1 ? " years ago" : " year ago");
+        else if (week > 0) return week + (week > 1 ? " weeks ago" : " week ago");
+        else if (day > 0) return day + (day > 1 ? " days ago" : " day ago");
+        else if (hour > 0) return hour + (hour > 1 ? " hours ago" : " hour ago");
+        else if (minute > 0) return minute + (minute > 1 ? " minutes ago" : " minute ago");
+        else if (second > 30) return second + " seconds ago";
+        else return "just now";
+    }
+}

@@ -1,4 +1,4 @@
-import {BrowserModule} from '@angular/platform-browser';
+import {BrowserModule, Title} from '@angular/platform-browser';
 import {Injector, NgModule} from '@angular/core';
 import {TagInputModule} from 'ngx-chips';
 import {AppRoutingModule} from './app-routing.module';
@@ -21,13 +21,14 @@ import {MatTabsModule} from "@angular/material/tabs";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
-import {UploadFormComponent} from './component/upload-audio/upload-form/upload-form.component';
 import {NgxMatSelectSearchModule} from 'ngx-mat-select-search';
 import {MatSelectModule} from "@angular/material/select";
 import {SignInUpFormComponent} from './component/top-menu/sign-in-up-form/sign-in-up-form.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {Oauth2RedirectComponent} from './component/oauth2-redirect/oauth2-redirect.component';
 import {AuthGuard} from "./interceptor/auth.guard";
+import {TrackDetailsComponent} from './component/track-details/track-details.component';
+import {YourTracksComponent} from './component/your-tracks/your-tracks.component';
 
 export let InjectorInstance: Injector;
 
@@ -39,9 +40,10 @@ export let InjectorInstance: Injector;
     ContentBodyComponent,
     ProfileComponent,
     UploadAudioComponent,
-    UploadFormComponent,
     SignInUpFormComponent,
-    Oauth2RedirectComponent
+    Oauth2RedirectComponent,
+    TrackDetailsComponent,
+    YourTracksComponent
   ],
   imports: [
     BrowserModule,
@@ -67,6 +69,7 @@ export let InjectorInstance: Injector;
     {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true},
     CookieService,
     AuthGuard,
+    Title
   ],
   bootstrap: [AppComponent]
 })

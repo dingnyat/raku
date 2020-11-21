@@ -36,13 +36,33 @@
         <a routerLink="/upload" class="header-upload-link">Upload</a>
       </div>
       <div class="header-user-nav float-left p-0">
-        <a class="header-user-nav-button" (click)="showProfileMenu = !showProfileMenu">
+        <a class="header-user-nav-button">
           <div class="header-user-avatar">
-            <img class="avatar-image" [src]="userInfo.imageUrl ? userInfo.imageUrl : '/assets/images/avatar.png'" referrerpolicy="no-referrer" style="width: 26px; height: 26px; opacity: 1;"/>
+            <img class="avatar-image" [src]="userInfo.imageUrl ? userInfo.imageUrl : '/assets/images/avatar.png'"
+                 referrerpolicy="no-referrer" style="width: 26px; height: 26px; opacity: 1;"/>
           </div>
           <div class="header-user-name float-left">
             <div class="user-name">
               <span>{{userInfo.name}}</span>
+            </div>
+          </div>
+          <div class="user-profile-dropdown">
+            <div class="profile-menu">
+              <ul class="menu-list">
+                <li>
+                  <a class="menu-item">
+                    <fa-icon [icon]="faUser" class="ml-1 mr-2"></fa-icon>
+                    Profile</a>
+                </li>
+                <li>
+                  <a class="menu-item">
+                    <fa-icon [icon]="faCog" class="ml-1 mr-2"></fa-icon>
+                    Settings</a>
+                </li>
+                <li (click)="logout()">
+                  <span class="menu-item"><fa-icon [icon]="faSignOut" class="ml-1 mr-2"></fa-icon>Sign out</span>
+                </li>
+              </ul>
             </div>
           </div>
         </a>
@@ -57,19 +77,5 @@
       </div>
     </div>
   </div>
-  <div class="user-profile-dropdown" [class.d-none]="!showProfileMenu || !isAuthenticated">
-    <div class="profile-menu">
-      <ul class="menu-list">
-        <li>
-          <a class="menu-item"><fa-icon [icon]="faUser" class="ml-1 mr-2"></fa-icon>Profile</a>
-        </li>
-        <li>
-          <a class="menu-item"><fa-icon [icon]="faCog" class="ml-1 mr-2"></fa-icon>Settings</a>
-        </li>
-        <li (click)="logout()">
-          <span class="menu-item"><fa-icon [icon]="faSignOut" class="ml-1 mr-2"></fa-icon>Sign out</span>
-        </li>
-      </ul>
-    </div>
-  </div>
+
 </header>

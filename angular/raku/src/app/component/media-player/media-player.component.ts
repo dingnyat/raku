@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {PlyrComponent} from "ngx-plyr";
 import * as Plyr from "../../app.component";
 import {
@@ -14,6 +14,8 @@ import {
   faUndo
 } from '@fortawesome/free-solid-svg-icons';
 import {AppService} from "../../service/app.service";
+import {Song} from "../../model/Song";
+import {LoopType} from "./loop-type";
 
 @Component({
   selector: 'media-player',
@@ -21,7 +23,6 @@ import {AppService} from "../../service/app.service";
   styleUrls: ['./media-player.component.css']
 })
 export class MediaPlayerComponent implements OnInit {
-
 
   faStepBackward = faStepBackward;
   faPlay = faPlay;
@@ -34,12 +35,7 @@ export class MediaPlayerComponent implements OnInit {
   faEllipsis = faEllipsisH;
   faChevronDown = faChevronDown;
 
-  @Input("songQueue")
-  songQueue: any[];
-
-  @Output("songQueueChange")
-  songQueueChange = new EventEmitter<any[]>();
-
+  songQueue: Song[];
   currSongIdx: number;
 
   @ViewChild(PlyrComponent, {static: true})
@@ -52,44 +48,59 @@ export class MediaPlayerComponent implements OnInit {
 
   isShowSongQueue: boolean;
 
-  loopType: number;
+  loopType = LoopType.NONE;
 
-  constructor(private songApp: AppService) {
-    songApp.playStateObs.subscribe(state => {
-      this.isPlaying = state;
-      if (this.isPlaying) {
-        this.playAudio();
-      } else {
-        this.pauseAudio();
-      }
-    })
+  constructor(private appService: AppService) {
   }
 
   ngOnInit(): void {
-    this.currSongIdx = 0;
-    this.currentAudio = [this.songQueue[this.currSongIdx]];
-    this.isShowSongQueue = false;
-    this.loopType = 0;
-  }
+    this.appService.currSongObs.subscribe(song => {
+      this.currentAudio = [song];
+      if (this.isPlaying) {
+        this.playAudio();
+      }
+    });
+    this.appService.songQueueObs.subscribe(songQueue => {
+      this.songQueue = songQueue;
+    });
+    this.appService.queueIdxObs.subscribe(idx => {
+      this.currSongIdx = idx;
+      this.appService.setCurrentSong(this.songQueue[this.currSongIdx]);
+    });
 
-  ngOnChanges(changes: SimpleChanges): void {
-    this.currentAudio = [this.songQueue[this.currSongIdx]];
-    if (this.songQueue.length == 0) {
-    }
-    if (this.isPlaying) {
-      setTimeout(() => {
-        this.player.play();
-      }, 1000);
-    }
+    this.isShowSongQueue = false;
+    this.loopType = LoopType.NONE;
   }
 
   onInitPlayer($event: any) {
     this.player = $event;
+    this.appService.playStateObs.subscribe(state => {
+      this.isPlaying = state;
+      if (this.player != undefined) {
+        if (this.isPlaying) {
+          this.playAudio();
+        } else {
+          this.pauseAudio();
+        }
+      }
+    });
+    this.appService.seekTimeObs.subscribe(time => {
+      this.player.currentTime = time;
+    });
+    this.player.on('timeupdate', e => {
+      this.appService.setCurrentTime(e.detail.plyr.currentTime);
+    });
   }
 
-  playAudio() {
+  playAudio(now?: boolean) {
     if (this.player['ready']) {
-      this.player.play();
+      if (!now) {
+        setTimeout(() => {
+          this.player.play();
+        }, 500);
+      } else {
+        this.player.play();
+      }
     }
   }
 
@@ -98,52 +109,40 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   onPauseAudio() {
-    this.isPlaying = false;
+    this.appService.setPlayState(false);
   }
 
   onPlayAudio() {
-    this.isPlaying = true;
+    this.appService.setPlayState(true);
   }
 
   nextAudio() {
-    this.currSongIdx = (this.currSongIdx + 1 > this.songQueue.length - 1) ? this.currSongIdx : this.currSongIdx + 1;
-    this.currentAudio = [this.songQueue[this.currSongIdx]];
+    this.appService.setQueueIdx((this.currSongIdx + 1 > this.songQueue.length - 1) ? this.currSongIdx : this.currSongIdx + 1);
     if (this.isPlaying) {
-      setTimeout(() => {
-        this.player.play();
-      }, 1000);
+      this.playAudio();
     }
   }
 
   previousAudio() {
-    this.currSongIdx = (this.currSongIdx - 1 < 0) ? this.currSongIdx : this.currSongIdx - 1;
-    this.currentAudio = [this.songQueue[this.currSongIdx]];
+    this.appService.setQueueIdx((this.currSongIdx - 1 < 0) ? this.currSongIdx : this.currSongIdx - 1);
     if (this.isPlaying) {
-      setTimeout(() => {
-        this.player.play();
-      }, 1000);
+      this.playAudio();
     }
   }
 
   loopAudio() {
-    this.loopType = (this.loopType == 0 ? 1 : (this.loopType == 1 ? 2 : 0));
-    this.player.loop = this.loopType == 2;
+    this.loopType = (this.loopType == LoopType.NONE ? LoopType.ONE : (this.loopType == LoopType.ONE ? LoopType.ALL : LoopType.NONE));
+    this.player.loop = this.loopType == LoopType.ONE;
   }
 
   onSongEnd() {
     if (this.currSongIdx < this.songQueue.length - 1) {
-      this.currSongIdx++;
-      this.currentAudio = [this.songQueue[this.currSongIdx]];
-      setTimeout(() => {
-        this.player.play();
-      }, 1000);
+      this.appService.setQueueIdx(this.currSongIdx + 1);
+      this.playAudio();
     } else {
-      if (this.loopType == 1) {
-        this.currSongIdx = 0;
-        this.currentAudio = [this.songQueue[this.currSongIdx]];
-        setTimeout(() => {
-          this.player.play();
-        }, 2000);
+      if (this.loopType == LoopType.ALL) {
+        this.appService.setQueueIdx(0);
+        this.playAudio();
       }
     }
   }
@@ -154,11 +153,8 @@ export class MediaPlayerComponent implements OnInit {
 
   playFromQueue(idx: number) {
     if (idx !== this.currSongIdx) {
-      this.currSongIdx = idx;
-      this.currentAudio = [this.songQueue[this.currSongIdx]];
-      setTimeout(() => {
-        this.player.play();
-      }, 500);
+      this.appService.setQueueIdx(idx);
+      this.playAudio();
     } else {
       this.playAudio();
     }
@@ -169,7 +165,10 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   removeAllSongInQueue() {
-    this.songQueue = [];
-    this.songQueueChange.emit(this.songQueue);
+    this.appService.setSongQueue([]);
+  }
+
+  public get typeOfLoop(): typeof LoopType {
+    return LoopType;
   }
 }

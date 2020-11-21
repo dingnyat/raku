@@ -1,5 +1,6 @@
 package com.nyat.raku.entity;
 
+import com.nyat.raku.model.Privacy;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -11,7 +12,7 @@ import java.util.Set;
 
 @Data
 @Entity
-@Table(name = "tbl_track")
+@Table(name = "tbl_track", uniqueConstraints = {@UniqueConstraint(columnNames = {"code", "uploader_id"})})
 @EntityListeners(AuditingEntityListener.class)
 public class Track {
 
@@ -22,8 +23,11 @@ public class Track {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "code", nullable = false, unique = true)
+    @Column(name = "code", nullable = false)
     private String code;
+
+    @Column(name = "ext")
+    private String ext;
 
     @Column(name = "upload_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
@@ -34,13 +38,17 @@ public class Track {
     private String description;
 
     @Column(name = "privacy", nullable = false)
-    private String privacy;
+    @Enumerated(EnumType.STRING)
+    private Privacy privacy;
 
     @Column(name = "image_url")
     private String imageUrl;
 
     @Column(name = "composer")
     private String composer;
+
+    @Column(name = "artist")
+    private String artist;
 
     @Column(name = "duration")
     private String duration;
@@ -53,13 +61,17 @@ public class Track {
     @JoinColumn(name = "uploader_id", nullable = false, referencedColumnName = "id")
     private User uploader;
 
-    @ElementCollection
+    @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "track_tag",
             joinColumns = @JoinColumn(name = "track_id")
     )
     private Set<String> tags;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "tracks")
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "track_genre",
+            joinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "genre_id", referencedColumnName = "id")},
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"track_id", "genre_id"})})
     private Set<Genre> genres;
 }

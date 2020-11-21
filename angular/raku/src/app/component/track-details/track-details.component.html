@@ -1,0 +1,40 @@
+<div class="track-play row mx-0">
+  <div class="col-8 pt-3 d-flex flex-column justify-content-between">
+    <div class="row">
+      <div class="col-9 d-flex justify-content-start">
+        <div class="ml-2 d-flex justify-content-center">
+          <div class="play-btn">
+            <fa-icon
+              *ngIf="(song?.code == appService.getCurrentSong()?.code && !isPlaying) || song?.code != appService.getCurrentSong()?.code"
+              [icon]="faPlay" class="item-view-button item-view-btn-play pointer"
+              (click)="playTrack()">
+            </fa-icon>
+            <fa-icon *ngIf="song?.code == appService.getCurrentSong()?.code && isPlaying" [icon]="faPause"
+                     class="item-view-button pointer"
+                     (click)="pauseTrack()">
+            </fa-icon>
+          </div>
+        </div>
+        <div class="pl-3">
+          <div>
+            <a [routerLink]="'/' + username" class="uploader">{{song?.uploader.name}}</a>
+          </div>
+          <div class="track-title">{{song?.title}}</div>
+        </div>
+      </div>
+      <div class="col-3 pr-0 d-flex justify-content-center align-items-end flex-column">
+        <div class="text-light pb-4 upload-time">{{song?.uploadTime}}</div>
+        <div *ngIf="song?.tags">
+          <a [routerLink]="'/tags/' + tag.substr(1, tag.length-1)" class="tag-chip" *ngFor="let tag of song.tags">{{tag}}</a>
+        </div>
+      </div>
+    </div>
+    <div class="wave-area">
+      <div id="audio-wave"></div>
+    </div>
+  </div>
+  <div class="col-4 d-flex justify-content-center align-items-center">
+    <img *ngIf="song?.imageUrl" class="audio-image" [src]="song.imageUrl">
+    <div *ngIf="!song?.imageUrl" class="non-image-audio"></div>
+  </div>
+</div>

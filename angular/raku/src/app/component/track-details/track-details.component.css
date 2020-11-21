@@ -1,0 +1,73 @@
+.track-play {
+  height: 300px;
+  background-image: linear-gradient(135deg, #e2dee1, #909192);
+}
+
+.audio-image {
+  width: 260px;
+  height: 260px;
+}
+
+.non-image-audio {
+  width: 260px;
+  height: 260px;
+  background-image: linear-gradient(135deg, #846170, #70929c);
+}
+
+.upload-time, .tag-chip {
+  font-size: 1.1em;
+}
+
+.tag-chip {
+  background-color: #a5a5a5;
+  color: white;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-bottom: 2px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.track-play .uploader {
+  background-color: rgba(0, 0, 0, .8);
+  color: #cccccc;
+  padding: 2px 4px 2px 4px;
+  border-radius: 1px;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.track-title {
+  background-color: rgba(0, 0, 0, .8);
+  color: #f2f2f2;
+  padding: 2px 5px 2px 5px;
+  border-radius: 1px;
+  font-size: 1.3em;
+}
+
+.item-view-button {
+  width: 50px;
+  height: 50px;
+  background-color: #ff5500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.5em;
+  padding-left: 2px;
+}
+
+.item-view-button.item-view-btn-play {
+  padding-left: 6px; /*tệ lắm mới dùng padding*/
+}
+
+.wave-area {
+  width: 100%;
+  margin-left: 10px;
+  margin-bottom: 20px;
+}
+
+#audio-wave:hover {
+  cursor: pointer;
+}

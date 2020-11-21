@@ -1,12 +1,11 @@
 package com.nyat.raku.service;
 
-import com.nyat.raku.entity.Track;
 import com.nyat.raku.model.TrackDTO;
 
 import java.util.List;
 
 public interface TrackService {
-    Track create(TrackDTO trackDTO) throws Exception;
+    TrackDTO create(TrackDTO trackDTO);
 
     TrackDTO get(Integer id);
 
@@ -15,4 +14,6 @@ public interface TrackService {
     void update(TrackDTO trackDTO);
 
     void delete(Integer id);
+
+    TrackDTO getByCode(String username, String code) throws Exception;
 }

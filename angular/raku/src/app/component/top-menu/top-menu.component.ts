@@ -17,7 +17,6 @@ import * as moment from 'moment';
 })
 export class TopMenuComponent implements OnInit {
   faUser = faUser;
-  showProfileMenu: boolean = false;
   faSignOut = faSignOutAlt;
   faCog = faCog;
 

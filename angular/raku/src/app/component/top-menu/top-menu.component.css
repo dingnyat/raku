@@ -127,6 +127,10 @@ ul, ol {
   cursor: pointer;
 }
 
+.header-user-nav-button:hover > .user-profile-dropdown {
+  display: block;
+}
+
 .header-user-avatar {
   height: 26px;
   width: 26px;
@@ -248,6 +252,7 @@ ul, ol {
   top: 46px;
   left: 1185px;
   z-index: 1100;
+  display: none;
 }
 
 .profile-menu {

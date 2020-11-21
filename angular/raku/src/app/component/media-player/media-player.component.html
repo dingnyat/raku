@@ -4,15 +4,15 @@
     <div class="d-flex justify-content-center align-items-center">
       <div class="plyr-audio-player-controls d-flex justify-content-center align-items-center">
         <fa-icon class="mx-3" [icon]="faStepBackward" (click)="previousAudio()"></fa-icon>
-        <fa-icon class="mx-3" [icon]="faPlay" (click)="playAudio()" *ngIf="!isPlaying"></fa-icon>
+        <fa-icon class="mx-3" [icon]="faPlay" (click)="playAudio(true)" *ngIf="!isPlaying"></fa-icon>
         <fa-icon class="mx-3" [icon]="faPause" (click)="pauseAudio()" *ngIf="isPlaying"></fa-icon>
         <fa-icon class="mx-3" [icon]="faStepForward" (click)="nextAudio()"></fa-icon>
         <fa-icon class="mx-3" [icon]="faRandom"></fa-icon>
-        <img *ngIf="loopType == 0" (click)="loopAudio()" class="no-repeat-control mx-1" title="No-repeat"
+        <img *ngIf="loopType == typeOfLoop.NONE" (click)="loopAudio()" class="no-repeat-control mx-1" title="No-repeat"
              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iIzMzMyIgZD0iTTEyIDhIOWE0IDQgMCAxIDAgMCA4aDZhNCA0IDAgMCAwIDIuMTA0LTcuNDAzbDEuNzctMS4xOC4wMi4wMThBNiA2IDAgMCAxIDE1IDE4SDlBNiA2IDAgMSAxIDkgNmgzVjRsNCAzLTQgM1Y4eiIvPjwvc3ZnPgo="/>
-        <img *ngIf="loopType == 1" (click)="loopAudio()" class="no-repeat-control mx-1" title="Repeat queue"
+        <img *ngIf="loopType == typeOfLoop.ALL" (click)="loopAudio()" class="no-repeat-control mx-1" title="Repeat queue"
              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iI2Y1MCIgZD0iTTEyIDhIOWE0IDQgMCAxIDAgMCA4aDZhNCA0IDAgMCAwIDIuMTA0LTcuNDAzbDEuNzctMS4xOC4wMi4wMThBNiA2IDAgMCAxIDE1IDE4SDlBNiA2IDAgMSAxIDkgNmgzVjRsNCAzLTQgM1Y4eiIvPjwvc3ZnPgo="/>
-        <img *ngIf="loopType == 2" (click)="loopAudio()" class="no-repeat-control mx-1" title="Repeat current track"
+        <img *ngIf="loopType == typeOfLoop.ONE" (click)="loopAudio()" class="no-repeat-control mx-1" title="Repeat current track"
              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iI2Y1MCIgZD0iTTExLjAyNyAxNmE0LjU1IDQuNTUgMCAwIDAgLjIzIDJIOUE2IDYgMCAxIDEgOSA2aDNWNGw0IDMtNCAzVjhIOWE0IDQgMCAxIDAgMCA4aDIuMDI3em03LjcyNS0yLjYxYTMuOTk3IDMuOTk3IDAgMCAwLTEuNjQ4LTQuNzkybDEuNzctMS4xOC4wMi4wMTdBNS45ODcgNS45ODcgMCAwIDEgMjEgMTJjMCAxLjMtLjQxMyAyLjUwMy0xLjExNiAzLjQ4NmE0LjQ5NiA0LjQ5NiAwIDAgMC0xLjEzMi0yLjA5NnoiLz48cGF0aCBmaWxsPSIjZjUwIiBkPSJNMTUuNSAyMGEzLjUgMy41IDAgMSAxIDAtNyAzLjUgMy41IDAgMCAxIDAgN3ptLS41LTV2NGgxdi00aC0xem0tMSAwdjFoMXYtMWgtMXoiLz48L3N2Zz4K"/>
       </div>
       <div plyr class="plyr-audio-player" plyrType="audio"
@@ -23,15 +23,16 @@
            (plyrEnded)="onSongEnd()">
       </div>
       <div class="playing-audio d-flex justify-content-start align-items-center">
-        <img class="album-photo-playing-audio rounded"
-             src="{{'http://localhost:8081/image/' + songQueue[currSongIdx]['albumPhoto']}}">
+        <img [routerLink]="songQueue[currSongIdx].link" *ngIf="songQueue[currSongIdx]?.imageUrl"
+             class="album-photo-playing-audio pointer rounded"
+             src="{{songQueue[currSongIdx].imageUrl}}">
+        <div [routerLink]="songQueue[currSongIdx].link" *ngIf="!songQueue[currSongIdx]?.imageUrl"
+             class="audio-image pointer"></div>
         <div class="d-flex flex-column ml-2">
-          <span class="playing-audio-title">{{songQueue[currSongIdx].title}}</span>
-          <span *ngIf="songQueue[currSongIdx]['singers']" class="playing-audio-artist">
-          <span *ngFor="let singer of songQueue[currSongIdx]['singers']; last as isLast">
-            {{isLast ? singer.name : singer.name + ", "}}
-          </span>
-        </span>
+          <span [routerLink]="songQueue[currSongIdx].link"
+                class="playing-audio-title pointer">{{songQueue[currSongIdx].title}}</span>
+          <span [routerLink]="'/' + songQueue[currSongIdx].uploader.username"
+                class="playing-audio-artist pointer">{{songQueue[currSongIdx].uploader.name}}</span>
         </div>
       </div>
       <div class="plyr-audio-player-controls d-flex justify-content-center align-items-center">
@@ -40,7 +41,8 @@
       <div class="plyr-audio-player-controls d-flex justify-content-center align-items-center ml-2 playing-queue"
            (click)="showSongQueue()" [class.show-queue]="isShowSongQueue">
         <svg width="24" height="24">
-          <path fill="#333" class="playbackSoundBadge__queueIcon" d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
+          <path fill="#333" class="playbackSoundBadge__queueIcon"
+                d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
         </svg>
       </div>
       <div class="song-queue" [class.queue-visible]="isShowSongQueue">
@@ -60,9 +62,9 @@
                    [class.playing-piece]="idx === currSongIdx" [class.played-piece]="idx < currSongIdx">
                 <div class="queue-item-view">
                   <div class="queue-item-artwork">
-                    <span
-                      style="{{'background-image: url(http://localhost:8081/image/' + song['albumPhoto'] + ');'}}"></span>
-
+                    <span *ngIf="song.imageUrl" style="{{'background-image: url(' + song.imageUrl + ');'}}"></span>
+                    <span *ngIf="!song.imageUrl"
+                          style="background-image: linear-gradient(135deg, #846170, #70929c);"></span>
                     <fa-icon [icon]="faPlay" class="item-view-button item-view-btn-play"
                              (click)="playFromQueue(idx)"
                              [style.visibility]="(!isPlaying && idx === currSongIdx) ? 'visible' : ((isPlaying && idx === currSongIdx) ? 'hidden' : '')">
@@ -74,18 +76,14 @@
                   </div>
                   <div class="queue-item-details">
                     <div class="queue-item-title">
-                      <a href="#">{{song.title}}</a>
+                      <a [routerLink]="song.link">{{song.title}}</a>
                     </div>
                     <div class="queue-item-artist">
-                      <ng-container *ngIf="song['singers']">
-                        <a *ngFor="let singer of song['singers']; last as isLast" href="#">
-                          {{isLast ? singer.name : singer.name + ", "}}
-                        </a>
-                      </ng-container>
+                      <a [routerLink]="'/' + song.uploader.username">{{song.uploader.name}}</a>
                     </div>
                   </div>
                   <div class="queue-item-duration" [class.d-none]="idx === currSongIdx">
-                    12:01
+                    {{song.duration}}
                   </div>
                   <div class="queue-item-actions" [class.d-block]="idx === currSongIdx">
                     <fa-icon class="mx-2" [icon]="faHeart"></fa-icon>

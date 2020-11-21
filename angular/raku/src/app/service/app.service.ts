@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {Song} from "../model/Song";
 import {UserPrincipal} from "../model/UserPrincipal";
 
@@ -8,34 +8,69 @@ import {UserPrincipal} from "../model/UserPrincipal";
 })
 export class AppService {
 
-  private songsSub = new Subject<Song[]>();
+  private songQueueSub = new BehaviorSubject(null);
+  songQueueObs = this.songQueueSub.asObservable();
 
-  songsObs = this.songsSub.asObservable();
+  private queueIdx = new BehaviorSubject(null);
+  queueIdxObs = this.queueIdx.asObservable();
 
-  private playState = new Subject<boolean>();
+  private currSongSub = new BehaviorSubject(null);
+  currSongObs = this.currSongSub.asObservable();
 
+  private playState = new BehaviorSubject(false);
   playStateObs = this.playState.asObservable();
 
-  private currUser = new BehaviorSubject(null);
+  private currTime = new BehaviorSubject(null);
+  currTimeObs = this.currTime.asObservable();
 
+  private seekTime = new BehaviorSubject(null);
+  seekTimeObs = this.seekTime.asObservable();
+
+  private currUser = new BehaviorSubject(null);
   userObs = this.currUser.asObservable();
 
   constructor() {
   }
 
-  removeAll() {
-    this.songsSub.next([]);
+  setSongQueue(songs: Song[]) {
+    this.songQueueSub.next(songs);
   }
 
-  setSongs(songs: Song[]) {
-    this.songsSub.next(songs);
+  setQueueIdx(idx: number) {
+    this.queueIdx.next(idx);
   }
+
+  setCurrentSong(song: Song) {
+    this.currSongSub.next(song);
+  }
+
+  getCurrentSong(): Song {
+    return this.currSongSub.getValue();
+  }
+
 
   setPlayState(state: boolean) {
     this.playState.next(state);
   }
 
+  getPlayState(): boolean {
+    return this.playState.getValue();
+  }
+
+  setCurrentTime(time: number) {
+    this.currTime.next(time);
+  }
+
+  setSeekTime(time: number){
+    this.seekTime.next(time);
+  }
+
   setUser(user: UserPrincipal) {
+    if (user) {
+      localStorage.setItem("current-user", JSON.stringify(user));
+    } else {
+      localStorage.removeItem("current-user");
+    }
     this.currUser.next(user);
   }
 

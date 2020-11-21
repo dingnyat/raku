@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BaseService} from "./base.service";
 import {Observable} from "rxjs";
+import {HttpEvent, HttpRequest} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,21 @@ export class TrackService extends BaseService {
     this.contextUrl = "/api/track";
   }
 
-  upload(formData: FormData): Observable<any> {
-    return this.http.post(this.BASE_URL + this.contextUrl + "/upload", formData);
+  uploadAudio(fileToUpload: File): Observable<HttpEvent<any>> {
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload, fileToUpload.name);
+    const req = new HttpRequest('POST', this.BASE_URL + this.contextUrl + "/upload-audio", formData, {
+      reportProgress: true,
+      responseType: 'json'
+    });
+    return this.http.request(req);
+  }
+
+  create(formData: FormData): Observable<any> {
+    return this.http.post(this.BASE_URL + this.contextUrl + "/create", formData);
+  }
+
+  getByCode(username, code): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get", {params: {username: username, code: code}});
   }
 }

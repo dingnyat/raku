@@ -40,4 +40,9 @@ public class TrackDAOImpl implements TrackDAO {
     public void delete(Track track) {
         entityManager.remove(track);
     }
+
+    @Override
+    public Track getByCode(String username, String code) throws Exception {
+        return entityManager.createQuery("select t from Track t where t.code='" + code + "' and t.uploader.username = '" + username + "'", Track.class).getSingleResult();
+    }
 }

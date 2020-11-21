@@ -1,4 +1,5 @@
 export class AppSettings {
+  public static BASE_URL = "http://localhost:4201";
   public static COOKIE_TOKEN_NAME = "RakuToken";
   public static COOKIE_TOKEN_EXPIRE_TIME = 864000000; // second
   public static ENDPOINT = "http://localhost:8081";

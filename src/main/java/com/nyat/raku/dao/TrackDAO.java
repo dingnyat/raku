@@ -14,4 +14,6 @@ public interface TrackDAO {
     Track update(Track user);
 
     void delete(Track user);
+
+    Track getByCode(String username, String code) throws Exception;
 }
