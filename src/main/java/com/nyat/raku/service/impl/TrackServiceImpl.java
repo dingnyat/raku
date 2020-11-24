@@ -2,17 +2,19 @@ package com.nyat.raku.service.impl;
 
 import com.nyat.raku.dao.GenreDAO;
 import com.nyat.raku.dao.TrackDAO;
+import com.nyat.raku.entity.Comment;
 import com.nyat.raku.entity.Track;
+import com.nyat.raku.model.CommentDTO;
 import com.nyat.raku.model.GenreDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.service.TrackService;
-import com.nyat.raku.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -87,7 +89,7 @@ public class TrackServiceImpl implements TrackService {
         trackDTO.setPrivacy(track.getPrivacy());
         trackDTO.setPlays(track.getPlays());
         trackDTO.setExt(track.getExt());
-        trackDTO.setUploadTime(DateTimeUtils.formatDate(track.getUploadTime(), DateTimeUtils.DD_MM_YYYY));
+        trackDTO.setUploadTime(track.getUploadTime());
         if (track.getImageUrl() != null) {
             trackDTO.setImageUrl(track.getImageUrl());
         }
@@ -103,7 +105,38 @@ public class TrackServiceImpl implements TrackService {
         UserDTO userDTO = new UserDTO();
         userDTO.setName(track.getUploader().getName());
         userDTO.setUsername(track.getUploader().getUsername());
+        userDTO.setImageUrl(track.getUploader().getImageUrl());
         trackDTO.setUploader(userDTO);
+        trackDTO.setComments(new LinkedHashSet<>());
+        if (track.getComments() != null) {
+            track.getComments().forEach(comment -> {
+                CommentDTO cmt = new CommentDTO();
+                setComment(comment, cmt);
+                trackDTO.getComments().add(cmt);
+            });
+        }
         return trackDTO;
+    }
+
+    private void setComment(Comment comment, CommentDTO cmt) {
+        cmt.setContent(comment.getContent());
+        cmt.setId(comment.getId());
+        cmt.setTime(comment.getCreatedDate());
+        UserDTO uploader = new UserDTO();
+        uploader.setName(comment.getUploader().getName());
+        uploader.setId(comment.getUploader().getId());
+        uploader.setUsername(comment.getUploader().getUsername());
+        if (comment.getUploader().getImageUrl() != null) {
+            uploader.setImageUrl(comment.getUploader().getImageUrl());
+        }
+        cmt.setUploader(uploader);
+        cmt.setChildren(new LinkedHashSet<>());
+        if (comment.getChildren() != null && comment.getChildren().size() > 0) {
+            comment.getChildren().forEach(commentEntity -> {
+                CommentDTO cmtDTO = new CommentDTO();
+                setComment(commentEntity, cmtDTO);
+                cmt.getChildren().add(cmtDTO);
+            });
+        }
     }
 }

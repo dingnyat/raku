@@ -18,4 +18,5 @@ export class Song {
   genres: Genre[];
   uploader?: any;
   tags?: string[];
+  comments?: any[];
 }

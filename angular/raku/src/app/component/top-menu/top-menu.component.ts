@@ -83,7 +83,7 @@ export class TopMenuComponent implements OnInit {
 
   logout() {
     this.authService.logout().subscribe(resp => {
-      this.cookieService.delete(AppSettings.COOKIE_TOKEN_NAME);
+      this.cookieService.delete(AppSettings.COOKIE_TOKEN_NAME, null, null, null, 'Lax');
       this.appService.setUser(null);
       this.router.navigate(['/']);
     });

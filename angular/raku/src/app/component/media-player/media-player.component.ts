@@ -55,9 +55,13 @@ export class MediaPlayerComponent implements OnInit {
 
   ngOnInit(): void {
     this.appService.currSongObs.subscribe(song => {
-      this.currentAudio = [song];
-      if (this.isPlaying) {
-        this.playAudio();
+      if (song != null) {
+        this.currentAudio = [song];
+        if (this.isPlaying) {
+          this.playAudio();
+        }
+      } else {
+        this.currentAudio = null;
       }
     });
     this.appService.songQueueObs.subscribe(songQueue => {
@@ -65,7 +69,11 @@ export class MediaPlayerComponent implements OnInit {
     });
     this.appService.queueIdxObs.subscribe(idx => {
       this.currSongIdx = idx;
-      this.appService.setCurrentSong(this.songQueue[this.currSongIdx]);
+      if (this.songQueue != null && this.songQueue.length > 0 && this.currSongIdx >= 0) {
+        this.appService.setCurrentSong(this.songQueue[this.currSongIdx]);
+      } else {
+        this.appService.setCurrentSong(null);
+      }
     });
 
     this.isShowSongQueue = false;
@@ -165,7 +173,10 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   removeAllSongInQueue() {
+    this.appService.setCurrentTime(0);
     this.appService.setSongQueue([]);
+    this.appService.setQueueIdx(0);
+    this.appService.setPlayState(false);
   }
 
   public get typeOfLoop(): typeof LoopType {

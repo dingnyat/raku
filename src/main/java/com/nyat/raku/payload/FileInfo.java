@@ -1,4 +1,4 @@
-package com.nyat.raku.model;
+package com.nyat.raku.payload;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

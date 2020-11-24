@@ -29,6 +29,7 @@ import {Oauth2RedirectComponent} from './component/oauth2-redirect/oauth2-redire
 import {AuthGuard} from "./interceptor/auth.guard";
 import {TrackDetailsComponent} from './component/track-details/track-details.component';
 import {YourTracksComponent} from './component/your-tracks/your-tracks.component';
+import { CommentorComponent } from './component/track-details/commentor/commentor.component';
 
 export let InjectorInstance: Injector;
 
@@ -43,7 +44,8 @@ export let InjectorInstance: Injector;
     SignInUpFormComponent,
     Oauth2RedirectComponent,
     TrackDetailsComponent,
-    YourTracksComponent
+    YourTracksComponent,
+    CommentorComponent,
   ],
   imports: [
     BrowserModule,

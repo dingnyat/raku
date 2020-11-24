@@ -1,6 +1,8 @@
 package com.nyat.raku.service.impl;
 
+import com.nyat.raku.dao.TrackDAO;
 import com.nyat.raku.dao.UserDAO;
+import com.nyat.raku.entity.Track;
 import com.nyat.raku.entity.User;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.security.Role;
@@ -19,6 +21,9 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private TrackDAO trackDAO;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -105,5 +110,27 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.get(id);
         user.setEmailVerified(true);
         userDAO.update(user);
+    }
+
+    @Override
+    public UserDTO getByUsername(String username) {
+        User user = userDAO.getByUsername(username);
+        if (user != null) {
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setName(user.getName());
+            userDTO.setEmail(user.getEmail());
+            userDTO.setUsername(user.getUsername());
+
+            return userDTO;
+        }
+        return null;
+    }
+
+    @Override
+    public void likeTrack(Integer trackId, String username) {
+        User user = userDAO.getByUsername(username);
+        Track track = trackDAO.get(trackId);
+        user.getLikeTracks().add(track);
     }
 }

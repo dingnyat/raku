@@ -8,14 +8,10 @@ import lombok.Data;
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class UserDTO {
     private Integer id;
-
     private String username;
-
     private String password;
-
     private String name;
-
     private String email;
-
     private AuthProvider authProvider;
+    private String imageUrl;
 }

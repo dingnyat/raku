@@ -3,6 +3,7 @@ package com.nyat.raku.model;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -12,7 +13,7 @@ public class TrackDTO {
     private String title;
     private String code;
     private String ext;
-    private String uploadTime;
+    private Date uploadTime;
     private UserDTO uploader;
     private String description;
     private Privacy privacy;
@@ -23,4 +24,5 @@ public class TrackDTO {
     private Integer plays;
     private Set<String> tags;
     private Set<GenreDTO> genres;
+    private Set<CommentDTO> comments;
 }

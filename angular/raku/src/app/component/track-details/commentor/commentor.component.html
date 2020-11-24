@@ -1,0 +1,30 @@
+<div class="comment-item d-flex justify-content-start align-items-center">
+  <img [routerLink]="'/' + cmt.uploader?.username"
+       [src]="cmt.uploader?.imageUrl ? cmt.uploader?.imageUrl : '/assets/images/avatar.png'"
+       referrerpolicy="no-referrer" class="pointer"/>
+  <div class="comment-left">
+    <div class="d-flex justify-content-between">
+      <span [routerLink]="'/' + cmt.uploader?.username" class="commenter pointer">{{cmt.uploader?.name}}</span>
+      <span class="time-span">{{cmt.time}}</span>
+    </div>
+    <div class="content d-flex justify-content-between align-items-center mt-1">
+      <div>
+        {{cmt.content}}
+      </div>
+      <button class="reply-btn" (click)="showReply = true;">
+        <fa-icon [icon]="faReply"></fa-icon>
+        Reply
+      </button>
+    </div>
+  </div>
+</div>
+<div class="pl-3 border-left">
+  <div *ngIf="showReply" class="leave-comment mt-2">
+    <img [src]="user?.imageUrl ? user?.imageUrl : '/assets/images/avatar.png'"
+         referrerpolicy="no-referrer" style="width: 35px; height: 35px; opacity: 1;"/>
+    <input class="comment-inp" placeholder="Leave a comment" type="text">
+  </div>
+  <ng-container *ngIf="cmt.children?.length > 0">
+    <commentor *ngFor="let c of cmt.children" [comment]="c" [cur-user]="user"></commentor>
+  </ng-container>
+</div>

@@ -24,4 +24,8 @@ public interface UserService {
     UserDTO getByVerificationKey(String key);
 
     void verifyAccount(Integer id);
+
+    UserDTO getByUsername(String username);
+
+    void likeTrack(Integer trackId, String username);
 }
