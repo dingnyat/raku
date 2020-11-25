@@ -2,7 +2,6 @@ package com.nyat.raku.entity;
 
 import com.nyat.raku.security.AuthProvider;
 import com.nyat.raku.security.Role;
-import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -81,6 +80,9 @@ public class User {
             inverseJoinColumns = {@JoinColumn(name = "following_user_id", referencedColumnName = "id")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "following_user_id"})})
     private Set<User> followingUsers;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Playlist> playlists;
 
     public Integer getId() {
         return id;
@@ -208,5 +210,13 @@ public class User {
 
     public void setFollowingUsers(Set<User> followingUsers) {
         this.followingUsers = followingUsers;
+    }
+
+    public Set<Playlist> getPlaylists() {
+        return playlists;
+    }
+
+    public void setPlaylists(Set<Playlist> playlists) {
+        this.playlists = playlists;
     }
 }

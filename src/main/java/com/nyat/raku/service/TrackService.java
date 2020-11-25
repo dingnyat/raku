@@ -1,6 +1,7 @@
 package com.nyat.raku.service;
 
 import com.nyat.raku.model.TrackDTO;
+import com.nyat.raku.payload.UserTrackInfo;
 
 import java.util.List;
 
@@ -16,4 +17,6 @@ public interface TrackService {
     void delete(Integer id);
 
     TrackDTO getByCode(String username, String code) throws Exception;
+
+    UserTrackInfo getUserTrackInfo(String uploader, String code, String username);
 }

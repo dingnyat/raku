@@ -19,4 +19,12 @@ export class UserService extends BaseService {
   likeTrack(trackId: number): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/like-track", {params: {track: trackId.toString()}});
   }
+
+  repostTrack(id: number): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/repost-track", {params: {track: id.toString()}});
+  }
+
+  followUser(username: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/follow-user", {params: {username: username}});
+  }
 }

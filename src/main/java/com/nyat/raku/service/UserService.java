@@ -28,4 +28,8 @@ public interface UserService {
     UserDTO getByUsername(String username);
 
     void likeTrack(Integer trackId, String username);
+
+    void repostTrack(Integer trackId, String username);
+
+    void followUser(String followUsername, String actUsername);
 }

@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "tbl_playlist")
+@Table(name = "tbl_playlist", uniqueConstraints = {@UniqueConstraint(columnNames = {"code", "created_by"})})
 @EntityListeners(AuditingEntityListener.class)
 public class Playlist {
 
@@ -19,6 +19,9 @@ public class Playlist {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", nullable = false, referencedColumnName = "id")
     private User createdBy;
+
+    @Column(name = "code", nullable = false)
+    private String code;
 
     @Column(name = "title")
     private String title;
@@ -71,5 +74,13 @@ public class Playlist {
 
     public void setTracks(Set<Track> tracks) {
         this.tracks = tracks;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

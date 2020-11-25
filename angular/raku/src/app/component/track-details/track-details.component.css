@@ -115,7 +115,7 @@
 
 .comment-inp {
   height: 25px;
-  width: calc(100% - 45px);
+  width: calc(100% - 47px);
   margin: 5px;
   border: 1px solid #cccccc;
   padding-left: 10px;
@@ -171,4 +171,13 @@
 .comment-counts {
   color: #9c9c9c;
   border-bottom: 1px solid #d6d6d6;
+}
+
+.active-btn {
+  color: #ff5500;
+  border-color: #ff5500 !important;
+}
+
+button:focus {
+  outline: none;
 }

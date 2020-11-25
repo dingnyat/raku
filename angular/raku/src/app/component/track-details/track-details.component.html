@@ -45,13 +45,14 @@
   <div class="col-8 ml-2">
     <div class="row justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid #d6d6d6;">
       <div class="track-react d-flex justify-content-start align-items-center">
-        <button (click)="likeTrack()">
+        <button (click)="likeTrack()" [class.active-btn]="userTrackInfo?.like">
           <fa-icon [icon]="faHeart"></fa-icon>
-          Like
+          {{userTrackInfo?.like ? "Liked" : "Like"}}
         </button>
-        <button>
+        <button (click)="repostTrack()" [class.d-none]="user?.username === song?.uploader.username"
+                [class.active-btn]="userTrackInfo?.repost">
           <fa-icon [icon]="faPaperclip"></fa-icon>
-          Repost
+          {{userTrackInfo?.repost ? "Reposted" : "Repost"}}
         </button>
         <button>
           <fa-icon [icon]="faShare"></fa-icon>
@@ -65,8 +66,8 @@
           Add to Next up
         </button>
         <button>
-          <fa-icon [icon]="faEllipsisH"></fa-icon>
-          More
+          <fa-icon [icon]="faList"></fa-icon>
+          Add to playlist
         </button>
       </div>
       <div class="track-stats">
@@ -85,13 +86,21 @@
           {{song?.uploader?.name}}
         </span>
         <div class="uploader-stats">
-          <span [routerLink]="'/' + song?.uploader?.username + '/followers'" class="mr-2 pointer"><fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>231</span>
-          <span [routerLink]="'/' + song?.uploader?.username + '/tracks'" class="pointer"><fa-icon class="mr-1" [icon]="faMusic"></fa-icon>21</span>
+          <span [routerLink]="'/' + song?.uploader?.username + '/followers'" class="mr-2 pointer"><fa-icon class="mr-1"
+                                                                                                           [icon]="faUserCheck"></fa-icon>231</span>
+          <span [routerLink]="'/' + song?.uploader?.username + '/tracks'" class="pointer"><fa-icon class="mr-1"
+                                                                                                   [icon]="faMusic"></fa-icon>21</span>
         </div>
         <div class="follow-uploader">
-          <button>
-            <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
-            Follow
+          <button (click)="followUploader()" [class.d-none]="user?.username === song?.uploader.username">
+            <span [class.d-none]="userTrackInfo?.followUploader">
+              <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
+              Follow
+            </span>
+            <span [class.d-none]="!userTrackInfo?.followUploader">
+              <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
+              Followed
+            </span>
           </button>
         </div>
       </div>
@@ -118,14 +127,20 @@
         <div>
           <div class="leave-comment mb-2">
             <img [src]="user?.imageUrl ? user?.imageUrl : '/assets/images/avatar.png'"
-                 referrerpolicy="no-referrer" style="width: 35px; height: 35px; opacity: 1;"/>
+                 referrerpolicy="no-referrer"
+                 style="width: 35px; height: 35px; opacity: 1; margin-bottom: 2px; margin-left: 2px"/>
             <input class="comment-inp" placeholder="Leave a comment" type="text">
           </div>
           <!--<div class="comment-counts">
             <span><fa-icon [icon]="faCommentAlt"></fa-icon> 12 comments</span>
           </div>-->
           <div class="comment-area">
-            <commentor *ngFor="let cmt of song?.comments" [comment]="cmt" [cur-user]="user"></commentor>
+            <ng-container *ngIf="song?.comments != null && song?.comments.length > 0">
+              <commentor *ngFor="let cmt of song?.comments" [comment]="cmt" [cur-user]="user"></commentor>
+            </ng-container>
+            <ng-container *ngIf="song?.comments == null || song?.comments.length == 0">
+              <p class="text-muted">Be the first to comment on this track</p>
+            </ng-container>
           </div>
         </div>
       </div>

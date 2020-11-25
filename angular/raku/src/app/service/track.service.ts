@@ -30,4 +30,13 @@ export class TrackService extends BaseService {
   getByCode(username, code): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get", {params: {username: username, code: code}});
   }
+
+  getUserTrackInfo(username, code): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/user-track-info", {
+      params: {
+        username: username,
+        code: code
+      }
+    });
+  }
 }

@@ -9,6 +9,7 @@ import {
   faEllipsisH,
   faHeadphones,
   faHeart,
+  faList,
   faMusic,
   faPaperclip,
   faPause,
@@ -22,6 +23,7 @@ import {AppService} from "../../service/app.service";
 import WaveSurfer from "wavesurfer.js/dist/wavesurfer";
 import {UserPrincipal} from "../../model/UserPrincipal";
 import {UserService} from "../../service/user.service";
+import {UserTrackInfo} from "../../model/user-track-info";
 
 @Component({
   selector: 'track-details',
@@ -42,6 +44,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   faMusic = faMusic;
   faUserPlus = faUserPlus;
   faReply = faReply;
+  faList = faList;
 
   username: string;
   code: string;
@@ -53,6 +56,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   currTimeStr: string;
   durationStr: string;
   user: UserPrincipal;
+  userTrackInfo: UserTrackInfo;
 
   constructor(private route: ActivatedRoute,
               private trackService: TrackService,
@@ -77,6 +81,12 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
           if (this.wavesurfer) {
             this.wavesurfer.load(AppSettings.ENDPOINT + "/" + this.username + "/audio-download/" + this.song.code);
           }
+        }
+      });
+
+      this.trackService.getUserTrackInfo(this.username, this.code).subscribe(resp => {
+        if (resp.success) {
+          this.userTrackInfo = resp.data as UserTrackInfo;
         }
       });
 
@@ -174,7 +184,38 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   likeTrack() {
     this.userService.likeTrack(this.song.id).subscribe(resp => {
       if (resp.success) {
+        this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
+          if (r.success) {
+            this.userTrackInfo.like = r.data.like;
+            // xong thì nhảy số like của track ở stats lên (trên view)
+          }
+        });
+      }
+    });
+  }
 
+  repostTrack() {
+    this.userService.repostTrack(this.song.id).subscribe(resp => {
+      if (resp.success) {
+        this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
+          if (r.success) {
+            this.userTrackInfo.repost = r.data.repost;
+            // xong thì nhảy số repost của track ở stats lên (trên view)
+          }
+        });
+      }
+    });
+  }
+
+  followUploader() {
+    this.userService.followUser(this.song.uploader.username).subscribe(resp => {
+      if (resp.success) {
+        this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
+          if (r.success) {
+            this.userTrackInfo.followUploader = r.data.followUploader;
+            // xong thì nhảy số follow của uploader ở dưới avatar lên
+          }
+        });
       }
     });
   }

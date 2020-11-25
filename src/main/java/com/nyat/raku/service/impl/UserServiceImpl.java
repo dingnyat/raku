@@ -131,6 +131,33 @@ public class UserServiceImpl implements UserService {
     public void likeTrack(Integer trackId, String username) {
         User user = userDAO.getByUsername(username);
         Track track = trackDAO.get(trackId);
-        user.getLikeTracks().add(track);
+        if (user.getLikeTracks().contains(track)) {
+            user.getLikeTracks().remove(track);
+        } else {
+            user.getLikeTracks().add(track);
+        }
+    }
+
+    @Override
+    public void repostTrack(Integer trackId, String username) {
+        User user = userDAO.getByUsername(username);
+        Track track = trackDAO.get(trackId);
+        if (user.getRepostTracks().contains(track)) {
+            user.getRepostTracks().remove(track);
+        } else {
+            user.getRepostTracks().add(track);
+        }
+    }
+
+    @Override
+    public void followUser(String followUser, String actingUser) {
+        if (followUser.equals(actingUser)) return;
+        User actUser = userDAO.getByUsername(actingUser);
+        User follow = userDAO.getByUsername(followUser);
+        if (actUser.getFollowingUsers().contains(follow)) {
+            actUser.getFollowingUsers().remove(follow);
+        } else {
+            actUser.getFollowingUsers().add(follow);
+        }
     }
 }

@@ -2,12 +2,12 @@ package com.nyat.raku.service.impl;
 
 import com.nyat.raku.dao.GenreDAO;
 import com.nyat.raku.dao.TrackDAO;
+import com.nyat.raku.dao.UserDAO;
 import com.nyat.raku.entity.Comment;
 import com.nyat.raku.entity.Track;
-import com.nyat.raku.model.CommentDTO;
-import com.nyat.raku.model.GenreDTO;
-import com.nyat.raku.model.TrackDTO;
-import com.nyat.raku.model.UserDTO;
+import com.nyat.raku.entity.User;
+import com.nyat.raku.model.*;
+import com.nyat.raku.payload.UserTrackInfo;
 import com.nyat.raku.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,6 +27,9 @@ public class TrackServiceImpl implements TrackService {
 
     @Autowired
     private GenreDAO genreDAO;
+
+    @Autowired
+    private UserDAO userDAO;
 
     @Value("${raku.root-path}")
     private String storagePath;
@@ -137,6 +140,39 @@ public class TrackServiceImpl implements TrackService {
                 setComment(commentEntity, cmtDTO);
                 cmt.getChildren().add(cmtDTO);
             });
+        }
+    }
+
+    @Override
+    public UserTrackInfo getUserTrackInfo(String uploader, String code, String username) {
+        try {
+            UserTrackInfo userTrackInfo = new UserTrackInfo();
+            Track track = trackDAO.getByCode(uploader, code);
+            User user = userDAO.getByUsername(username);
+            if (user.getLikeTracks() != null && user.getLikeTracks().stream().anyMatch(t -> t.getUploader().getUsername().equals(uploader) && t.getCode().equals(code))) {
+                userTrackInfo.setLike(true);
+            }
+            if (user.getRepostTracks() != null && user.getRepostTracks().stream().anyMatch(t -> t.getUploader().getUsername().equals(uploader) && t.getCode().equals(code))) {
+                userTrackInfo.setRepost(true);
+            }
+            if (user.getFollowingUsers() != null && user.getFollowingUsers().stream().anyMatch(u -> u.getUsername().equals(uploader))) {
+                userTrackInfo.setFollowUploader(true);
+            }
+            userTrackInfo.setPlaylists(new LinkedHashSet<>());
+            if (user.getPlaylists() != null) {
+                user.getPlaylists().forEach(playlist -> {
+                    if (playlist.getTracks().stream().anyMatch(t -> t.getCode().equals(code) && t.getUploader().getUsername().equals(uploader))) {
+                        PlaylistDTO pl = new PlaylistDTO();
+                        pl.setId(playlist.getId());
+                        pl.setCode(playlist.getCode());
+                        pl.setTitle(playlist.getTitle());
+                        userTrackInfo.getPlaylists().add(pl);
+                    }
+                });
+            }
+            return userTrackInfo;
+        } catch (Exception e) {
+            return null;
         }
     }
 }
