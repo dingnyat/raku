@@ -39,4 +39,13 @@ export class TrackService extends BaseService {
       }
     });
   }
+
+  getTrackStats(username: string, code: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-track-stats", {
+      params: {
+        username: username,
+        code: code
+      }
+    });
+  }
 }

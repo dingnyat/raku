@@ -1,11 +1,18 @@
 package com.nyat.raku.service.impl;
 
+import com.nyat.raku.dao.CommentDAO;
 import com.nyat.raku.dao.TrackDAO;
 import com.nyat.raku.dao.UserDAO;
+import com.nyat.raku.entity.Comment;
 import com.nyat.raku.entity.Track;
 import com.nyat.raku.entity.User;
+import com.nyat.raku.model.CommentDTO;
 import com.nyat.raku.model.UserDTO;
+import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.UserStats;
+import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.Role;
+import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +31,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private TrackDAO trackDAO;
+
+    @Autowired
+    private CommentDAO commentDAO;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -159,5 +169,69 @@ public class UserServiceImpl implements UserService {
         } else {
             actUser.getFollowingUsers().add(follow);
         }
+    }
+
+    @Override
+    public CommentDTO comment(CommentPayload commentPayload) {
+        if (commentPayload.getTrackId() != null) {
+            Track track = trackDAO.get(commentPayload.getTrackId());
+            if (track != null) {
+                Comment comment = new Comment();
+                comment.setContent(commentPayload.getContent());
+                comment.setTrack(track);
+                comment = commentDAO.create(comment);
+
+                CommentDTO commentDTO = new CommentDTO();
+                commentDTO.setId(comment.getId());
+                commentDTO.setContent(comment.getContent());
+                commentDTO.setTime(comment.getCreatedDate());
+                UserDTO uploader = new UserDTO();
+                uploader.setName(comment.getUploader().getName());
+                uploader.setId(comment.getUploader().getId());
+                uploader.setUsername(comment.getUploader().getUsername());
+                if (comment.getUploader().getImageUrl() != null) {
+                    uploader.setImageUrl(comment.getUploader().getImageUrl());
+                }
+                commentDTO.setUploader(uploader);
+                return commentDTO;
+            }
+        }
+        if (commentPayload.getReplyCommentId() != null) {
+            Comment comment = commentDAO.get(commentPayload.getReplyCommentId());
+            if (comment != null) {
+                Comment reply = new Comment();
+                reply.setContent(commentPayload.getContent());
+                reply.setParent(comment);
+                reply = commentDAO.create(reply);
+
+                CommentDTO commentDTO = new CommentDTO();
+                commentDTO.setId(reply.getId());
+                commentDTO.setContent(reply.getContent());
+                commentDTO.setTime(reply.getCreatedDate());
+                UserDTO uploader = new UserDTO();
+                uploader.setName(reply.getUploader().getName());
+                uploader.setId(reply.getUploader().getId());
+                uploader.setUsername(reply.getUploader().getUsername());
+                if (reply.getUploader().getImageUrl() != null) {
+                    uploader.setImageUrl(reply.getUploader().getImageUrl());
+                }
+                commentDTO.setUploader(uploader);
+                return commentDTO;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public UserStats getUserStats(String username) {
+        User user = userDAO.getByUsername(username);
+        UserStats userStats = new UserStats();
+        userStats.setFollowers(user.getFollowers().size());
+        userStats.setTracks(user.getTracks().size());
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        if (user.getFollowers().stream().anyMatch(u -> u.getUsername().equals(userPrincipal.getUsername()))) {
+            userStats.setYouFollowing(true);
+        }
+        return userStats;
     }
 }

@@ -10,9 +10,11 @@
         <fa-icon class="mx-3" [icon]="faRandom"></fa-icon>
         <img *ngIf="loopType == typeOfLoop.NONE" (click)="loopAudio()" class="no-repeat-control mx-1" title="No-repeat"
              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iIzMzMyIgZD0iTTEyIDhIOWE0IDQgMCAxIDAgMCA4aDZhNCA0IDAgMCAwIDIuMTA0LTcuNDAzbDEuNzctMS4xOC4wMi4wMThBNiA2IDAgMCAxIDE1IDE4SDlBNiA2IDAgMSAxIDkgNmgzVjRsNCAzLTQgM1Y4eiIvPjwvc3ZnPgo="/>
-        <img *ngIf="loopType == typeOfLoop.ALL" (click)="loopAudio()" class="no-repeat-control mx-1" title="Repeat queue"
+        <img *ngIf="loopType == typeOfLoop.ALL" (click)="loopAudio()" class="no-repeat-control mx-1"
+             title="Repeat queue"
              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iI2Y1MCIgZD0iTTEyIDhIOWE0IDQgMCAxIDAgMCA4aDZhNCA0IDAgMCAwIDIuMTA0LTcuNDAzbDEuNzctMS4xOC4wMi4wMThBNiA2IDAgMCAxIDE1IDE4SDlBNiA2IDAgMSAxIDkgNmgzVjRsNCAzLTQgM1Y4eiIvPjwvc3ZnPgo="/>
-        <img *ngIf="loopType == typeOfLoop.ONE" (click)="loopAudio()" class="no-repeat-control mx-1" title="Repeat current track"
+        <img *ngIf="loopType == typeOfLoop.ONE" (click)="loopAudio()" class="no-repeat-control mx-1"
+             title="Repeat current track"
              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iI2Y1MCIgZD0iTTExLjAyNyAxNmE0LjU1IDQuNTUgMCAwIDAgLjIzIDJIOUE2IDYgMCAxIDEgOSA2aDNWNGw0IDMtNCAzVjhIOWE0IDQgMCAxIDAgMCA4aDIuMDI3em03LjcyNS0yLjYxYTMuOTk3IDMuOTk3IDAgMCAwLTEuNjQ4LTQuNzkybDEuNzctMS4xOC4wMi4wMTdBNS45ODcgNS45ODcgMCAwIDEgMjEgMTJjMCAxLjMtLjQxMyAyLjUwMy0xLjExNiAzLjQ4NmE0LjQ5NiA0LjQ5NiAwIDAgMC0xLjEzMi0yLjA5NnoiLz48cGF0aCBmaWxsPSIjZjUwIiBkPSJNMTUuNSAyMGEzLjUgMy41IDAgMSAxIDAtNyAzLjUgMy41IDAgMCAxIDAgN3ptLS41LTV2NGgxdi00aC0xem0tMSAwdjFoMXYtMWgtMXoiLz48L3N2Zz4K"/>
       </div>
       <div plyr class="plyr-audio-player" plyrType="audio"
@@ -36,7 +38,7 @@
         </div>
       </div>
       <div class="plyr-audio-player-controls d-flex justify-content-center align-items-center">
-        <fa-icon class="mx-2" [icon]="faHeart"></fa-icon>
+        <fa-icon (click)="likeCurrentTrack(songQueue[currSongIdx])" class="mx-2" [class.active-btn]="currentUserTrackInfo?.like" [icon]="faHeart"></fa-icon>
       </div>
       <div class="plyr-audio-player-controls d-flex justify-content-center align-items-center ml-2 playing-queue"
            (click)="showSongQueue()" [class.show-queue]="isShowSongQueue">
@@ -86,7 +88,7 @@
                     {{song.duration}}
                   </div>
                   <div class="queue-item-actions" [class.d-block]="idx === currSongIdx">
-                    <fa-icon class="mx-2" [icon]="faHeart"></fa-icon>
+                    <fa-icon (click)="likeTrack(song, idx)" [class.active-btn]="userTrackInfo[idx]?.like" class="mx-2" [icon]="faHeart"></fa-icon>
                     <fa-icon class="mx-2" [icon]="faEllipsis"></fa-icon>
                   </div>
                 </div>

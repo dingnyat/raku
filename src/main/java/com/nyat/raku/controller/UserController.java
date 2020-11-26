@@ -1,7 +1,11 @@
 package com.nyat.raku.controller;
 
+import com.nyat.raku.model.CommentDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.ApiResponse;
+import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.TrackStats;
+import com.nyat.raku.payload.UserStats;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.UserService;
@@ -65,5 +69,29 @@ public class UserController {
             e.printStackTrace();
         }
         return new ApiResponse<>(false, null);
+    }
+
+    @PostMapping("/comment")
+    @ResponseBody
+    public ApiResponse<CommentDTO> comment(@RequestBody CommentPayload commentPayload) {
+        try {
+            CommentDTO commentDTO = userService.comment(commentPayload);
+            return new ApiResponse<>(true, commentDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return new ApiResponse<>(false, null);
+    }
+
+    @GetMapping("/get-user-stats")
+    @ResponseBody
+    public ApiResponse<UserStats> getUserStats(@RequestParam("username") String username) {
+        try {
+            UserStats userStats = userService.getUserStats(username);
+            return new ApiResponse<>(true, userStats);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
     }
 }

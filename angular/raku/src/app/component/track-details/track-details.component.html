@@ -23,7 +23,7 @@
         </div>
       </div>
       <div class="col-3 pr-0 d-flex justify-content-center align-items-end flex-column">
-        <div class="text-light pb-4 upload-time">{{song?.uploadTime}}</div>
+        <div class="text-light pb-4 upload-time">{{convertTimespan(song?.uploadTime)}}</div>
         <div *ngIf="song?.tags">
           <a [routerLink]="'/tags/' + tag.substr(1, tag.length-1)" class="tag-chip"
              *ngFor="let tag of song.tags">{{tag}}</a>
@@ -71,10 +71,10 @@
         </button>
       </div>
       <div class="track-stats">
-        <span><fa-icon [icon]="faHeadphones"></fa-icon>230</span>
-        <span><fa-icon [icon]="faHeart"></fa-icon>23</span>
-        <span><fa-icon [icon]="faCommentAlt"></fa-icon>12</span>
-        <span><fa-icon [icon]="faPaperclip"></fa-icon>12</span>
+        <span><fa-icon [icon]="faHeadphones"></fa-icon>{{trackStats?.plays}}</span>
+        <span><fa-icon [icon]="faHeart"></fa-icon>{{trackStats?.like}}</span>
+        <span><fa-icon [icon]="faCommentAlt"></fa-icon>{{trackStats?.comment}}</span>
+        <span><fa-icon [icon]="faPaperclip"></fa-icon>{{trackStats?.repost}}</span>
       </div>
     </div>
     <div class="row">
@@ -86,18 +86,20 @@
           {{song?.uploader?.name}}
         </span>
         <div class="uploader-stats">
-          <span [routerLink]="'/' + song?.uploader?.username + '/followers'" class="mr-2 pointer"><fa-icon class="mr-1"
-                                                                                                           [icon]="faUserCheck"></fa-icon>231</span>
-          <span [routerLink]="'/' + song?.uploader?.username + '/tracks'" class="pointer"><fa-icon class="mr-1"
-                                                                                                   [icon]="faMusic"></fa-icon>21</span>
+          <span [routerLink]="'/' + song?.uploader?.username + '/followers'" class="mr-2 pointer">
+            <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon> {{uploaderStats?.followers}}
+          </span>
+          <span [routerLink]="'/' + song?.uploader?.username + '/tracks'" class="pointer">
+            <fa-icon class="mr-1" [icon]="faMusic"></fa-icon>{{uploaderStats?.tracks}}
+          </span>
         </div>
         <div class="follow-uploader">
           <button (click)="followUploader()" [class.d-none]="user?.username === song?.uploader.username">
-            <span [class.d-none]="userTrackInfo?.followUploader">
+            <span [class.d-none]="uploaderStats?.youFollowing">
               <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
               Follow
             </span>
-            <span [class.d-none]="!userTrackInfo?.followUploader">
+            <span [class.d-none]="!uploaderStats?.youFollowing">
               <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
               Followed
             </span>
@@ -106,22 +108,8 @@
       </div>
       <div class="col-10">
         <div>
-          <p>
-            ♥ Với Album Độc Tấu Guitar Trịnh Công Sơn này, người nghe sẽ có những cảm xúc khó quên, ngoài tiếng đàn
-            guitar điêu luyện cùng giai điệu nhẹ nhàng nhưng sâu lắng của Nhạc Trịnh
-            ♥ Xem trọn Video với Hình ảnh đẹp tại đây: nhackhongloi.mobi/doc-tau-guitar-t…t_44b16ad83.html
-            ♥ Các bạn có thể nghe thêm Nhạc Không Lời Trịnh Công Sơn tại đây:
-            nhackhongloi.mobi/browse-trinh-con…deos-1-date.html
-            ♥ Với Album Độc Tấu Guitar Trịnh Công Sơn này, người nghe sẽ có những cảm xúc khó quên, ngoài tiếng đàn
-            guitar điêu luyện cùng giai điệu nhẹ nhàng nhưng sâu lắng của Nhạc Trịnh
-            ♥ Xem trọn Video với Hình ảnh đẹp tại đây: nhackhongloi.mobi/doc-tau-guitar-t…t_44b16ad83.html
-            ♥ Các bạn có thể nghe thêm Nhạc Không Lời Trịnh Công Sơn tại đây:
-            nhackhongloi.mobi/browse-trinh-con…deos-1-date.html
-            ♥ Với Album Độc Tấu Guitar Trịnh Công Sơn này, người nghe sẽ có những cảm xúc khó quên, ngoài tiếng đàn
-            guitar điêu luyện cùng giai điệu nhẹ nhàng nhưng sâu lắng của Nhạc Trịnh
-            ♥ Xem trọn Video với Hình ảnh đẹp tại đây: nhackhongloi.mobi/doc-tau-guitar-t…t_44b16ad83.html
-            ♥ Các bạn có thể nghe thêm Nhạc Không Lời Trịnh Công Sơn tại đây:
-            nhackhongloi.mobi/browse-trinh-con…deos-1-date.html
+          <p *ngIf="song?.description">
+            {{song.description}}
           </p>
         </div>
         <div>
@@ -129,14 +117,14 @@
             <img [src]="user?.imageUrl ? user?.imageUrl : '/assets/images/avatar.png'"
                  referrerpolicy="no-referrer"
                  style="width: 35px; height: 35px; opacity: 1; margin-bottom: 2px; margin-left: 2px"/>
-            <input class="comment-inp" placeholder="Leave a comment" type="text">
+            <input (keyup.enter)="comment($event)" class="comment-inp" placeholder="Leave a comment" type="text">
           </div>
           <!--<div class="comment-counts">
             <span><fa-icon [icon]="faCommentAlt"></fa-icon> 12 comments</span>
           </div>-->
           <div class="comment-area">
             <ng-container *ngIf="song?.comments != null && song?.comments.length > 0">
-              <commentor *ngFor="let cmt of song?.comments" [comment]="cmt" [cur-user]="user"></commentor>
+              <commentor *ngFor="let cmt of song?.comments" [comment]="cmt" [cur-user]="user" (reloadComment)="reloadComment()"></commentor>
             </ng-container>
             <ng-container *ngIf="song?.comments == null || song?.comments.length == 0">
               <p class="text-muted">Be the first to comment on this track</p>

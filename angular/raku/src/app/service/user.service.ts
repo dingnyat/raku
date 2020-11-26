@@ -27,4 +27,12 @@ export class UserService extends BaseService {
   followUser(username: string): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/follow-user", {params: {username: username}});
   }
+
+  comment(data: Object): Observable<any> {
+    return this.http.post(this.BASE_URL + this.contextUrl + "/comment", data);
+  }
+
+  getUserStats(username): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-user-stats", {params: {username: username}});
+  }
 }

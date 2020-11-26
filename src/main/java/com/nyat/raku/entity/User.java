@@ -2,10 +2,14 @@ package com.nyat.raku.entity;
 
 import com.nyat.raku.security.AuthProvider;
 import com.nyat.raku.security.Role;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tbl_user")
 public class User {
@@ -67,11 +71,7 @@ public class User {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "like_track_id"})})
     private Set<Track> likeTracks;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_follower",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "follower_id", referencedColumnName = "id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "follower_id"})})
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "followingUsers")
     private Set<User> followers;
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -84,139 +84,6 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Playlist> playlists;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEncodedPassword() {
-        return encodedPassword;
-    }
-
-    public void setEncodedPassword(String encodedPassword) {
-        this.encodedPassword = encodedPassword;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public Boolean getEmailVerified() {
-        return emailVerified;
-    }
-
-    public void setEmailVerified(Boolean emailVerified) {
-        this.emailVerified = emailVerified;
-    }
-
-    public String getEmailVerificationKey() {
-        return emailVerificationKey;
-    }
-
-    public void setEmailVerificationKey(String emailVerificationKey) {
-        this.emailVerificationKey = emailVerificationKey;
-    }
-
-    public String getProviderId() {
-        return providerId;
-    }
-
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public AuthProvider getAuthProvider() {
-        return authProvider;
-    }
-
-    public void setAuthProvider(AuthProvider authProvider) {
-        this.authProvider = authProvider;
-    }
-
-    public Set<Track> getRepostTracks() {
-        return repostTracks;
-    }
-
-    public void setRepostTracks(Set<Track> repostTracks) {
-        this.repostTracks = repostTracks;
-    }
-
-    public Set<Track> getHistoryTracks() {
-        return historyTracks;
-    }
-
-    public void setHistoryTracks(Set<Track> historyTracks) {
-        this.historyTracks = historyTracks;
-    }
-
-    public Set<Track> getLikeTracks() {
-        return likeTracks;
-    }
-
-    public void setLikeTracks(Set<Track> likeTracks) {
-        this.likeTracks = likeTracks;
-    }
-
-    public Set<User> getFollowers() {
-        return followers;
-    }
-
-    public void setFollowers(Set<User> followers) {
-        this.followers = followers;
-    }
-
-    public Set<User> getFollowingUsers() {
-        return followingUsers;
-    }
-
-    public void setFollowingUsers(Set<User> followingUsers) {
-        this.followingUsers = followingUsers;
-    }
-
-    public Set<Playlist> getPlaylists() {
-        return playlists;
-    }
-
-    public void setPlaylists(Set<Playlist> playlists) {
-        this.playlists = playlists;
-    }
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "uploader")
+    private Set<Track> tracks;
 }

@@ -7,6 +7,7 @@ import com.nyat.raku.entity.Comment;
 import com.nyat.raku.entity.Track;
 import com.nyat.raku.entity.User;
 import com.nyat.raku.model.*;
+import com.nyat.raku.payload.TrackStats;
 import com.nyat.raku.payload.UserTrackInfo;
 import com.nyat.raku.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -155,9 +156,6 @@ public class TrackServiceImpl implements TrackService {
             if (user.getRepostTracks() != null && user.getRepostTracks().stream().anyMatch(t -> t.getUploader().getUsername().equals(uploader) && t.getCode().equals(code))) {
                 userTrackInfo.setRepost(true);
             }
-            if (user.getFollowingUsers() != null && user.getFollowingUsers().stream().anyMatch(u -> u.getUsername().equals(uploader))) {
-                userTrackInfo.setFollowUploader(true);
-            }
             userTrackInfo.setPlaylists(new LinkedHashSet<>());
             if (user.getPlaylists() != null) {
                 user.getPlaylists().forEach(playlist -> {
@@ -174,5 +172,17 @@ public class TrackServiceImpl implements TrackService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public TrackStats getTrackStats(String username, String code) throws Exception {
+        Track track = trackDAO.getByCode(username, code);
+        TrackStats trackStats = new TrackStats();
+        // todo tính lại số comment. tính cả subcomment
+        trackStats.setComment(track.getComments().size());
+        trackStats.setLike(track.getLikes().size());
+        trackStats.setPlays(track.getPlays());
+        trackStats.setRepost(track.getReposts().size());
+        return trackStats;
     }
 }

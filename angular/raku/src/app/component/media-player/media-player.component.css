@@ -5,7 +5,7 @@
   height: 60px;
   background-color: white;
   border-top: 1px solid #cecece;
-  z-index: 5;
+  z-index: 9999;
 }
 
 .player-footer {
@@ -138,7 +138,7 @@ button.queue-clear-all:hover {
   position: relative;
   overflow: auto;
   width: 100%;
-  height: 100%;
+  /*height: 100%;*/
   max-height: 400px;
   /*box-shadow: 0 0 4px rgba(0, 0, 0, .25);*/
   padding-top: 10px;
@@ -321,4 +321,8 @@ button.queue-clear-all:hover {
   width: 40px;
   height: 40px;
   background-image: linear-gradient(135deg, #846170, #70929c);
+}
+
+.active-btn {
+  color: #ff5500 !important;
 }

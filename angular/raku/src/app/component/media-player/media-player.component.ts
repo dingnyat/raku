@@ -16,6 +16,9 @@ import {
 import {AppService} from "../../service/app.service";
 import {Song} from "../../model/Song";
 import {LoopType} from "./loop-type";
+import {UserService} from "../../service/user.service";
+import {TrackService} from "../../service/track.service";
+import {UserTrackInfo} from "../../model/user-track-info";
 
 @Component({
   selector: 'media-player',
@@ -50,7 +53,10 @@ export class MediaPlayerComponent implements OnInit {
 
   loopType = LoopType.NONE;
 
-  constructor(private appService: AppService) {
+  userTrackInfo: UserTrackInfo[] = [];
+  currentUserTrackInfo: UserTrackInfo;
+
+  constructor(private appService: AppService, private userService: UserService, private trackService: TrackService) {
   }
 
   ngOnInit(): void {
@@ -60,12 +66,26 @@ export class MediaPlayerComponent implements OnInit {
         if (this.isPlaying) {
           this.playAudio();
         }
+        this.trackService.getUserTrackInfo(song.uploader.username, song.code).subscribe(resp => {
+          if (resp.success) {
+            this.currentUserTrackInfo = resp.data;
+          }
+        })
       } else {
         this.currentAudio = null;
       }
     });
     this.appService.songQueueObs.subscribe(songQueue => {
       this.songQueue = songQueue;
+      if (this.songQueue != null) {
+        this.songQueue.forEach((value, index) => {
+          this.trackService.getUserTrackInfo(value.uploader.username, value.code).subscribe(resp => {
+            if (resp.success) {
+              this.userTrackInfo[index] = resp.data;
+            }
+          })
+        })
+      }
     });
     this.appService.queueIdxObs.subscribe(idx => {
       this.currSongIdx = idx;
@@ -181,5 +201,31 @@ export class MediaPlayerComponent implements OnInit {
 
   public get typeOfLoop(): typeof LoopType {
     return LoopType;
+  }
+
+  likeTrack(song: Song, idx: number) {
+    this.userService.likeTrack(song.id).subscribe(resp => {
+      if (resp.success) {
+        this.trackService.getUserTrackInfo(song.uploader.username, song.code).subscribe(r => {
+          if (r.success) {
+            this.userTrackInfo[idx] = r.data;
+            if (idx == this.currSongIdx) this.currentUserTrackInfo = r.data;
+          }
+        });
+      }
+    });
+  }
+
+  likeCurrentTrack(song: Song) {
+    this.userService.likeTrack(song.id).subscribe(resp => {
+      if (resp.success) {
+        this.trackService.getUserTrackInfo(song.uploader.username, song.code).subscribe(r => {
+          if (r.success) {
+            this.currentUserTrackInfo = r.data;
+            this.userTrackInfo[this.currSongIdx] = r.data;
+          }
+        });
+      }
+    });
   }
 }

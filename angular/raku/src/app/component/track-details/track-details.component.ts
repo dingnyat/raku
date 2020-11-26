@@ -24,6 +24,9 @@ import WaveSurfer from "wavesurfer.js/dist/wavesurfer";
 import {UserPrincipal} from "../../model/UserPrincipal";
 import {UserService} from "../../service/user.service";
 import {UserTrackInfo} from "../../model/user-track-info";
+import {TrackStats} from "../../model/track-stats";
+import {UploaderStats} from "../../model/uploader-stats";
+import * as moment from 'moment';
 
 @Component({
   selector: 'track-details',
@@ -57,6 +60,8 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   durationStr: string;
   user: UserPrincipal;
   userTrackInfo: UserTrackInfo;
+  trackStats: TrackStats;
+  uploaderStats: UploaderStats;
 
   constructor(private route: ActivatedRoute,
               private trackService: TrackService,
@@ -87,6 +92,18 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
       this.trackService.getUserTrackInfo(this.username, this.code).subscribe(resp => {
         if (resp.success) {
           this.userTrackInfo = resp.data as UserTrackInfo;
+        }
+      });
+
+      this.trackService.getTrackStats(this.username, this.code).subscribe(resp => {
+        if (resp.success) {
+          this.trackStats = resp.data;
+        }
+      });
+
+      this.userService.getUserStats(this.username).subscribe(resp => {
+        if (resp.success) {
+          this.uploaderStats = resp.data;
         }
       });
 
@@ -190,6 +207,11 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
             // xong thì nhảy số like của track ở stats lên (trên view)
           }
         });
+        this.trackService.getTrackStats(this.username, this.code).subscribe(resp => {
+          if (resp.success) {
+            this.trackStats = resp.data;
+          }
+        });
       }
     });
   }
@@ -203,6 +225,11 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
             // xong thì nhảy số repost của track ở stats lên (trên view)
           }
         });
+        this.trackService.getTrackStats(this.username, this.code).subscribe(resp => {
+          if (resp.success) {
+            this.trackStats = resp.data;
+          }
+        });
       }
     });
   }
@@ -210,13 +237,37 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   followUploader() {
     this.userService.followUser(this.song.uploader.username).subscribe(resp => {
       if (resp.success) {
-        this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
+        this.userService.getUserStats(this.username).subscribe(r => {
           if (r.success) {
-            this.userTrackInfo.followUploader = r.data.followUploader;
+            this.uploaderStats = r.data;
             // xong thì nhảy số follow của uploader ở dưới avatar lên
           }
         });
       }
     });
+  }
+
+  comment(event) {
+    if (event.target.value != null && event.target.value.trim() != '') {
+      this.userService.comment({trackId: this.song.id, content: event.target.value}).subscribe(resp => {
+        if (resp.success) {
+          event.target.value = '';
+          this.reloadComment();
+        }
+      });
+    }
+  }
+
+  reloadComment() {
+    console.log("reload comment");
+    this.trackService.getByCode(this.username, this.code).subscribe(r => {
+      if (r.success) {
+        this.song.comments = r.data.comments;
+      }
+    })
+  }
+
+  convertTimespan(time: Date) {
+    return moment(time).startOf("second").fromNow();
   }
 }

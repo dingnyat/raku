@@ -1,7 +1,8 @@
 package com.nyat.raku.entity;
 
 import com.nyat.raku.model.Privacy;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,6 +11,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tbl_track", uniqueConstraints = {@UniqueConstraint(columnNames = {"code", "uploader_id"})})
 @EntityListeners(AuditingEntityListener.class)
@@ -74,135 +77,13 @@ public class Track {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"track_id", "genre_id"})})
     private Set<Genre> genres;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "track_id", referencedColumnName = "id")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "track")
+    @OrderBy("createdDate desc")
     private Set<Comment> comments;
 
-    public Integer getId() {
-        return id;
-    }
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "likeTracks")
+    private Set<User> likes;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getExt() {
-        return ext;
-    }
-
-    public void setExt(String ext) {
-        this.ext = ext;
-    }
-
-    public Date getUploadTime() {
-        return uploadTime;
-    }
-
-    public void setUploadTime(Date uploadTime) {
-        this.uploadTime = uploadTime;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Privacy getPrivacy() {
-        return privacy;
-    }
-
-    public void setPrivacy(Privacy privacy) {
-        this.privacy = privacy;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getComposer() {
-        return composer;
-    }
-
-    public void setComposer(String composer) {
-        this.composer = composer;
-    }
-
-    public String getArtist() {
-        return artist;
-    }
-
-    public void setArtist(String artist) {
-        this.artist = artist;
-    }
-
-    public String getDuration() {
-        return duration;
-    }
-
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
-
-    public Integer getPlays() {
-        return plays;
-    }
-
-    public void setPlays(Integer plays) {
-        this.plays = plays;
-    }
-
-    public User getUploader() {
-        return uploader;
-    }
-
-    public void setUploader(User uploader) {
-        this.uploader = uploader;
-    }
-
-    public Set<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(Set<String> tags) {
-        this.tags = tags;
-    }
-
-    public Set<Genre> getGenres() {
-        return genres;
-    }
-
-    public void setGenres(Set<Genre> genres) {
-        this.genres = genres;
-    }
-
-    public Set<Comment> getComments() {
-        return comments;
-    }
-
-    public void setComments(Set<Comment> comments) {
-        this.comments = comments;
-    }
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "repostTracks")
+    private Set<User> reposts;
 }

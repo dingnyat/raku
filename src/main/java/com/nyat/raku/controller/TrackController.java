@@ -7,6 +7,7 @@ import com.nyat.raku.model.Privacy;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.payload.TrackFormData;
+import com.nyat.raku.payload.TrackStats;
 import com.nyat.raku.payload.UserTrackInfo;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.UserPrincipal;
@@ -129,6 +130,18 @@ public class TrackController {
             UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
             UserTrackInfo userTrackInfo = trackService.getUserTrackInfo(username, code, userPrincipal.getUsername());
             return new ApiResponse<>(true, userTrackInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/get-track-stats")
+    @ResponseBody
+    public ApiResponse<TrackStats> getTrackStats(@RequestParam("username") String username, @RequestParam("code") String code) {
+        try {
+            TrackStats trackStats = trackService.getTrackStats(username, code);
+            return new ApiResponse<>(true, trackStats);
         } catch (Exception e) {
             e.printStackTrace();
             return new ApiResponse<>(false, null);

@@ -5,9 +5,9 @@ import lombok.Data;
 
 @Data
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
-public class SignUpReq {
-    private String email;
-    private String password;
-    private String username;
-    private String name;
+public class TrackStats {
+    private int plays;
+    private int like;
+    private int comment;
+    protected int repost;
 }

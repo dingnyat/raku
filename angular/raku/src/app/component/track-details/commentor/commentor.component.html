@@ -5,13 +5,13 @@
   <div class="comment-left">
     <div class="d-flex justify-content-between">
       <span [routerLink]="'/' + cmt.uploader?.username" class="commenter pointer">{{cmt.uploader?.name}}</span>
-      <span class="time-span">{{cmt.time}}</span>
+      <span class="time-span">{{convertTimespan(cmt?.time)}}</span>
     </div>
     <div class="content d-flex justify-content-between align-items-center mt-1">
       <div>
         {{cmt.content}}
       </div>
-      <button class="reply-btn" (click)="showReply = true;">
+      <button class="reply-btn" (click)="displayReply()">
         <fa-icon [icon]="faReply"></fa-icon>
         Reply
       </button>
@@ -19,12 +19,12 @@
   </div>
 </div>
 <div class="pl-3 border-left">
-  <div *ngIf="showReply" class="leave-comment mt-2">
+  <div [class.d-none]="!showReply" class="leave-comment mt-2">
     <img [src]="user?.imageUrl ? user?.imageUrl : '/assets/images/avatar.png'"
          referrerpolicy="no-referrer" style="width: 35px; height: 35px; opacity: 1;"/>
-    <input class="comment-inp" placeholder="Leave a comment" type="text">
+    <input #ReplyInput (keyup.enter)="comment($event)" class="comment-inp" placeholder="Reply this comment" type="text">
   </div>
   <ng-container *ngIf="cmt.children?.length > 0">
-    <commentor *ngFor="let c of cmt.children" [comment]="c" [cur-user]="user"></commentor>
+    <commentor *ngFor="let c of cmt.children" [comment]="c" [cur-user]="user" (reloadComment)="reload()"></commentor>
   </ng-container>
 </div>

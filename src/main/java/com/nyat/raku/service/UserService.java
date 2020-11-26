@@ -2,7 +2,10 @@ package com.nyat.raku.service;
 
 
 import com.nyat.raku.entity.User;
+import com.nyat.raku.model.CommentDTO;
 import com.nyat.raku.model.UserDTO;
+import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.UserStats;
 
 import java.util.List;
 
@@ -32,4 +35,8 @@ public interface UserService {
     void repostTrack(Integer trackId, String username);
 
     void followUser(String followUsername, String actUsername);
+
+    CommentDTO comment(CommentPayload commentPayload);
+
+    UserStats getUserStats(String username);
 }

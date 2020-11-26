@@ -5,6 +5,7 @@ import com.nyat.raku.service.EmailService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -28,4 +29,9 @@ public class AOPAspect {
         });
     }
 
+    @Before("execution(* com.nyat.raku.controller.MediaController.loadSong(..))")
+    public void before(JoinPoint joinPoint) {
+        String code = joinPoint.getArgs()[2].toString();
+        String username = joinPoint.getArgs()[3].toString();
+    }
 }
