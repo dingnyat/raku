@@ -80,7 +80,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
           this.song = resp.data as Song;
           this.song.imageUrl = this.song.imageUrl ? (AppSettings.ENDPOINT + "/" + this.username + "/image/" + this.song.imageUrl) : null;
           this.song.src = AppSettings.ENDPOINT + "/" + this.username + "/audio/" + this.song.code;
-          this.song.link = AppSettings.BASE_URL + "/" + this.username + "/" + this.song.code;
+          this.song.link = "/" + this.username + "/" + this.song.code;
           this.titleService.setTitle(this.song.title + " || Listening on Raku");
 
           if (this.wavesurfer) {

@@ -121,15 +121,17 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   playAudio(now?: boolean) {
-    if (this.player['ready']) {
-      if (!now) {
-        setTimeout(() => {
+    setTimeout(() => {
+      if (this.player['ready']) {
+        if (!now) {
+          setTimeout(() => {
+            this.player.play();
+          }, 300);
+        } else {
           this.player.play();
-        }, 500);
-      } else {
-        this.player.play();
+        }
       }
-    }
+    }, 100);
   }
 
   pauseAudio() {

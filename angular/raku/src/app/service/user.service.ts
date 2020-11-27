@@ -35,4 +35,8 @@ export class UserService extends BaseService {
   getUserStats(username): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get-user-stats", {params: {username: username}});
   }
+
+  getAuthenticatedUserHistoryTracks(): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-history-tracks");
+  }
 }

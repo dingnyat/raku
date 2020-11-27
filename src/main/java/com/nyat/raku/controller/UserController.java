@@ -1,10 +1,10 @@
 package com.nyat.raku.controller;
 
 import com.nyat.raku.model.CommentDTO;
+import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.payload.CommentPayload;
-import com.nyat.raku.payload.TrackStats;
 import com.nyat.raku.payload.UserStats;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.UserPrincipal;
@@ -12,6 +12,8 @@ import com.nyat.raku.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/api/user")
@@ -94,4 +96,18 @@ public class UserController {
             return new ApiResponse<>(false, null);
         }
     }
+
+    @GetMapping("/get-history-tracks")
+    @ResponseBody
+    public ApiResponse<List<TrackDTO>> getHistoryTracks() {
+        try {
+            UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+            List<TrackDTO> tracks = userService.getHistoryTracks(userPrincipal.getUsername());
+            return new ApiResponse<>(true, tracks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
 }

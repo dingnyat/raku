@@ -5,6 +5,7 @@ import com.nyat.raku.entity.Track;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 
@@ -42,7 +43,11 @@ public class TrackDAOImpl implements TrackDAO {
     }
 
     @Override
-    public Track getByCode(String username, String code) throws Exception {
-        return entityManager.createQuery("select t from Track t where t.code='" + code + "' and t.uploader.username = '" + username + "'", Track.class).getSingleResult();
+    public Track getByCode(String username, String code) {
+        try {
+            return entityManager.createQuery("select t from Track t where t.code='" + code + "' and t.uploader.username = '" + username + "'", Track.class).getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 }

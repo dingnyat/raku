@@ -57,12 +57,9 @@ public class User {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "track_id"})})
     private Set<Track> repostTracks;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_history_track",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "track_id"})})
-    private Set<Track> historyTracks;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("listenTime desc ")
+    private Set<HistoryTrack> historyTracks;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_like_track",

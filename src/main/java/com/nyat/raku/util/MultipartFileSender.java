@@ -14,9 +14,7 @@ import java.nio.file.attribute.FileTime;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by kevin on 10/02/15.
@@ -197,6 +195,15 @@ public class MultipartFileSender {
         }
         logger.debug("Content-Type : {}", contentType);
         // Initialize response.
+
+        // custom from dingnyat
+        Map<String, String> corsHeaders = new HashMap<>();
+        response.getHeaderNames().forEach(s -> {
+            if (s.toLowerCase().startsWith("Access-Control".toLowerCase())) {
+                corsHeaders.put(s, response.getHeader(s));
+            }
+        });
+
         response.reset();
         response.setBufferSize(DEFAULT_BUFFER_SIZE);
         response.setHeader("Content-Type", contentType);
@@ -206,6 +213,8 @@ public class MultipartFileSender {
         response.setHeader("ETag", fileName);
         response.setDateHeader("Last-Modified", lastModified);
         response.setDateHeader("Expires", System.currentTimeMillis() + DEFAULT_EXPIRE_TIME);
+
+        corsHeaders.forEach((key, value) -> response.setHeader(key, value));
 
         // Send requested file (part(s)) to client ------------------------------------------------
 

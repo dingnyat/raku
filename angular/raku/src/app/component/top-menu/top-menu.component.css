@@ -103,7 +103,7 @@ ul, ol {
 .search-submit {
   border: 0;
   padding: 0;
-  /*background: url(https://a-v2.sndcdn.com/assets/images/search-dbfe5cbb.svg) 0 0 no-repeat;*/
+  background: url(/assets/images/search-dbfe5cbb.svg) 0 0 no-repeat;
   width: 15px;
   height: 15px;
   position: absolute;
@@ -199,7 +199,7 @@ ul, ol {
 }
 
 .noti-icon.activities:before {
-  /*background: url(https://a-v2.sndcdn.com/assets/images/activities-66caaa5e.svg) 50% 50% no-repeat;*/
+  background: url(/assets/images/activities-66caaa5e.svg) 50% 50% no-repeat;
 }
 
 .header-message-button {
@@ -213,7 +213,7 @@ ul, ol {
 }
 
 .noti-icon.messages:before {
-/*  background: url(https://a-v2.sndcdn.com/assets/images/messages-f517d0eb.svg) 50% 50% no-repeat;*/
+  background: url(/assets/images/messages-f517d0eb.svg) 50% 50% no-repeat;
 }
 
 .header-list-menu {
@@ -233,7 +233,7 @@ ul, ol {
 .header-more-menu {
   width: 46px;
   height: 46px;
-/*  background: url(https://a-v2.sndcdn.com/assets/images/more-0e9e752c.svg) 50% 50% no-repeat;*/
+  background: url(/assets/images/more-0e9e752c.svg) 50% 50% no-repeat;
   opacity: .75;
   border: 0;
   display: block;

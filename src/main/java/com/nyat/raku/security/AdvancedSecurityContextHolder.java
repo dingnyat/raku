@@ -18,8 +18,7 @@ public class AdvancedSecurityContextHolder {
     private static UserDetailsService userDetailsService;
 
     public static boolean isLoggedIn() {
-        return SecurityContextHolder.getContext().getAuthentication().isAuthenticated()
-                && !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken);
+        return !(SecurityContextHolder.getContext().getAuthentication() instanceof AnonymousAuthenticationToken) && SecurityContextHolder.getContext().getAuthentication().isAuthenticated();
     }
 
     public static UsernamePasswordAuthenticationToken manuallyLogIn(String username, String password) {
@@ -69,7 +68,11 @@ public class AdvancedSecurityContextHolder {
     }
 
     public static UserPrincipal getUserPrincipal() {
-        return (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (isLoggedIn()) {
+            return (UserPrincipal) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        } else {
+            return null;
+        }
     }
 
     public static void setAuthenticationManager(AuthenticationManager authenticationManager) {

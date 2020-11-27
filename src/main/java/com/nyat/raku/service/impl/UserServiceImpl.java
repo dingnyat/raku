@@ -4,9 +4,11 @@ import com.nyat.raku.dao.CommentDAO;
 import com.nyat.raku.dao.TrackDAO;
 import com.nyat.raku.dao.UserDAO;
 import com.nyat.raku.entity.Comment;
+import com.nyat.raku.entity.HistoryTrack;
 import com.nyat.raku.entity.Track;
 import com.nyat.raku.entity.User;
 import com.nyat.raku.model.CommentDTO;
+import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.CommentPayload;
 import com.nyat.raku.payload.UserStats;
@@ -19,6 +21,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -233,5 +236,45 @@ public class UserServiceImpl implements UserService {
             userStats.setYouFollowing(true);
         }
         return userStats;
+    }
+
+    @Override
+    public void setHistory(String uploader, String code, String username) {
+        User user = userDAO.getByUsername(username);
+        Track track = trackDAO.getByCode(uploader, code);
+        if (user.getHistoryTracks().stream().anyMatch(historyTrack -> track.getId().equals(historyTrack.getTrack().getId()))) {
+            user.getHistoryTracks().stream().filter(historyTrack -> historyTrack.getTrack().getId().equals(track.getId())).findFirst().orElse(new HistoryTrack(user, track)).setListenTime(new Date());
+        } else {
+            user.getHistoryTracks().add(new HistoryTrack(user, track));
+        }
+    }
+
+    @Override
+    public List<TrackDTO> getHistoryTracks(String username) {
+        User user = userDAO.getByUsername(username);
+        return user.getHistoryTracks().stream().map(historyTrack -> {
+            TrackDTO track = new TrackDTO();
+            track.setId(historyTrack.getTrack().getId());
+            track.setTitle(historyTrack.getTrack().getTitle());
+            track.setArtist(historyTrack.getTrack().getArtist());
+            track.setDuration(historyTrack.getTrack().getDuration());
+            track.setTags(historyTrack.getTrack().getTags());
+            track.setDescription(historyTrack.getTrack().getDescription());
+            track.setPrivacy(historyTrack.getTrack().getPrivacy());
+            track.setPlays(historyTrack.getTrack().getPlays());
+            track.setExt(historyTrack.getTrack().getExt());
+            track.setUploadTime(historyTrack.getTrack().getUploadTime());
+            if (historyTrack.getTrack().getImageUrl() != null) {
+                track.setImageUrl(historyTrack.getTrack().getImageUrl());
+            }
+            track.setComposer(historyTrack.getTrack().getComposer());
+            track.setCode(historyTrack.getTrack().getCode());
+            UserDTO userDTO = new UserDTO();
+            userDTO.setName(historyTrack.getTrack().getUploader().getName());
+            userDTO.setUsername(historyTrack.getTrack().getUploader().getUsername());
+            userDTO.setImageUrl(historyTrack.getTrack().getUploader().getImageUrl());
+            track.setUploader(userDTO);
+            return track;
+        }).collect(Collectors.toList());
     }
 }
