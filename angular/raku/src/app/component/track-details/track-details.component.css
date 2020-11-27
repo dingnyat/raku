@@ -152,6 +152,10 @@
 .uploader-name {
   font-weight: bolder;
   margin-bottom: 4px;
+  width: 90px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .uploader-stats {

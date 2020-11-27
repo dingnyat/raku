@@ -36,6 +36,10 @@
 .playing-audio-title {
   font-size: 0.9em;
   color: #626262;
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .playing-audio-artist {
