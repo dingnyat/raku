@@ -62,7 +62,8 @@ export class TopMenuComponent implements OnInit {
         if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME)) {
           this.authService.getCurrentUser().subscribe(resp => {
             this.userInfo = resp.data as UserPrincipal;
-            location.reload();
+            this.appService.setUser(this.userInfo);
+            this.router.navigateByUrl("/");
           });
         }
       } else if (res?.username != null) {
@@ -72,8 +73,12 @@ export class TopMenuComponent implements OnInit {
             if (resp.data != null) {
               this.cookieService.set(AppSettings.COOKIE_TOKEN_NAME, resp.data.token,
                 moment(new Date()).add(resp.data.expireTime, 'ms').toDate());
+              this.authService.getCurrentUser().subscribe(resp => {
+                this.userInfo = resp.data as UserPrincipal;
+                this.appService.setUser(this.userInfo);
+                this.router.navigateByUrl("/");
+              });
             }
-            location.reload();
           }
         });
 
@@ -82,10 +87,14 @@ export class TopMenuComponent implements OnInit {
   }
 
   logout() {
-    this.authService.logout().subscribe(resp => {
-      this.cookieService.delete(AppSettings.COOKIE_TOKEN_NAME, null, null, null, 'Lax');
+    new Promise((func) => {
+      this.cookieService.delete(AppSettings.COOKIE_TOKEN_NAME, "/");
+      if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME) == null || this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME).trim() == "") {
+        func();
+      }
+    }).then(() => {
       this.appService.setUser(null);
-      this.router.navigate(['/']);
+      this.router.navigate(["/"]);
     });
   }
 }
