@@ -20,17 +20,21 @@
   color: #9c9c9c;
 }
 
-.comment-item:hover .reply-btn {
+.comment-item:hover .reply-btn, .comment-item:hover .delete-btn {
   visibility: visible;
 }
 
-.reply-btn {
+.reply-btn, .delete-btn {
   visibility: hidden;
   border: 1px solid #cccccc;
   background-color: white;
   border-radius: 2px;
   font-size: 0.9em;
   align-items: center;
+}
+
+.delete-btn {
+  color: red !important;
 }
 
 .leave-comment {

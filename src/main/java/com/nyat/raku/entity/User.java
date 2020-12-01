@@ -50,16 +50,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AuthProvider authProvider;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "user_repost_track",
-            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "id")},
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "track_id"})})
-    private Set<Track> repostTracks;
-
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @OrderBy("listenTime desc ")
     private Set<HistoryTrack> historyTracks;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("repostTime desc ")
+    private Set<RepostTrack> repostTracks;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_like_track",

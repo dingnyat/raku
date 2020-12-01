@@ -3,10 +3,7 @@ package com.nyat.raku.service.impl;
 import com.nyat.raku.dao.CommentDAO;
 import com.nyat.raku.dao.TrackDAO;
 import com.nyat.raku.dao.UserDAO;
-import com.nyat.raku.entity.Comment;
-import com.nyat.raku.entity.HistoryTrack;
-import com.nyat.raku.entity.Track;
-import com.nyat.raku.entity.User;
+import com.nyat.raku.entity.*;
 import com.nyat.raku.model.CommentDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
@@ -155,10 +152,10 @@ public class UserServiceImpl implements UserService {
     public void repostTrack(Integer trackId, String username) {
         User user = userDAO.getByUsername(username);
         Track track = trackDAO.get(trackId);
-        if (user.getRepostTracks().contains(track)) {
-            user.getRepostTracks().remove(track);
+        if (user.getRepostTracks().stream().anyMatch(t -> t.getTrack().getId().equals(track.getId()))) {
+            user.getRepostTracks().removeIf(repostTrack -> repostTrack.getTrack().getId().equals(track.getId()));
         } else {
-            user.getRepostTracks().add(track);
+            user.getRepostTracks().add(new RepostTrack(user, track));
         }
     }
 
@@ -276,5 +273,43 @@ public class UserServiceImpl implements UserService {
             track.setUploader(userDTO);
             return track;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TrackDTO> getTracks(String username) {
+        User user = userDAO.getByUsername(username);
+        return user.getTracks().stream().map(t -> {
+            TrackDTO track = new TrackDTO();
+            track.setId(t.getId());
+            track.setTitle(t.getTitle());
+            track.setArtist(t.getArtist());
+            track.setDuration(t.getDuration());
+            track.setTags(t.getTags());
+            track.setDescription(t.getDescription());
+            track.setPrivacy(t.getPrivacy());
+            track.setPlays(t.getPlays());
+            track.setExt(t.getExt());
+            track.setUploadTime(t.getUploadTime());
+            if (t.getImageUrl() != null) {
+                track.setImageUrl(t.getImageUrl());
+            }
+            track.setComposer(t.getComposer());
+            track.setCode(t.getCode());
+            UserDTO userDTO = new UserDTO();
+            userDTO.setName(t.getUploader().getName());
+            userDTO.setUsername(t.getUploader().getUsername());
+            userDTO.setImageUrl(t.getUploader().getImageUrl());
+            track.setUploader(userDTO);
+            return track;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteComment(Integer cmtId) {
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        Comment comment = commentDAO.get(cmtId);
+        if (comment.getUploader().getUsername().equals(userPrincipal.getUsername())) {
+            commentDAO.remove(comment);
+        }
     }
 }

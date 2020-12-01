@@ -110,4 +110,30 @@ public class UserController {
         }
     }
 
+    @GetMapping("/get-your-tracks")
+    @ResponseBody
+    public ApiResponse<List<TrackDTO>> getYourTracks() {
+        try {
+            UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+            List<TrackDTO> tracks = userService.getTracks(userPrincipal.getUsername());
+            return new ApiResponse<>(true, tracks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/delete-comment/{cmt-id}")
+    @ResponseBody
+    public ApiResponse<?> deleteComment(@PathVariable("cmt-id") Integer cmtId) {
+        try {
+            UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+            userService.deleteComment(cmtId);
+            return new ApiResponse<>(true, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
 }

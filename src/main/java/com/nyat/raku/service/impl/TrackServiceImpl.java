@@ -153,7 +153,7 @@ public class TrackServiceImpl implements TrackService {
             if (user.getLikeTracks() != null && user.getLikeTracks().stream().anyMatch(t -> t.getUploader().getUsername().equals(uploader) && t.getCode().equals(code))) {
                 userTrackInfo.setLike(true);
             }
-            if (user.getRepostTracks() != null && user.getRepostTracks().stream().anyMatch(t -> t.getUploader().getUsername().equals(uploader) && t.getCode().equals(code))) {
+            if (user.getRepostTracks() != null && user.getRepostTracks().stream().anyMatch(t -> t.getTrack().getId().equals(track.getId()))) {
                 userTrackInfo.setRepost(true);
             }
             userTrackInfo.setPlaylists(new LinkedHashSet<>());

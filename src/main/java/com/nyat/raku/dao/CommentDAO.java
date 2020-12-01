@@ -6,4 +6,6 @@ public interface CommentDAO {
     Comment create(Comment comment);
 
     Comment get(Integer id);
+
+    void remove(Comment comment);
 }

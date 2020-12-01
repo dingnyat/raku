@@ -44,4 +44,8 @@ public interface UserService {
     void setHistory(String uploader, String code, String username);
 
     List<TrackDTO> getHistoryTracks(String username);
+
+    List<TrackDTO> getTracks(String username);
+
+    void deleteComment(Integer cmtId);
 }

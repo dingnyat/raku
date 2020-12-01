@@ -25,4 +25,9 @@ public class CommentDAOImpl implements CommentDAO {
     public Comment get(Integer id) {
         return entityManager.find(Comment.class, id);
     }
+
+    @Override
+    public void remove(Comment comment) {
+        entityManager.remove(comment);
+    }
 }

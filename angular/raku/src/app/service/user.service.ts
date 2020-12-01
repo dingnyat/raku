@@ -39,4 +39,12 @@ export class UserService extends BaseService {
   getAuthenticatedUserHistoryTracks(): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get-history-tracks");
   }
+
+  getYourTrack(): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-your-tracks");
+  }
+
+  deleteComment(cmt): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/delete-comment/" + cmt.id);
+  }
 }

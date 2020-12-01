@@ -84,6 +84,6 @@ public class Track {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "likeTracks")
     private Set<User> likes;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "repostTracks")
-    private Set<User> reposts;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "track")
+    private Set<RepostTrack> reposts;
 }

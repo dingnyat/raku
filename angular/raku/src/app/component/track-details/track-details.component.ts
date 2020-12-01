@@ -160,15 +160,21 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
     });
 
     this.appService.currTimeObs.subscribe(time => {
-      if ((time != null || time != undefined) && (this.song?.code == this.appService.getCurrentSong()?.code) && !this.busy) {
-        let target = time / this.wavesurfer.getDuration();
-        this.wavesurfer.seekTo(target > 1 ? 1 : (target < 0 ? 0 : target));
+      if (time != null && (this.song?.code == this.appService.getCurrentSong()?.code) && !this.busy) {
+        let target = time / (this.wavesurfer.getDuration() == 0 ? 1 : this.wavesurfer.getDuration());
+        this.wavesurfer.seekTo(target >= 1 ? 1 : (target <= 0 ? 0 : target));
         this.currTimeStr = new Date(time * 1000).toISOString().substr(11, 8);
         if (this.currTimeStr.substr(0, 2) == '00') {
           this.currTimeStr = this.currTimeStr.substr(3, 5);
         }
       }
     });
+
+    this.appService.currSongObs.subscribe(song => {
+      if (this.song?.id != song?.id) {
+        this.wavesurfer.seekTo(0);
+      }
+    })
 
     this.trackService.getByCode(this.username, this.code).subscribe(resp => {
       if (resp.success) {

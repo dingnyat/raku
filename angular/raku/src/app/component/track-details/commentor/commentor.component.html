@@ -11,10 +11,15 @@
       <div>
         {{cmt.content}}
       </div>
-      <button class="reply-btn" (click)="displayReply()">
-        <fa-icon [icon]="faReply"></fa-icon>
-        Reply
-      </button>
+      <div>
+        <button class="reply-btn" (click)="displayReply()">
+          <fa-icon [icon]="faReply"></fa-icon>
+          Reply
+        </button>
+        <button class="delete-btn ml-1" [class.d-none]="cmt.uploader.username != user.username" (click)="delete(cmt)">
+          <fa-icon [icon]="faTrashAlt"></fa-icon>
+        </button>
+      </div>
     </div>
   </div>
 </div>

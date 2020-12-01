@@ -1,2 +1,2 @@
-1. Logout chưa hoàn toàn. phải logout 2 lần mới hết (front)
-2. Khi ở màn hình của track. track đang chạy đồng bộ với media player. chuyển bài trên queue next up thì wave ko trở về đầu
+1. (done) Logout chưa hoàn toàn. phải logout 2 lần mới hết (front)
+2. (done) Khi ở màn hình của track. track đang chạy đồng bộ với media player. chuyển bài trên queue next up thì wave ko trở về đầu

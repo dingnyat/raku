@@ -1,7 +1,7 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Comment} from "../../../model/comment";
 import {UserPrincipal} from "../../../model/UserPrincipal";
-import {faReply} from "@fortawesome/free-solid-svg-icons";
+import {faReply, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {UserService} from "../../../service/user.service";
 import {TrackService} from "../../../service/track.service";
 import * as moment from 'moment';
@@ -28,6 +28,7 @@ export class CommentorComponent implements OnInit {
   faReply = faReply;
 
   showReply = false;
+  faTrashAlt = faTrashAlt;
 
   constructor(private userService: UserService, private trackService: TrackService) {
   }
@@ -60,5 +61,13 @@ export class CommentorComponent implements OnInit {
 
   convertTimespan(time: Date) {
     return moment(time).startOf("second").fromNow();
+  }
+
+  delete(cmt: Comment) {
+    if (confirm("Do you want to delete the comment?")) {
+      this.userService.deleteComment(cmt).subscribe(resp => {
+        this.reload();
+      });
+    }
   }
 }
