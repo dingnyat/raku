@@ -30,6 +30,7 @@ import {AuthGuard} from "./interceptor/auth.guard";
 import {TrackDetailsComponent} from './component/track-details/track-details.component';
 import {YourTracksComponent} from './component/your-tracks/your-tracks.component';
 import { CommentorComponent } from './component/track-details/commentor/commentor.component';
+import { EmailVerifyComponent } from './component/email-verify/email-verify.component';
 
 export let InjectorInstance: Injector;
 
@@ -46,6 +47,7 @@ export let InjectorInstance: Injector;
     TrackDetailsComponent,
     YourTracksComponent,
     CommentorComponent,
+    EmailVerifyComponent,
   ],
   imports: [
     BrowserModule,

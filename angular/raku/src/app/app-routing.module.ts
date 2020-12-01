@@ -5,9 +5,11 @@ import {Oauth2RedirectComponent} from "./component/oauth2-redirect/oauth2-redire
 import {AuthGuard} from "./interceptor/auth.guard";
 import {TrackDetailsComponent} from "./component/track-details/track-details.component";
 import {YourTracksComponent} from "./component/your-tracks/your-tracks.component";
+import {EmailVerifyComponent} from "./component/email-verify/email-verify.component";
 
 const routes: Routes = [
   {path: 'oauth2/redirect', component: Oauth2RedirectComponent},
+  {path: 'auth/email-verify', component: EmailVerifyComponent},
   // phải đặt non-parameterised trước
   {path: ":username/tracks", component: YourTracksComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
   {path: ":username/:code", component: TrackDetailsComponent},

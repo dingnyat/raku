@@ -28,4 +28,8 @@ export class AuthenticationService extends BaseService {
   register(body: any): Observable<any> {
     return this.http.post(this.BASE_URL + this.contextUrl + '/signup', body);
   }
+
+  verifyEmailKey(key: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/email-verify", {params: {key: key}});
+  }
 }
