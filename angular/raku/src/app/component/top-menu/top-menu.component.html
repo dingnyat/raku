@@ -55,6 +55,11 @@
                     Profile</a>
                 </li>
                 <li>
+                  <a [routerLink]="'/' + userInfo.username + '/tracks'" class="menu-item">
+                    <fa-icon [icon]="faMusic" class="ml-1 mr-2"></fa-icon>
+                    Your tracks</a>
+                </li>
+                <li>
                   <a class="menu-item">
                     <fa-icon [icon]="faCog" class="ml-1 mr-2"></fa-icon>
                     Settings</a>

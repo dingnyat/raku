@@ -5,4 +5,4 @@
 5. (done) Xóa comment
 6. Áp dụng private/public. Bắt đầu phân loại người dùng trả phí
 7. Search
-8. Trang verify email chưa có
+8. (done) Trang verify email chưa có

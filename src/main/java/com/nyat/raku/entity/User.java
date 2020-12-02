@@ -79,5 +79,6 @@ public class User {
     private Set<Playlist> playlists;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "uploader")
+    @OrderBy("uploadTime desc ")
     private Set<Track> tracks;
 }

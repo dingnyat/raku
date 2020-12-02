@@ -105,7 +105,7 @@ public class UserController {
             List<TrackDTO> tracks = userService.getHistoryTracks(userPrincipal.getUsername());
             return new ApiResponse<>(true, tracks);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
             return new ApiResponse<>(false, null);
         }
     }
@@ -127,7 +127,6 @@ public class UserController {
     @ResponseBody
     public ApiResponse<?> deleteComment(@PathVariable("cmt-id") Integer cmtId) {
         try {
-            UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
             userService.deleteComment(cmtId);
             return new ApiResponse<>(true, null);
         } catch (Exception e) {

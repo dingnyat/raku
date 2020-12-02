@@ -1,0 +1,32 @@
+<div class="row mx-0 px-5 pt-5">
+  <div class="border-bottom px-0 mb-5 col-12 row">
+    <h2>Your tracks</h2>
+  </div>
+  <div class="row col-12 px-0">
+    <ng-container *ngFor="let track of tracks">
+      <div class="track-item row col-12 px-0 py-2 mx-0 border-top">
+        <div class="col-9 d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-start align-items-center">
+            <input type="checkbox" class="mr-3">
+            <div *ngIf="!track?.imageUrl" class="non-image-audio"></div>
+            <img *ngIf="track?.imageUrl" class="audio-image" [src]="track.imageUrl">
+            <div class="ml-3 d-flex flex-column justify-content-start align-items-start">
+              <span class="pointer" [routerLink]="track.link">{{track.title}} <fa-icon title="Private Track" *ngIf="track.privacy.toUpperCase() == '_PRIVATE'" [icon]="faLock"></fa-icon></span>
+              <span class="pointer text-muted" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</span>
+            </div>
+          </div>
+          <div class="action-btn">
+            <button><fa-icon [icon]="faDownload"></fa-icon></button>
+            <button><fa-icon [icon]="faPen"></fa-icon></button>
+            <button (click)="deleteTrack(track)"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
+          </div>
+        </div>
+        <div class="col-3 d-flex justify-content-between align-items-center">
+          <span>{{track.duration}}</span>
+          <span class="text-muted">{{convertTimespan(track.uploadTime)}}</span>
+        </div>
+      </div>
+    </ng-container>
+    <p *ngIf="tracks?.length <= 0">You have no track. Upload more!</p>
+  </div>
+</div>

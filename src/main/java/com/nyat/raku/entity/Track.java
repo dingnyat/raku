@@ -84,6 +84,14 @@ public class Track {
     @ManyToMany(fetch = FetchType.LAZY, mappedBy = "likeTracks")
     private Set<User> likes;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "track")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "track", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private Set<RepostTrack> reposts;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "track", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<HistoryTrack> historyTracks;
+
+    @PreRemove
+    private void removeLikeTrackFromUser() {
+        likes.forEach(user -> user.getLikeTracks().remove(this));
+    }
 }

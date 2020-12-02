@@ -1,0 +1,29 @@
+.non-image-audio {
+  width: 60px;
+  height: 60px;
+  background-image: linear-gradient(135deg, #846170, #70929c);
+}
+
+.audio-image {
+  width: 60px;
+  height: 60px;
+}
+
+.track-item:hover {
+  background-color: #e9e9e9;
+}
+
+.action-btn {
+  visibility: hidden;
+}
+
+.track-item:hover .action-btn {
+  visibility: visible;
+}
+
+.action-btn button {
+  border: 1px solid #9c9c9c;
+  background-color: white;
+  border-radius: 10%;
+  margin-right: 4px;
+}

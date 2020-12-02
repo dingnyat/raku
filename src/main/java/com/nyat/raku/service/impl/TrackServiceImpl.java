@@ -9,6 +9,8 @@ import com.nyat.raku.entity.User;
 import com.nyat.raku.model.*;
 import com.nyat.raku.payload.TrackStats;
 import com.nyat.raku.payload.UserTrackInfo;
+import com.nyat.raku.security.AdvancedSecurityContextHolder;
+import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.TrackService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,7 +79,11 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public void delete(Integer id) {
-
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        Track track = trackDAO.get(id);
+        if (track.getUploader().getUsername().equals(userPrincipal.getUsername())) {
+            trackDAO.delete(track);
+        }
     }
 
     @Override

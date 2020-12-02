@@ -123,6 +123,18 @@ public class TrackController {
         }
     }
 
+    @GetMapping("/delete/{trackId}")
+    @ResponseBody
+    public ApiResponse<?> delete(@PathVariable("trackId") Integer trackId) {
+        try {
+            trackService.delete(trackId);
+            return new ApiResponse<>(true, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
     @GetMapping("/user-track-info")
     @ResponseBody
     public ApiResponse<UserTrackInfo> getUserTrackInfo(@RequestParam("username") String username, @RequestParam("code") String code) {
