@@ -109,6 +109,50 @@ public class TrackController {
         }
     }
 
+    @PostMapping("/update")
+    @ResponseBody
+    @Transactional
+    public ApiResponse<TrackDTO> update(@ModelAttribute TrackFormData formData) {
+        try {
+            TrackDTO trackDTO = new TrackDTO();
+            trackDTO.setId(formData.getId());
+            trackDTO.setTitle(formData.getTitle());
+            trackDTO.setCode(formData.getCode());
+            trackDTO.setComposer(formData.getComposer());
+            trackDTO.setArtist(formData.getArtist());
+            trackDTO.setDescription(formData.getDescription());
+            trackDTO.setPrivacy(formData.getPrivacy().equalsIgnoreCase("public") ? Privacy._PUBLIC : Privacy._PRIVATE);
+            trackDTO.setGenres((new ObjectMapper()).readValue(formData.getGenres(), new TypeReference<Set<GenreDTO>>() {
+            }));
+            trackDTO.setTags((new ObjectMapper()).readValue(formData.getTags(), new TypeReference<Set<String>>() {
+            }));
+
+            UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+            if (formData.getImage() != null) {
+                CropData cropData = (new ObjectMapper()).readValue(formData.getCropData(), CropData.class);
+                BufferedImage originalImg = ImageIO.read(formData.getImage().getInputStream());
+                BufferedImage scaledImg = Scalr.resize(originalImg,
+                        Scalr.Method.SPEED,
+                        Scalr.Mode.AUTOMATIC,
+                        (int) (originalImg.getWidth() * cropData.getScale()),
+                        (int) (originalImg.getHeight() * cropData.getScale()));
+
+                BufferedImage resultImg = scaledImg.getSubimage(cropData.getX(), cropData.getY(), cropData.getW(), cropData.getH());
+                File dir = new File(this.ROOT_PATH + File.separator + "user" + File.separator + userPrincipal.getUsername() + File.separator + "image");
+                if (!dir.exists()) dir.mkdirs();
+                File imgFile = new File(this.ROOT_PATH + File.separator + "user" + File.separator + userPrincipal.getUsername() + File.separator + "image" + File.separator + formData.getCode() + ".jpg");
+                ImageIO.write(resultImg, "jpg", imgFile);
+                trackDTO.setImageUrl(formData.getCode() + ".jpg");
+            }
+
+            trackService.update(trackDTO);
+            return new ApiResponse<>(true, trackDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
 
     @GetMapping("/get")
     @ResponseBody

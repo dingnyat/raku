@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 @Data
 @JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class TrackFormData {
+    private Integer id;
     private String tempAudioName;
     private String title;
     private String code;

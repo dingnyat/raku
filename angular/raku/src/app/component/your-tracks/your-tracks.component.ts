@@ -7,6 +7,8 @@ import {AppSettings} from "../../global/app-settings";
 import {faTrashAlt} from "@fortawesome/free-regular-svg-icons";
 import {faDownload, faLock, faPen} from "@fortawesome/free-solid-svg-icons";
 import {TrackService} from "../../service/track.service";
+import {MatDialog} from "@angular/material/dialog";
+import {UpdateTrackDialogComponent} from "./update-track-dialog/update-track-dialog.component";
 
 @Component({
   selector: 'app-your-tracks',
@@ -21,7 +23,7 @@ export class YourTracksComponent implements OnInit {
   faDownload = faDownload;
   faLock = faLock;
 
-  constructor(private userService: UserService, private title: Title, private trackService: TrackService) {
+  constructor(private userService: UserService, private title: Title, private trackService: TrackService, public dialog: MatDialog,) {
   }
 
   ngOnInit(): void {
@@ -53,6 +55,19 @@ export class YourTracksComponent implements OnInit {
           track.link = "/" + track.uploader.username + "/" + track.code;
         });
       }
+    })
+  }
+
+  updateTrack(track: Song) {
+    const dialogRef = this.dialog.open(UpdateTrackDialogComponent, {
+      width: "900px",
+      height: "auto",
+      disableClose: true,
+      data: {track: track}
+    });
+    
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
     })
   }
 }

@@ -5,6 +5,7 @@ import com.nyat.raku.dao.TrackDAO;
 import com.nyat.raku.dao.UserDAO;
 import com.nyat.raku.entity.*;
 import com.nyat.raku.model.CommentDTO;
+import com.nyat.raku.model.GenreDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.CommentPayload;
@@ -285,6 +286,13 @@ public class UserServiceImpl implements UserService {
             track.setArtist(t.getArtist());
             track.setDuration(t.getDuration());
             track.setTags(t.getTags());
+            track.setGenres(t.getGenres().stream().map(genre -> {
+                GenreDTO genreDTO = new GenreDTO();
+                genreDTO.setId(genre.getId());
+                genreDTO.setCode(genre.getCode());
+                genreDTO.setName(genre.getName());
+                return genreDTO;
+            }).collect(Collectors.toSet()));
             track.setDescription(t.getDescription());
             track.setPrivacy(t.getPrivacy());
             track.setPlays(t.getPlays());

@@ -16,7 +16,7 @@ public class AuditorAwareImpl implements AuditorAware<User> {
     @Autowired
     private UserDAO userDAO;
 
-    @Override
+    @Override // should not use anymore. call too many times
     public Optional<User> getCurrentAuditor() {
         UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
         if (userPrincipal != null) {

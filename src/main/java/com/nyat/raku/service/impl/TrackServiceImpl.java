@@ -74,7 +74,21 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public void update(TrackDTO trackDTO) {
-
+        Track track = trackDAO.get(trackDTO.getId());
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        if (track.getUploader().getUsername().equals(userPrincipal.getUsername())) {
+            track.setTitle(trackDTO.getTitle());
+            track.setCode(trackDTO.getCode());
+            track.setComposer(trackDTO.getComposer());
+            track.setArtist(trackDTO.getArtist());
+            track.setDescription(trackDTO.getDescription());
+            track.setPrivacy(trackDTO.getPrivacy());
+            track.setImageUrl(trackDTO.getImageUrl());
+            track.setTags(trackDTO.getTags());
+            if (trackDTO.getGenres() != null) {
+                track.setGenres(trackDTO.getGenres().stream().map(genreDTO -> genreDAO.get(genreDTO.getId())).collect(Collectors.toSet()));
+            }
+        }
     }
 
     @Override

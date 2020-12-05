@@ -27,6 +27,10 @@ export class TrackService extends BaseService {
     return this.http.post(this.BASE_URL + this.contextUrl + "/create", formData);
   }
 
+  update(formData: FormData): Observable<any> {
+    return this.http.post(this.BASE_URL + this.contextUrl + "/update", formData);
+  }
+
   getByCode(username, code): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get", {params: {username: username, code: code}});
   }

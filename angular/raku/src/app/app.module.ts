@@ -31,6 +31,7 @@ import {TrackDetailsComponent} from './component/track-details/track-details.com
 import {YourTracksComponent} from './component/your-tracks/your-tracks.component';
 import { CommentorComponent } from './component/track-details/commentor/commentor.component';
 import { EmailVerifyComponent } from './component/email-verify/email-verify.component';
+import { UpdateTrackDialogComponent } from './component/your-tracks/update-track-dialog/update-track-dialog.component';
 
 export let InjectorInstance: Injector;
 
@@ -48,6 +49,7 @@ export let InjectorInstance: Injector;
     YourTracksComponent,
     CommentorComponent,
     EmailVerifyComponent,
+    UpdateTrackDialogComponent,
   ],
   imports: [
     BrowserModule,
