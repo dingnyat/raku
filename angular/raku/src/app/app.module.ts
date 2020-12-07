@@ -29,9 +29,10 @@ import {Oauth2RedirectComponent} from './component/oauth2-redirect/oauth2-redire
 import {AuthGuard} from "./interceptor/auth.guard";
 import {TrackDetailsComponent} from './component/track-details/track-details.component';
 import {YourTracksComponent} from './component/your-tracks/your-tracks.component';
-import { CommentorComponent } from './component/track-details/commentor/commentor.component';
-import { EmailVerifyComponent } from './component/email-verify/email-verify.component';
-import { UpdateTrackDialogComponent } from './component/your-tracks/update-track-dialog/update-track-dialog.component';
+import {CommentorComponent} from './component/track-details/commentor/commentor.component';
+import {EmailVerifyComponent} from './component/email-verify/email-verify.component';
+import {UpdateTrackDialogComponent} from './component/your-tracks/update-track-dialog/update-track-dialog.component';
+import { ToastrModule } from 'ngx-toastr';
 
 export let InjectorInstance: Injector;
 
@@ -56,6 +57,7 @@ export let InjectorInstance: Injector;
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     FontAwesomeModule,
     PlyrModule,
     MatTabsModule,

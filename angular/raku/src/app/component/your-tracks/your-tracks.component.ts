@@ -9,6 +9,7 @@ import {faDownload, faLock, faPen} from "@fortawesome/free-solid-svg-icons";
 import {TrackService} from "../../service/track.service";
 import {MatDialog} from "@angular/material/dialog";
 import {UpdateTrackDialogComponent} from "./update-track-dialog/update-track-dialog.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-your-tracks',
@@ -23,7 +24,11 @@ export class YourTracksComponent implements OnInit {
   faDownload = faDownload;
   faLock = faLock;
 
-  constructor(private userService: UserService, private title: Title, private trackService: TrackService, public dialog: MatDialog,) {
+  constructor(private userService: UserService,
+              private title: Title,
+              private trackService: TrackService,
+              public dialog: MatDialog,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -39,6 +44,7 @@ export class YourTracksComponent implements OnInit {
     if (confirm("Do you want to delete forever this track: " + track.title)) {
       this.trackService.deleteTrack(track).subscribe(resp => {
         if (resp.success) {
+          this.toastr.success("Deleted the track successfully!")
           this.reloadData();
         }
       });
@@ -65,9 +71,12 @@ export class YourTracksComponent implements OnInit {
       disableClose: true,
       data: {track: track}
     });
-    
+
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+       if (res.success) {
+         this.toastr.success("Updated the track successfully!");
+         this.reloadData();
+       }
     })
   }
 }

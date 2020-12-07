@@ -37,6 +37,7 @@
     "ngx-mat-select-search": "^3.1.2",
     "ngx-moment": "^5.0.0",
     "ngx-plyr": "^4.0.0",
+    "ngx-toastr": "^13.2.0",
     "plyr": "^3.6.2",
     "popper.js": "^1.16.1",
     "process": "^0.11.10",

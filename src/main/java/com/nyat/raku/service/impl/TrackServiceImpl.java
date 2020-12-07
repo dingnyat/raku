@@ -12,6 +12,7 @@ import com.nyat.raku.payload.UserTrackInfo;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.TrackService;
+import com.nyat.raku.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -46,6 +47,10 @@ public class TrackServiceImpl implements TrackService {
         track.setArtist(trackDTO.getArtist());
         track.setDescription(trackDTO.getDescription());
         track.setPlays(0);
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        User user = userDAO.getByUsername(userPrincipal.getUsername());
+        track.setUploader(user);
+        track.setUploadTime(DateTimeUtils.getCurrentDateTime());
         track.setPrivacy(trackDTO.getPrivacy());
         track.setDuration(trackDTO.getDuration());
         track.setImageUrl(trackDTO.getImageUrl());
@@ -83,7 +88,9 @@ public class TrackServiceImpl implements TrackService {
             track.setArtist(trackDTO.getArtist());
             track.setDescription(trackDTO.getDescription());
             track.setPrivacy(trackDTO.getPrivacy());
-            track.setImageUrl(trackDTO.getImageUrl());
+            if (trackDTO.getImageUrl() != null) {
+                track.setImageUrl(trackDTO.getImageUrl());
+            }
             track.setTags(trackDTO.getTags());
             if (trackDTO.getGenres() != null) {
                 track.setGenres(trackDTO.getGenres().stream().map(genreDTO -> genreDAO.get(genreDTO.getId())).collect(Collectors.toSet()));

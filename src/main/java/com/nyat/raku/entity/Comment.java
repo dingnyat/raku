@@ -1,16 +1,11 @@
 package com.nyat.raku.entity;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Set;
 
 @Entity
 @Table(name = "tbl_comment")
-@EntityListeners(AuditingEntityListener.class)
 public class Comment {
 
     @Id
@@ -21,11 +16,9 @@ public class Comment {
     private String content;
 
     @Column(name = "created_date")
-    @CreatedDate
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdDate;
 
-    @CreatedBy
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "uploader_id", nullable = false, referencedColumnName = "id")
     private User uploader;

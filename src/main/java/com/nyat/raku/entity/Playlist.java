@@ -1,21 +1,16 @@
 package com.nyat.raku.entity;
 
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
 @Table(name = "tbl_playlist", uniqueConstraints = {@UniqueConstraint(columnNames = {"code", "created_by"})})
-@EntityListeners(AuditingEntityListener.class)
 public class Playlist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @CreatedBy
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "created_by", nullable = false, referencedColumnName = "id")
     private User createdBy;

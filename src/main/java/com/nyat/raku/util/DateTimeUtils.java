@@ -16,6 +16,10 @@ public class DateTimeUtils {
     public static String DD_MM_YYYY_HH_MM = "dd/MM/yyyy HH:mm";
     public static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
 
+    public static Date getCurrentDateTime() {
+        return new Date();
+    }
+
     public static Date parseDate(String date, String pattern) {
         SimpleDateFormat sdf = new SimpleDateFormat(pattern);
         try {

@@ -10,7 +10,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 @SpringBootApplication
 @EnableConfigurationProperties({AppProperties.class})
 @EnableAspectJAutoProxy
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
 public class RakuApplication {
 
     public static void main(String[] args) {

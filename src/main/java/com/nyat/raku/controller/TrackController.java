@@ -129,6 +129,7 @@ public class TrackController {
 
             UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
             if (formData.getImage() != null) {
+                System.out.println(formData.getImage().getOriginalFilename());
                 CropData cropData = (new ObjectMapper()).readValue(formData.getCropData(), CropData.class);
                 BufferedImage originalImg = ImageIO.read(formData.getImage().getInputStream());
                 BufferedImage scaledImg = Scalr.resize(originalImg,

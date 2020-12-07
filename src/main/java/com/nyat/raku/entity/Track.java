@@ -3,9 +3,6 @@ package com.nyat.raku.entity;
 import com.nyat.raku.model.Privacy;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,7 +12,6 @@ import java.util.Set;
 @Setter
 @Entity
 @Table(name = "tbl_track", uniqueConstraints = {@UniqueConstraint(columnNames = {"code", "uploader_id"})})
-@EntityListeners(AuditingEntityListener.class)
 public class Track {
 
     @Id
@@ -33,7 +29,6 @@ public class Track {
 
     @Column(name = "upload_time", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    @CreatedDate
     private Date uploadTime;
 
     @Column(name = "description", columnDefinition = "text")
@@ -58,7 +53,6 @@ public class Track {
     @Column(name = "plays", columnDefinition = "integer default 0")
     private Integer plays;
 
-    @CreatedBy
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "uploader_id", nullable = false, referencedColumnName = "id")
     private User uploader;

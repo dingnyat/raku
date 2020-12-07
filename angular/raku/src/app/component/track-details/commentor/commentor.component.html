@@ -16,7 +16,7 @@
           <fa-icon [icon]="faReply"></fa-icon>
           Reply
         </button>
-        <button class="delete-btn ml-1" [class.d-none]="cmt.uploader.username != user.username" (click)="delete(cmt)">
+        <button class="delete-btn ml-1" [class.d-none]="cmt?.uploader.username != user.username" (click)="delete(cmt)">
           <fa-icon [icon]="faTrashAlt"></fa-icon>
         </button>
       </div>

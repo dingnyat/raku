@@ -14,6 +14,7 @@ import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.Role;
 import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.UserService;
+import com.nyat.raku.util.DateTimeUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -180,6 +181,10 @@ public class UserServiceImpl implements UserService {
                 Comment comment = new Comment();
                 comment.setContent(commentPayload.getContent());
                 comment.setTrack(track);
+                UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+                User user = userDAO.getByUsername(userPrincipal.getUsername());
+                comment.setUploader(user);
+                comment.setCreatedDate(DateTimeUtils.getCurrentDateTime());
                 comment = commentDAO.create(comment);
 
                 CommentDTO commentDTO = new CommentDTO();
@@ -203,6 +208,10 @@ public class UserServiceImpl implements UserService {
                 Comment reply = new Comment();
                 reply.setContent(commentPayload.getContent());
                 reply.setParent(comment);
+                UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+                User user = userDAO.getByUsername(userPrincipal.getUsername());
+                reply.setUploader(user);
+                reply.setCreatedDate(DateTimeUtils.getCurrentDateTime());
                 reply = commentDAO.create(reply);
 
                 CommentDTO commentDTO = new CommentDTO();
