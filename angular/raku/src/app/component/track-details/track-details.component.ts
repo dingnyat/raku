@@ -27,6 +27,8 @@ import {UserTrackInfo} from "../../model/user-track-info";
 import {TrackStats} from "../../model/track-stats";
 import {UploaderStats} from "../../model/uploader-stats";
 import * as moment from 'moment';
+import {MatDialog} from "@angular/material/dialog";
+import {ShareDialogComponent} from "../share-dialog/share-dialog.component";
 
 @Component({
   selector: 'track-details',
@@ -67,7 +69,8 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
               private trackService: TrackService,
               private titleService: Title,
               public appService: AppService,
-              private userService: UserService) {
+              private userService: UserService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -275,5 +278,17 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
 
   convertTimespan(time: Date) {
     return moment(time).startOf("second").fromNow();
+  }
+
+  showShareDialog(track: Song) {
+    const dialogRef = this.dialog.open(ShareDialogComponent, {
+      width: "500px",
+      height: "auto",
+      data: {track: track}
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+    })
   }
 }

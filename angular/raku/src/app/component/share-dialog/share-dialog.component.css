@@ -1,0 +1,13 @@
+.tag-chip {
+  background-color: #a5a5a5;
+  color: white;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-bottom: 2px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.upload-time, .tag-chip {
+  font-size: 0.8em;
+}

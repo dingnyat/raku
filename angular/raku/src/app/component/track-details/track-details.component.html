@@ -54,7 +54,7 @@
           <fa-icon [icon]="faPaperclip"></fa-icon>
           {{userTrackInfo?.repost ? "Reposted" : "Repost"}}
         </button>
-        <button>
+        <button (click)="showShareDialog(song)">
           <fa-icon [icon]="faShare"></fa-icon>
           Share
         </button>

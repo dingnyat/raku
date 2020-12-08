@@ -32,6 +32,7 @@ import {YourTracksComponent} from './component/your-tracks/your-tracks.component
 import { CommentorComponent } from './component/track-details/commentor/commentor.component';
 import { EmailVerifyComponent } from './component/email-verify/email-verify.component';
 import { UpdateTrackDialogComponent } from './component/your-tracks/update-track-dialog/update-track-dialog.component';
+import { ShareDialogComponent } from './component/share-dialog/share-dialog.component';
 
 export let InjectorInstance: Injector;
 
@@ -50,6 +51,7 @@ export let InjectorInstance: Injector;
     CommentorComponent,
     EmailVerifyComponent,
     UpdateTrackDialogComponent,
+    ShareDialogComponent,
   ],
   imports: [
     BrowserModule,
