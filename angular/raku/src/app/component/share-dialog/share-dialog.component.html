@@ -1,10 +1,13 @@
-<div class="row mx-0 justify-content-start align-items-center">
-  <div class="w-25">image</div>
-  <div class="w-75">
+<div class="row m-2 pr-2 justify-content-start align-items-center border">
+  <div class="w-25">
+    <img *ngIf="data.track?.imageUrl" [src]="data.track.imageUrl" class="audio-image">
+    <div *ngIf="!data.track?.imageUrl" class="non-image-audio"></div>
+  </div>
+  <div class="w-75 pl-2">
     <div class="d-flex justify-content-between align-items-center">
       <div>
-        <div>{{data.track.title}}</div>
-        <div>{{data.track.uploader.name}}</div>
+        <div class="uploader">{{data.track.uploader.name}}</div>
+        <div class="track-title">{{data.track.title}}</div>
       </div>
       <div>
         <div class="upload-time text-right">{{convertTimespan(data.track.uploadTime)}}</div>
@@ -13,9 +16,16 @@
         </div>
       </div>
     </div>
-    <div>{{data.track.description}}</div>
+    <div class="description text-muted">{{data.track.description}}</div>
   </div>
 </div>
-<div class="row mx-0">
-  social share icon buttons
+<div class="row m-2 flex-column">
+  <h5>Share</h5>
+  <div>
+    <a type="button" class="share-button logo-twitter" tabindex="0" [href]="'https://twitter.com/intent/tweet?url=' + encodeUrl(shareLink)" target="_blank" title="Share on Twitter" aria-label="Share on Twitter">Share on Twitter</a>
+    <a type="button" class="share-button logo-facebook" tabindex="0" [href]="'https://www.facebook.com/sharer/sharer.php?u=' + encodeUrl(shareLink)" target="_blank" title="Share on Facebook" aria-label="Share on Facebook">Share on Facebook</a>
+  </div>
+  <div>
+    <input class="w-100 mt-3" [value]="shareLink">
+  </div>
 </div>
