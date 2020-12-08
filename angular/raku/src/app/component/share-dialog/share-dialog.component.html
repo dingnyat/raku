@@ -1,0 +1,21 @@
+<div class="row mx-0 justify-content-start align-items-center">
+  <div class="w-25">image</div>
+  <div class="w-75">
+    <div class="d-flex justify-content-between align-items-center">
+      <div>
+        <div>{{data.track.title}}</div>
+        <div>{{data.track.uploader.name}}</div>
+      </div>
+      <div>
+        <div class="upload-time text-right">{{convertTimespan(data.track.uploadTime)}}</div>
+        <div>
+          <span class="tag-chip" *ngFor="let tag of data.track.tags">{{tag}}</span>
+        </div>
+      </div>
+    </div>
+    <div>{{data.track.description}}</div>
+  </div>
+</div>
+<div class="row mx-0">
+  social share icon buttons
+</div>

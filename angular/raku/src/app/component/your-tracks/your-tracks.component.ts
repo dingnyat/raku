@@ -79,4 +79,8 @@ export class YourTracksComponent implements OnInit {
        }
     })
   }
+
+  download(track: Song) {
+    location.href = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio-download/" + track.code;
+  }
 }

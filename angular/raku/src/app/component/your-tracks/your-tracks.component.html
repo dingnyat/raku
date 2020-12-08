@@ -16,7 +16,7 @@
             </div>
           </div>
           <div class="action-btn">
-            <button><fa-icon [icon]="faDownload"></fa-icon></button>
+            <button (click)="download(track)"><fa-icon [icon]="faDownload"></fa-icon></button>
             <button (click)="updateTrack(track)"><fa-icon [icon]="faPen"></fa-icon></button>
             <button (click)="deleteTrack(track)"><fa-icon [icon]="faTrashAlt"></fa-icon></button>
           </div>
