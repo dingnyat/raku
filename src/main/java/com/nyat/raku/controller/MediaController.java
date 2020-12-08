@@ -45,7 +45,7 @@ public class MediaController {
 
     @GetMapping(value = "/{username}/audio-download/{song-code}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @ResponseBody
-    public byte[] downloadAudio(@PathVariable("song-code") String songCode, @PathVariable("username") String username) {
+    public byte[] downloadAudio(@PathVariable("song-code") String songCode, @PathVariable("username") String username, HttpServletResponse resp) {
         try {
             TrackDTO track = trackService.getByCode(username, songCode);
             String path = this.ROOT_PATH + File.separator + "user" + File.separator + username + File.separator + "audio" + File.separator + songCode + track.getExt();
@@ -53,6 +53,7 @@ public class MediaController {
             if (!file.exists()) {
                 return new byte[0];
             }
+            resp.setHeader("Content-Disposition", "attachment; filename=\"" + track.getCode() + track.getExt() + "\"");
             return Files.readAllBytes(file.toPath());
         } catch (Exception e) {
             System.out.println(e);

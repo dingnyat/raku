@@ -1,7 +1,7 @@
 1. Làm share bài hát.
 2. Làm trang cá nhân người dùng
 3. Tạo playlist
-4. Xóa, sửa bài hát (Quản lý)
+4. (done) Xóa, sửa bài hát
 5. (done) Xóa comment
 6. Áp dụng private/public. Bắt đầu phân loại người dùng trả phí
 7. Search

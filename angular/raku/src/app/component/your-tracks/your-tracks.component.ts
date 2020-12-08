@@ -65,9 +65,13 @@ export class YourTracksComponent implements OnInit {
       disableClose: true,
       data: {track: track}
     });
-    
+
     dialogRef.afterClosed().subscribe(res => {
       console.log(res);
     })
+  }
+
+  download(track: Song) {
+    location.href = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio-download/" + track.code;
   }
 }
