@@ -1,4 +1,4 @@
-1. Làm share bài hát.
+1. (done) Làm share bài hát
 2. Làm trang cá nhân người dùng
 3. Tạo playlist
 4. (done) Xóa, sửa bài hát
@@ -6,3 +6,7 @@
 6. Áp dụng private/public. Bắt đầu phân loại người dùng trả phí
 7. Search
 8. (done) Trang verify email chưa có
+9. Thống kê của riêng người dùng
+10. Trong Your track có thêm thông tin về tổng thời gian của các bài nhạc / tổng thời gian cho phép (tùy theo gói plan)
+11. Notification
+12. Cập nhật thông tin người dùng

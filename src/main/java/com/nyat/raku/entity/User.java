@@ -81,4 +81,8 @@ public class User {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "uploader")
     @OrderBy("uploadTime desc ")
     private Set<Track> tracks;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
+    @OrderBy("createdDate asc")
+    private Set<License> licenses;
 }
