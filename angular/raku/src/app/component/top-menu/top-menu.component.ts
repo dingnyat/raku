@@ -6,7 +6,7 @@ import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
 import {AppService} from "../../service/app.service";
 import {AppSettings} from "../../global/app-settings";
-import {UserPrincipal} from "../../model/UserPrincipal";
+import {User} from "../../model/user";
 import {SignInUpFormComponent} from "./sign-in-up-form/sign-in-up-form.component";
 import * as moment from 'moment';
 
@@ -20,7 +20,7 @@ export class TopMenuComponent implements OnInit {
   faSignOut = faSignOutAlt;
   faCog = faCog;
 
-  userInfo: UserPrincipal;
+  userInfo: User;
   isAuthenticated: boolean;
   faMusic = faMusic;
 
@@ -34,7 +34,7 @@ export class TopMenuComponent implements OnInit {
   ngOnInit(): void {
     if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME)) {
       this.authService.getCurrentUser().subscribe(resp => {
-        this.userInfo = resp.data as UserPrincipal;
+        this.userInfo = resp.data as User;
         this.appService.setUser(this.userInfo);
       }, error => {
       });
@@ -62,7 +62,7 @@ export class TopMenuComponent implements OnInit {
       if (res == "login_success") {
         if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME)) {
           this.authService.getCurrentUser().subscribe(resp => {
-            this.userInfo = resp.data as UserPrincipal;
+            this.userInfo = resp.data as User;
             this.appService.setUser(this.userInfo);
             this.router.navigateByUrl("/");
           });
@@ -75,7 +75,7 @@ export class TopMenuComponent implements OnInit {
               this.cookieService.set(AppSettings.COOKIE_TOKEN_NAME, resp.data.token,
                 moment(new Date()).add(resp.data.expireTime, 'ms').toDate());
               this.authService.getCurrentUser().subscribe(resp => {
-                this.userInfo = resp.data as UserPrincipal;
+                this.userInfo = resp.data as User;
                 this.appService.setUser(this.userInfo);
                 this.router.navigateByUrl("/");
               });

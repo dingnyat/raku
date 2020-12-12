@@ -1,6 +1,6 @@
 import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {Comment} from "../../../model/comment";
-import {UserPrincipal} from "../../../model/UserPrincipal";
+import {User} from "../../../model/user";
 import {faReply, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {UserService} from "../../../service/user.service";
 import {TrackService} from "../../../service/track.service";
@@ -17,7 +17,7 @@ export class CommentorComponent implements OnInit {
   cmt: Comment;
 
   @Input("cur-user")
-  user: UserPrincipal;
+  user: User;
 
   @Output("reloadComment")
   reloadComment = new EventEmitter<any>();

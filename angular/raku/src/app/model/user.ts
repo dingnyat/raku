@@ -1,9 +1,13 @@
 import {Role} from "../global/role";
 
-export class UserPrincipal {
+export class User {
   username: string;
   name: string;
   vip: boolean;
   imageUrl: string;
-  role: Role
+  role: Role;
+  email: string;
+  bio: string;
+  city: string;
+  country: string;
 }

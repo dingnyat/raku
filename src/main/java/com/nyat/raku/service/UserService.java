@@ -1,8 +1,10 @@
 package com.nyat.raku.service;
 
 
+import com.nyat.raku.entity.Playlist;
 import com.nyat.raku.entity.User;
 import com.nyat.raku.model.CommentDTO;
+import com.nyat.raku.model.PlaylistDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.CommentPayload;
@@ -48,4 +50,12 @@ public interface UserService {
     List<TrackDTO> getTracks(String username);
 
     void deleteComment(Integer cmtId);
+
+    PlaylistDTO createPlaylist(PlaylistDTO playlist);
+
+    List<PlaylistDTO> getMyPlaylist(String username);
+
+    void addToPlaylist(Integer trackId, Integer playlistId);
+
+    void removeFromPlaylist(Integer trackId, Integer playlistId);
 }

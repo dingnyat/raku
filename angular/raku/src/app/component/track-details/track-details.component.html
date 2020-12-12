@@ -65,16 +65,20 @@
           </svg>
           Add to Next up
         </button>
-        <button>
+        <button (click)="addToPlaylist(song)">
           <fa-icon [icon]="faList"></fa-icon>
           Add to playlist
         </button>
       </div>
       <div class="track-stats">
-        <span><fa-icon [icon]="faHeadphones"></fa-icon>{{trackStats?.plays}}</span>
-        <span><fa-icon [icon]="faHeart"></fa-icon>{{trackStats?.like}}</span>
-        <span><fa-icon [icon]="faCommentAlt"></fa-icon>{{trackStats?.comment}}</span>
-        <span><fa-icon [icon]="faPaperclip"></fa-icon>{{trackStats?.repost}}</span>
+        <span><fa-icon [icon]="faHeadphones"></fa-icon>
+          {{trackStats?.plays}}</span>
+        <span><fa-icon [icon]="faHeart"></fa-icon>
+          {{trackStats?.like}}</span>
+        <span><fa-icon [icon]="faCommentAlt"></fa-icon>
+          {{trackStats?.comment}}</span>
+        <span><fa-icon [icon]="faPaperclip"></fa-icon>
+          {{trackStats?.repost}}</span>
       </div>
     </div>
     <div class="row">
@@ -87,10 +91,12 @@
         </span>
         <div class="uploader-stats">
           <span [routerLink]="'/' + song?.uploader?.username + '/followers'" class="mr-2 pointer">
-            <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon> {{uploaderStats?.followers}}
+            <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
+            {{uploaderStats?.followers}}
           </span>
           <span [routerLink]="'/' + song?.uploader?.username + '/tracks'" class="pointer">
-            <fa-icon class="mr-1" [icon]="faMusic"></fa-icon>{{uploaderStats?.tracks}}
+            <fa-icon class="mr-1" [icon]="faMusic"></fa-icon>
+            {{uploaderStats?.tracks}}
           </span>
         </div>
         <div class="follow-uploader">
@@ -124,7 +130,8 @@
           </div>-->
           <div class="comment-area">
             <ng-container *ngIf="song?.comments != null && song?.comments.length > 0">
-              <commentor *ngFor="let cmt of song?.comments" [comment]="cmt" [cur-user]="user" (reloadComment)="reloadComment()"></commentor>
+              <commentor *ngFor="let cmt of song?.comments" [comment]="cmt" [cur-user]="user"
+                         (reloadComment)="reloadComment()"></commentor>
             </ng-container>
             <ng-container *ngIf="song?.comments == null || song?.comments.length == 0">
               <p class="text-muted">Be the first to comment on this track</p>

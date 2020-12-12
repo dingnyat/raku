@@ -3,7 +3,7 @@ package com.nyat.raku.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nyat.raku.model.GenreDTO;
-import com.nyat.raku.model.Privacy;
+import com.nyat.raku.util.Privacy;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.payload.TrackFormData;
@@ -27,6 +27,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
@@ -199,6 +200,28 @@ public class TrackController {
         try {
             TrackStats trackStats = trackService.getTrackStats(username, code);
             return new ApiResponse<>(true, trackStats);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/get-tracks/{username}")
+    public ApiResponse<List<TrackDTO>> getTracksOf(@PathVariable("username") String username) {
+        try {
+            List<TrackDTO> tracks = trackService.getTracksOf(username);
+            return new ApiResponse<>(true, tracks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/get-repost-tracks/{username}")
+    public ApiResponse<List<TrackDTO>> getRepostTracksOf(@PathVariable("username") String username) {
+        try {
+            List<TrackDTO> tracks = trackService.getRepostTracksOf(username);
+            return new ApiResponse<>(true, tracks);
         } catch (Exception e) {
             e.printStackTrace();
             return new ApiResponse<>(false, null);

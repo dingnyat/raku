@@ -50,7 +50,7 @@
             <div class="profile-menu">
               <ul class="menu-list">
                 <li>
-                  <a class="menu-item">
+                  <a [routerLink]="'/' + userInfo.username" class="menu-item">
                     <fa-icon [icon]="faUser" class="ml-1 mr-2"></fa-icon>
                     Profile</a>
                 </li>
@@ -59,11 +59,11 @@
                     <fa-icon [icon]="faMusic" class="ml-1 mr-2"></fa-icon>
                     Your tracks</a>
                 </li>
-                <li>
+                <!--<li>
                   <a class="menu-item">
                     <fa-icon [icon]="faCog" class="ml-1 mr-2"></fa-icon>
                     Settings</a>
-                </li>
+                </li>-->
                 <li (click)="logout()">
                   <span class="menu-item"><fa-icon [icon]="faSignOut" class="ml-1 mr-2"></fa-icon>Sign out</span>
                 </li>

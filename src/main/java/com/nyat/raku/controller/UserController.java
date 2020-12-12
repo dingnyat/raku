@@ -1,6 +1,7 @@
 package com.nyat.raku.controller;
 
 import com.nyat.raku.model.CommentDTO;
+import com.nyat.raku.model.PlaylistDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.ApiResponse;
@@ -135,4 +136,61 @@ public class UserController {
         }
     }
 
+    @PostMapping("/create")
+    @ResponseBody
+    public ApiResponse<?> create(@RequestBody PlaylistDTO playlist) {
+        try {
+            return new ApiResponse<>(true, userService.createPlaylist(playlist));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, "Could not create playlist!");
+        }
+    }
+
+    @GetMapping("/my-playlist")
+    @ResponseBody
+    public ApiResponse<List<PlaylistDTO>> getMyPlaylist() {
+        try {
+            UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+            return new ApiResponse<>(true, userService.getMyPlaylist(userPrincipal.getUsername()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/add-to-playlist")
+    @ResponseBody
+    public ApiResponse<?> addToPlaylist(@RequestParam("trackId") Integer trackId, @RequestParam("playlistId") Integer playlistId) {
+        try {
+            userService.addToPlaylist(trackId, playlistId);
+            return new ApiResponse<>(true, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/remove-from-playlist")
+    @ResponseBody
+    public ApiResponse<?> removeFromPlaylist(@RequestParam("trackId") Integer trackId, @RequestParam("playlistId") Integer playlistId) {
+        try {
+            userService.removeFromPlaylist(trackId, playlistId);
+            return new ApiResponse<>(true, null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @PostMapping("/create-playlist")
+    @ResponseBody
+    public ApiResponse<?> createPlaylist(@RequestBody PlaylistDTO playlist) {
+        try {
+            return new ApiResponse<>(true, userService.createPlaylist(playlist));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
 }

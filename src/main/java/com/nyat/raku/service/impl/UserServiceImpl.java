@@ -4,10 +4,7 @@ import com.nyat.raku.dao.CommentDAO;
 import com.nyat.raku.dao.TrackDAO;
 import com.nyat.raku.dao.UserDAO;
 import com.nyat.raku.entity.*;
-import com.nyat.raku.model.CommentDTO;
-import com.nyat.raku.model.GenreDTO;
-import com.nyat.raku.model.TrackDTO;
-import com.nyat.raku.model.UserDTO;
+import com.nyat.raku.model.*;
 import com.nyat.raku.payload.CommentPayload;
 import com.nyat.raku.payload.UserStats;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
@@ -131,9 +128,11 @@ public class UserServiceImpl implements UserService {
             UserDTO userDTO = new UserDTO();
             userDTO.setId(user.getId());
             userDTO.setName(user.getName());
-            userDTO.setEmail(user.getEmail());
             userDTO.setUsername(user.getUsername());
-
+            userDTO.setImageUrl(user.getImageUrl());
+            userDTO.setBio(user.getBio());
+            userDTO.setCity(user.getCity());
+            userDTO.setCountry(user.getCountry());
             return userDTO;
         }
         return null;
@@ -237,6 +236,7 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.getByUsername(username);
         UserStats userStats = new UserStats();
         userStats.setFollowers(user.getFollowers().size());
+        userStats.setFollowing(user.getFollowingUsers().size());
         userStats.setTracks(user.getTracks().size());
         UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
         if (user.getFollowers().stream().anyMatch(u -> u.getUsername().equals(userPrincipal.getUsername()))) {
@@ -327,6 +327,66 @@ public class UserServiceImpl implements UserService {
         Comment comment = commentDAO.get(cmtId);
         if (comment.getUploader().getUsername().equals(userPrincipal.getUsername())) {
             commentDAO.remove(comment);
+        }
+    }
+
+    @Override
+    public PlaylistDTO createPlaylist(PlaylistDTO playlist) {
+        Playlist p = new Playlist();
+        p.setTitle(playlist.getTitle());
+        p.setCode(playlist.getCode());
+        p.setPrivacy(playlist.getPrivacy());
+        p.setCreatedTime(new Date());
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        User user = userDAO.getByUsername(userPrincipal.getUsername());
+        p.setCreatedBy(user);
+        user.getPlaylists().add(p);
+        playlist.setId(p.getId());
+        return playlist;
+    }
+
+    @Override
+    public List<PlaylistDTO> getMyPlaylist(String username) {
+        User user = userDAO.getByUsername(username);
+        return user.getPlaylists().stream().map(playlist -> {
+            PlaylistDTO p = new PlaylistDTO();
+            p.setId(playlist.getId());
+            p.setTitle(playlist.getTitle());
+            p.setCode(playlist.getCode());
+            p.setPrivacy(playlist.getPrivacy());
+            UserDTO userDTO = new UserDTO();
+            userDTO.setUsername(playlist.getCreatedBy().getUsername());
+            userDTO.setName(playlist.getCreatedBy().getName());
+            userDTO.setImageUrl(playlist.getCreatedBy().getImageUrl());
+            p.setCreatedBy(userDTO);
+            p.setTracks(playlist.getTracks().stream().map(k -> {
+                TrackDTO trackDTO = new TrackDTO();
+                trackDTO.setCode(k.getCode());
+                trackDTO.setTitle(k.getTitle());
+                trackDTO.setImageUrl(k.getImageUrl());
+                return trackDTO;
+            }).collect(Collectors.toSet()));
+            return p;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void addToPlaylist(Integer trackId, Integer playlistId) {
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        Track track = trackDAO.get(trackId);
+        Playlist playlist = userDAO.getByUsername(userPrincipal.getUsername()).getPlaylists().stream().filter(p -> p.getId().equals(playlistId)).findAny().orElse(null);
+        if (playlist != null) {
+            playlist.getTracks().add(track);
+        }
+    }
+
+    @Override
+    public void removeFromPlaylist(Integer trackId, Integer playlistId) {
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        Track track = trackDAO.get(trackId);
+        Playlist playlist = userDAO.getByUsername(userPrincipal.getUsername()).getPlaylists().stream().filter(p -> p.getId().equals(playlistId)).findAny().orElse(null);
+        if (playlist != null) {
+            playlist.getTracks().remove(track);
         }
     }
 }

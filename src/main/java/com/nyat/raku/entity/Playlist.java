@@ -1,8 +1,15 @@
 package com.nyat.raku.entity;
 
+import com.nyat.raku.util.Privacy;
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
+import java.util.Date;
 import java.util.Set;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "tbl_playlist", uniqueConstraints = {@UniqueConstraint(columnNames = {"code", "created_by"})})
 public class Playlist {
@@ -15,14 +22,19 @@ public class Playlist {
     @JoinColumn(name = "created_by", nullable = false, referencedColumnName = "id")
     private User createdBy;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_time", nullable = false)
+    private Date createdTime;
+
     @Column(name = "code", nullable = false)
     private String code;
 
     @Column(name = "title")
     private String title;
 
-    @Column(name = "is_public", nullable = false)
-    private boolean isPublic;
+    @Column(name = "privacy", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Privacy privacy;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "playlist_track",
@@ -30,52 +42,4 @@ public class Playlist {
             inverseJoinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "id")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"playlist_id", "track_id"})})
     private Set<Track> tracks;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public User getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(User createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
-    }
-
-    public Set<Track> getTracks() {
-        return tracks;
-    }
-
-    public void setTracks(Set<Track> tracks) {
-        this.tracks = tracks;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
 }

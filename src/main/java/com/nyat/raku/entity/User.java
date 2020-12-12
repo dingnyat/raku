@@ -27,6 +27,12 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
+    private String bio;
+
+    private String city;
+
+    private String country;
+
     @Column(name = "email", unique = true, nullable = false)
     private String email;
 
@@ -75,7 +81,8 @@ public class User {
             uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "following_user_id"})})
     private Set<User> followingUsers;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "createdBy")
+    @OrderBy("createdTime desc ")
     private Set<Playlist> playlists;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "uploader")
@@ -83,6 +90,6 @@ public class User {
     private Set<Track> tracks;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "user")
-    @OrderBy("createdDate asc")
+    @OrderBy("createdDate asc ")
     private Set<License> licenses;
 }

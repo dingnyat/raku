@@ -1,0 +1,62 @@
+<div class="row mx-0">
+  <mat-tab-group [(selectedIndex)]="tabIndex" class="col-12">
+    <mat-tab label="Add to playlist">
+      <div class="playlist-list pt-2">
+        <div *ngIf="playlists == null || playlists.length <= 0" class="pb-2">
+          No playlist
+        </div>
+        <div *ngFor="let playlist of playlists" class="item d-flex justify-content-between align-items-center mb-2">
+          <div class="d-flex justify-content-start align-items-center">
+            <div [routerLink]="this.user.username + '/playlist/' + playlist.code" class="audio-image pointer"></div>
+            <div class="ml-2">
+              <p [routerLink]="this.user.username + '/playlist/' + playlist.code" class="pointer">{{playlist.title}}</p>
+              <p class="text-muted">
+                <fa-icon class="mr-1" style="font-size: 0.8em" [icon]="faMusic"></fa-icon>
+                <span>{{playlist.tracks.length}}</span>
+              </p>
+            </div>
+          </div>
+          <button *ngIf="playlist['hasTrack']" class="added-btn" (click)="removeFromPlaylist(playlist)">Added</button>
+          <button *ngIf="!playlist['hasTrack']" (click)="addToPlaylist(playlist)">Add to playlist</button>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Create a playlist">
+      <div class="pt-2 pb-4">
+        <div class="form-group">
+          <label>Playlist title <span style="color: red;">*</span></label>
+          <input type="text" name="title" class="form-control" (keyup)="inputTitle()" [(ngModel)]="title"
+                 [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="input-group mb-2">
+          <div class="input-group-prepend">
+            <div class="input-group-text">{{link}}</div>
+          </div>
+          <input type="text" class="form-control" [(ngModel)]="code" [ngModelOptions]="{standalone: true}">
+        </div>
+        <div class="d-flex align-items-center justify-content-between">
+          <div class="d-flex align-items-center">
+            <span class="mr-3">Privacy:</span>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="privacy" value="_PUBLIC" checked
+                     [(ngModel)]="privacy">
+              <label class="form-check-label">
+                Public
+              </label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="privacy" value="_PRIVATE"
+                     [(ngModel)]="privacy">
+              <label class="form-check-label">
+                Private
+              </label>
+            </div>
+          </div>
+          <div>
+            <button (click)="createAPlaylist()" class="save-btn">Save</button>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

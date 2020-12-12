@@ -1,0 +1,37 @@
+/deep/ .mat-tab-label, /deep/ .mat-tab-label-active {
+  width: 50% !important;
+}
+
+p {
+  margin-bottom: 0 !important;
+}
+
+button {
+  border: 1px solid #cccccc;
+  background-color: white;
+  border-radius: 2px;
+  margin-right: 6px;
+  font-size: 0.9em;
+  height: 27px;
+  align-items: center;
+}
+
+.audio-image {
+  width: 50px;
+  height: 50px;
+  background-image: linear-gradient(135deg, #b7547f, #21a26b);
+}
+
+.save-btn {
+  background-color: #ff5500;
+  border: none;
+  color: white;
+  border-radius: 3px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.added-btn {
+  border-color: #ff5500;
+  color: #ff5500;
+}

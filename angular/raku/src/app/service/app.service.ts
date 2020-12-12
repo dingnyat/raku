@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
 import {Song} from "../model/Song";
-import {UserPrincipal} from "../model/UserPrincipal";
+import {User} from "../model/user";
 
 @Injectable({
   providedIn: 'root'
@@ -65,7 +65,7 @@ export class AppService {
     this.seekTime.next(time);
   }
 
-  setUser(user: UserPrincipal) {
+  setUser(user: User) {
     if (user) {
       localStorage.setItem("current-user", JSON.stringify(user));
     } else {

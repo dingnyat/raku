@@ -1,1 +1,60 @@
-<p>profile works!</p>
+<div class="row mx-0 header-profile">
+  <div class="d-flex justify-content-between align-items-center mx-5">
+    <img [src]="user?.imageUrl ? user.imageUrl : '/assets/images/avatar.png'" referrerpolicy="no-referrer"
+         class="avatar">
+  </div>
+  <div class="d-flex flex-column justify-content-center align-items-start">
+    <div>
+      <p class="name">{{user?.name}}</p>
+    </div>
+    <div class="address" *ngIf="user?.city || user?.country">
+      {{user?.city ? user.city : ''}}{{(user?.city && user?.country) ? ', ' : ''}}{{user?.country ? user.country : ''}}
+    </div>
+    <div class="plan">
+      <fa-icon [icon]="faStar" class="mr-1"></fa-icon>
+      Pro
+    </div>
+  </div>
+</div>
+<div class="row mx-0">
+  <div class="col-8">
+    <mat-tab-group>
+      <mat-tab label="All">All activities</mat-tab>
+      <mat-tab label="Track">Upload track</mat-tab>
+      <mat-tab label="Repost">Repost track</mat-tab>
+      <mat-tab label="Playlist">Playlist</mat-tab>
+    </mat-tab-group>
+  </div>
+  <div class="col-4 pt-3 px-3">
+    <div *ngIf="user?.username != currUser?.username" class="follow-action text-center">
+      <button *ngIf="!userStats?.youFollowing" (click)="followUser()">
+        <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
+        Follow
+      </button>
+      <button *ngIf="userStats?.youFollowing" (click)="followUser()">
+        <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
+        Followed
+      </button>
+    </div>
+    <div *ngIf="user?.username == currUser?.username" class="edit-btn text-center">
+      <button><fa-icon [icon]="faPencilAlt" class="mr-1"></fa-icon>Edit profile</button>
+    </div>
+    <div class="d-flex justify-content-around align-items-center user-stats my-3">
+      <div>
+        <p>Tracks</p>
+        <p class="number">{{userStats?.tracks}}</p>
+      </div>
+      <div class="border-left pl-3">
+        <p>Followers</p>
+        <p class="number">{{userStats?.followers}}</p>
+      </div>
+      <div class="border-left pl-3">
+        <p>Following</p>
+        <p class="number">{{userStats?.following}}</p>
+      </div>
+    </div>
+    <div>
+      {{user?.bio}}
+    </div>
+  </div>
+</div>

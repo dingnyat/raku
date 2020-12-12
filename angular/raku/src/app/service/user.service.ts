@@ -47,4 +47,30 @@ export class UserService extends BaseService {
   deleteComment(cmt): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/delete-comment/" + cmt.id);
   }
+
+  getMyPlaylist(): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/my-playlist");
+  }
+
+  addTrackToPlaylist(trackId: number, playlistId: number): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/add-to-playlist", {
+      'params': {
+        'trackId': trackId.toString(),
+        'playlistId': playlistId.toString()
+      }
+    });
+  }
+
+  removeFromPlaylist(trackId: number, playlistId: number): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/remove-from-playlist", {
+      'params': {
+        'trackId': trackId.toString(),
+        'playlistId': playlistId.toString()
+      }
+    });
+  }
+
+  createAPlaylist(data): Observable<any> {
+    return this.http.post(this.BASE_URL + this.contextUrl + "/create-playlist", data);
+  }
 }

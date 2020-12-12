@@ -1,12 +1,16 @@
 1. (done) Làm share bài hát
-2. Làm trang cá nhân người dùng
-3. Tạo playlist
+2. (ưu tiên) Làm trang cá nhân người dùng (của mình, của người khác)
+3. (xong cơ bản) Playlist
 4. (done) Xóa, sửa bài hát
 5. (done) Xóa comment
-6. Áp dụng private/public. Bắt đầu phân loại người dùng trả phí
-7. Search
+6. (ưu tiên) Áp dụng private/public. Bắt đầu phân loại người dùng trả phí
+7. (ưu tiên) Search trên thanh search
 8. (done) Trang verify email chưa có
 9. Thống kê của riêng người dùng
 10. Trong Your track có thêm thông tin về tổng thời gian của các bài nhạc / tổng thời gian cho phép (tùy theo gói plan)
 11. Notification
-12. Cập nhật thông tin người dùng
+12. (viết luôn trong trang cá nhân người dùng) Cập nhật thông tin người dùng
+13. Làm right side bar
+14. add to next up
+15. Xóa hàng loạt trong your tracks
+16. Tìm kiếm theo tag

@@ -1,6 +1,7 @@
 package com.nyat.raku.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nyat.raku.util.Privacy;
 import lombok.Data;
 
 import java.util.Date;

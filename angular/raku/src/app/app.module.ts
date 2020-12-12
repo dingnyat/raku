@@ -34,6 +34,8 @@ import {EmailVerifyComponent} from './component/email-verify/email-verify.compon
 import {UpdateTrackDialogComponent} from './component/your-tracks/update-track-dialog/update-track-dialog.component';
 import { ToastrModule } from 'ngx-toastr';
 import { ShareDialogComponent } from './component/share-dialog/share-dialog.component';
+import { CreatePlaylistDialogComponent } from './component/create-playlist-dialog/create-playlist-dialog.component';
+import { AddToPlaylistComponent } from './component/add-to-playlist/add-to-playlist.component';
 
 export let InjectorInstance: Injector;
 
@@ -53,6 +55,8 @@ export let InjectorInstance: Injector;
     EmailVerifyComponent,
     UpdateTrackDialogComponent,
     ShareDialogComponent,
+    CreatePlaylistDialogComponent,
+    AddToPlaylistComponent,
   ],
   imports: [
     BrowserModule,

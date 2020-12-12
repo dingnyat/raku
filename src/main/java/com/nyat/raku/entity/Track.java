@@ -1,6 +1,6 @@
 package com.nyat.raku.entity;
 
-import com.nyat.raku.model.Privacy;
+import com.nyat.raku.util.Privacy;
 import lombok.Getter;
 import lombok.Setter;
 

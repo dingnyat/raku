@@ -1,14 +1,16 @@
 package com.nyat.raku.model;
 
-import com.nyat.raku.entity.User;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.nyat.raku.util.Privacy;
 import lombok.Data;
 
 import java.util.Set;
 
 @Data
+@JsonInclude(value = JsonInclude.Include.NON_NULL)
 public class PlaylistDTO {
     private Integer id;
-    private User createdBy;
+    private UserDTO createdBy;
     private String code;
     private String title;
     private Privacy privacy;

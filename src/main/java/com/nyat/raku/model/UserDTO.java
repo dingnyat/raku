@@ -14,4 +14,7 @@ public class UserDTO {
     private String email;
     private AuthProvider authProvider;
     private String imageUrl;
+    private String bio;
+    private String city;
+    private String country;
 }

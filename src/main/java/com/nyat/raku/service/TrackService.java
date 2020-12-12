@@ -22,4 +22,8 @@ public interface TrackService {
     UserTrackInfo getUserTrackInfo(String uploader, String code, String username);
 
     TrackStats getTrackStats(String username, String code) throws Exception;
+
+    List<TrackDTO> getTracksOf(String username);
+
+    List<TrackDTO> getRepostTracksOf(String username);
 }

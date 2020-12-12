@@ -21,14 +21,17 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {AppService} from "../../service/app.service";
 import WaveSurfer from "wavesurfer.js/dist/wavesurfer";
-import {UserPrincipal} from "../../model/UserPrincipal";
+import {User} from "../../model/user";
 import {UserService} from "../../service/user.service";
 import {UserTrackInfo} from "../../model/user-track-info";
 import {TrackStats} from "../../model/track-stats";
-import {UploaderStats} from "../../model/uploader-stats";
+import {UserStats} from "../../model/user-stats";
 import * as moment from 'moment';
 import {MatDialog} from "@angular/material/dialog";
 import {ShareDialogComponent} from "../share-dialog/share-dialog.component";
+import {CreatePlaylistDialogComponent} from "../create-playlist-dialog/create-playlist-dialog.component";
+import {ToastrService} from "ngx-toastr";
+import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.component";
 
 @Component({
   selector: 'track-details',
@@ -60,17 +63,18 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   busy = false;
   currTimeStr: string;
   durationStr: string;
-  user: UserPrincipal;
+  user: User;
   userTrackInfo: UserTrackInfo;
   trackStats: TrackStats;
-  uploaderStats: UploaderStats;
+  uploaderStats: UserStats;
 
   constructor(private route: ActivatedRoute,
               private trackService: TrackService,
               private titleService: Title,
               public appService: AppService,
               private userService: UserService,
-              public dialog: MatDialog) {
+              public dialog: MatDialog,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -282,6 +286,18 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
 
   showShareDialog(track: Song) {
     const dialogRef = this.dialog.open(ShareDialogComponent, {
+      width: "500px",
+      height: "auto",
+      data: {track: track}
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+    })
+  }
+
+  addToPlaylist(track: Song) {
+    const dialogRef = this.dialog.open(AddToPlaylistComponent, {
       width: "500px",
       height: "auto",
       data: {track: track}
