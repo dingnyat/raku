@@ -56,4 +56,8 @@ export class TrackService extends BaseService {
   deleteTrack(track): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/delete/" + track.id);
   }
+
+  getTracksOf(username: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-tracks/" + username);
+  }
 }

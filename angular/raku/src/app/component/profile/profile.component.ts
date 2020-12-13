@@ -2,10 +2,27 @@ import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
 import {User} from "../../model/user";
 import {ActivatedRoute} from "@angular/router";
-import {faPencilAlt, faStar, faUserCheck, faUserPlus} from "@fortawesome/free-solid-svg-icons";
+import {
+  faHeart,
+  faList,
+  faPaperclip,
+  faPencilAlt,
+  faPlay,
+  faShare,
+  faStar,
+  faUserCheck,
+  faUserPlus
+} from "@fortawesome/free-solid-svg-icons";
 import {AppService} from "../../service/app.service";
 import {UserStats} from "../../model/user-stats";
 import {Title} from "@angular/platform-browser";
+import {TrackService} from "../../service/track.service";
+import {Track} from "../../model/track";
+import {AppSettings} from "../../global/app-settings";
+import * as moment from "moment";
+import {ShareDialogComponent} from "../share-dialog/share-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
+import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.component";
 
 @Component({
   selector: 'app-profile',
@@ -13,19 +30,27 @@ import {Title} from "@angular/platform-browser";
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
-
-  user: User;
-  faStar = faStar;
-  currUser: User;
+  faPencilAlt = faPencilAlt;
   faUserPlus = faUserPlus;
   faUserCheck = faUserCheck;
+  faStar = faStar;
+  faPlay = faPlay;
+  faHeart = faHeart;
+  faPaperclip = faPaperclip;
+  faShare = faShare;
+  faList = faList;
+
+  user: User;
+  currUser: User;
   userStats: UserStats;
-  faPencilAlt = faPencilAlt;
+  tracks: Track[];
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
               private appService: AppService,
-              private title: Title) {
+              private title: Title,
+              private trackService: TrackService,
+              public dialog: MatDialog,) {
   }
 
   ngOnInit(): void {
@@ -37,13 +62,28 @@ export class ProfileComponent implements OnInit {
       this.userService.getByUsername(params.username).subscribe(resp => {
         if (resp.success) {
           this.user = resp.data;
-          this.title.setTitle(this.user.name + "'s profile | Raku")
+          this.title.setTitle(this.user.name + "'s profile | Raku");
           this.userService.getUserStats(this.user.username).subscribe(r => {
             if (r.success) {
               this.userStats = r.data;
-              console.log(this.userStats);
             }
-          })
+          });
+          this.trackService.getTracksOf(this.user.username).subscribe(r => {
+            if (r.success) {
+              this.tracks = r.data;
+              this.tracks.forEach(track => {
+                track.link = "/" + track.uploader.username + "/" + track.code;
+                track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+                track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
+
+                this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(info => {
+                  if (info.success) {
+                    track['userTrackInfo'] = info.data;
+                  }
+                });
+              })
+            }
+          });
         }
       });
     });
@@ -59,5 +99,61 @@ export class ProfileComponent implements OnInit {
         });
       }
     });
+  }
+
+  convertTimespan(time: Date) {
+    return moment(time).startOf("second").fromNow();
+  }
+
+  playTrack(track: Track) {
+
+  }
+
+  likeTrack(track: Track) {
+    this.userService.likeTrack(track.id).subscribe(resp => {
+      if (resp.success) {
+        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
+          if (r.success) {
+            track['userTrackInfo'] = r.data;
+          }
+        });
+      }
+    });
+  }
+
+  repostTrack(track: Track) {
+    this.userService.repostTrack(track.id).subscribe(resp => {
+      if (resp.success) {
+        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
+          if (r.success) {
+            track['userTrackInfo'] = r.data;
+          }
+        });
+      }
+    });
+  }
+
+  showShareDialog(track: Track) {
+    const dialogRef = this.dialog.open(ShareDialogComponent, {
+      width: "500px",
+      height: "auto",
+      data: {track: track}
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+    })
+  }
+
+  addToPlaylist(track: Track) {
+    const dialogRef = this.dialog.open(AddToPlaylistComponent, {
+      width: "500px",
+      height: "auto",
+      data: {track: track}
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+    })
   }
 }

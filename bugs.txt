@@ -3,3 +3,6 @@
 3. (done) call many times AuditorAware. Should remove it.
 4. Xử lý khi nhập url mà ko tìm được bài hát, playlist...
 5. (ưu tiên) (done) Update ko đổi tên file audio
+6. khi vừa đăng nhập thì load lại cái media-player
+7. share khi vừa mới upload xong
+8 shuffle bài hát trong media player

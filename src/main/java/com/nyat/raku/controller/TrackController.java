@@ -3,7 +3,6 @@ package com.nyat.raku.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nyat.raku.model.GenreDTO;
-import com.nyat.raku.util.Privacy;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.payload.TrackFormData;
@@ -13,6 +12,7 @@ import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.TrackService;
 import com.nyat.raku.util.CropData;
+import com.nyat.raku.util.Privacy;
 import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -207,6 +207,7 @@ public class TrackController {
     }
 
     @GetMapping("/get-tracks/{username}")
+    @ResponseBody
     public ApiResponse<List<TrackDTO>> getTracksOf(@PathVariable("username") String username) {
         try {
             List<TrackDTO> tracks = trackService.getTracksOf(username);
@@ -218,6 +219,7 @@ public class TrackController {
     }
 
     @GetMapping("/get-repost-tracks/{username}")
+    @ResponseBody
     public ApiResponse<List<TrackDTO>> getRepostTracksOf(@PathVariable("username") String username) {
         try {
             List<TrackDTO> tracks = trackService.getRepostTracksOf(username);
