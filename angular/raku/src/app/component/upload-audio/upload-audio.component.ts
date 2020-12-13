@@ -14,6 +14,7 @@ import * as mm from 'music-metadata-browser';
 import {commonLabels, formatLabels, TagLabel} from './format-tags';
 import {AppSettings} from "../../global/app-settings";
 import {Router} from "@angular/router";
+import {Title} from "@angular/platform-browser";
 
 @Component({
   selector: 'app-upload-audio',
@@ -72,10 +73,12 @@ export class UploadAudioComponent implements OnInit, OnDestroy {
               private trackService: TrackService,
               public appService: AppService,
               private zone: NgZone,
-              private router: Router) {
+              private router: Router,
+              private titleService: Title) {
   }
 
   ngOnInit(): void {
+    this.titleService.setTitle("Upload your tracks on Raku || Raku");
   }
 
   ngOnDestroy() {
@@ -324,6 +327,10 @@ export class UploadAudioComponent implements OnInit, OnDestroy {
     this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
       this.router.navigate(['/upload']);
     });
+  }
+
+  encodeUrl(url) {
+    return encodeURIComponent(AppSettings.BASE_URL + url);
   }
 }
 

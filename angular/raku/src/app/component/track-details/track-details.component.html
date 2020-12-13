@@ -51,7 +51,7 @@
         </button>
         <button (click)="repostTrack()" [class.d-none]="user?.username === track?.uploader.username"
                 [class.active-btn]="userTrackInfo?.repost">
-          <fa-icon [icon]="faPaperclip"></fa-icon>
+          <fa-icon [icon]="faThumbtack"></fa-icon>
           {{userTrackInfo?.repost ? "Reposted" : "Repost"}}
         </button>
         <button (click)="showShareDialog(track)">
@@ -77,7 +77,7 @@
           {{trackStats?.like}}</span>
         <span><fa-icon [icon]="faCommentAlt"></fa-icon>
           {{trackStats?.comment}}</span>
-        <span><fa-icon [icon]="faPaperclip"></fa-icon>
+        <span><fa-icon [icon]="faThumbtack"></fa-icon>
           {{trackStats?.repost}}</span>
       </div>
     </div>

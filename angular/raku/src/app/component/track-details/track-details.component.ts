@@ -11,11 +11,11 @@ import {
   faHeart,
   faList,
   faMusic,
-  faPaperclip,
   faPause,
   faPlay,
   faReply,
   faShare,
+  faThumbtack,
   faUserCheck,
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
@@ -42,7 +42,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   faPlay = faPlay;
   faPause = faPause;
   faHeart = faHeart;
-  faPaperclip = faPaperclip;
+  faThumbtack = faThumbtack;
   faShare = faShare;
   faEllipsisH = faEllipsisH;
   faHeadphones = faHeadphones;

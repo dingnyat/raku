@@ -4,5 +4,7 @@
 4. Xử lý khi nhập url mà ko tìm được bài hát, playlist...
 5. (ưu tiên) (done) Update ko đổi tên file audio
 6. khi vừa đăng nhập thì load lại cái media-player
-7. share khi vừa mới upload xong
+7. (done) share khi vừa mới upload xong
 8 shuffle bài hát trong media player
+9 ở profile chưa nhấn được nút play bài hát
+10. truy cập /username/tracks dù username khác của mình vẫn ra của mình => cần disable cái này

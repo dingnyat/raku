@@ -60,4 +60,9 @@ export class TrackService extends BaseService {
   getTracksOf(username: string): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get-tracks/" + username);
   }
+
+  getRepostTracksOf(username: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-repost-tracks/" + username);
+
+  }
 }

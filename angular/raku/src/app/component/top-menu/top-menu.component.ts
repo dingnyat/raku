@@ -95,7 +95,8 @@ export class TopMenuComponent implements OnInit {
       }
     }).then(() => {
       this.appService.setUser(null);
-      this.router.navigate(["/"]);
+      /*this.router.navigate(["/"]);*/
+      location.href = '/';
     });
   }
 }

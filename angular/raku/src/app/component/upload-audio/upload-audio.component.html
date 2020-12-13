@@ -149,8 +149,8 @@
         <div class="share-track pl-3">
           <p class="mb-1">Share your new track</p>
           <div>
-            <a href="#" class="social-logo logo-twitter mr-2"></a>
-            <a href="#" class="social-logo logo-facebook mr-2"></a>
+            <a [href]="'https://twitter.com/intent/tweet?url=' + encodeUrl('/' + this.appService.getCurrentUser()?.username + '/' + resultTrack.code)" class="social-logo logo-twitter mr-2"></a>
+            <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + encodeUrl('/' + this.appService.getCurrentUser()?.username + '/' + resultTrack.code)" class="social-logo logo-facebook mr-2"></a>
           </div>
           <div class="mt-5">
             <input type="text" [value]="resultTrack.link" onClick="this.setSelectionRange(0, this.value.length);"

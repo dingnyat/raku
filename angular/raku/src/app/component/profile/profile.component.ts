@@ -9,7 +9,7 @@ import {
   faPencilAlt,
   faPlay,
   faShare,
-  faStar,
+  faStar, faThumbtack,
   faUserCheck,
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
@@ -36,7 +36,7 @@ export class ProfileComponent implements OnInit {
   faStar = faStar;
   faPlay = faPlay;
   faHeart = faHeart;
-  faPaperclip = faPaperclip;
+  faThumbtack = faThumbtack;
   faShare = faShare;
   faList = faList;
 
@@ -44,6 +44,7 @@ export class ProfileComponent implements OnInit {
   currUser: User;
   userStats: UserStats;
   tracks: Track[];
+  repostTracks: Track[];
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
@@ -72,6 +73,22 @@ export class ProfileComponent implements OnInit {
             if (r.success) {
               this.tracks = r.data;
               this.tracks.forEach(track => {
+                track.link = "/" + track.uploader.username + "/" + track.code;
+                track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+                track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
+
+                this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(info => {
+                  if (info.success) {
+                    track['userTrackInfo'] = info.data;
+                  }
+                });
+              })
+            }
+          });
+          this.trackService.getRepostTracksOf(this.user.username).subscribe(r => {
+            if (r.success) {
+              this.repostTracks = r.data;
+              this.repostTracks.forEach(track => {
                 track.link = "/" + track.uploader.username + "/" + track.code;
                 track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
                 track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
