@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
-import {Song} from "../../model/Song";
+import {Track} from "../../model/track";
 import {TrackService} from "../../service/track.service";
 import {AppSettings} from "../../global/app-settings";
 import {Title} from "@angular/platform-browser";
@@ -29,7 +29,6 @@ import {UserStats} from "../../model/user-stats";
 import * as moment from 'moment';
 import {MatDialog} from "@angular/material/dialog";
 import {ShareDialogComponent} from "../share-dialog/share-dialog.component";
-import {CreatePlaylistDialogComponent} from "../create-playlist-dialog/create-playlist-dialog.component";
 import {ToastrService} from "ngx-toastr";
 import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.component";
 
@@ -57,7 +56,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   username: string;
   code: string;
 
-  song: Song;
+  track: Track;
   isPlaying = false;
   wavesurfer: any;
   busy = false;
@@ -84,14 +83,14 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
 
       this.trackService.getByCode(this.username, this.code).subscribe(resp => {
         if (resp.success) {
-          this.song = resp.data as Song;
-          this.song.imageUrl = this.song.imageUrl ? (AppSettings.ENDPOINT + "/" + this.username + "/image/" + this.song.imageUrl) : null;
-          this.song.src = AppSettings.ENDPOINT + "/" + this.username + "/audio/" + this.song.code;
-          this.song.link = "/" + this.username + "/" + this.song.code;
-          this.titleService.setTitle(this.song.title + " || Listening on Raku");
+          this.track = resp.data as Track;
+          this.track.imageUrl = this.track.imageUrl ? (AppSettings.ENDPOINT + "/" + this.username + "/image/" + this.track.imageUrl) : null;
+          this.track.src = AppSettings.ENDPOINT + "/" + this.username + "/audio/" + this.track.code;
+          this.track.link = "/" + this.username + "/" + this.track.code;
+          this.titleService.setTitle(this.track.title + " || Listening on Raku");
 
           if (this.wavesurfer) {
-            this.wavesurfer.load(AppSettings.ENDPOINT + "/" + this.username + "/audio-download/" + this.song.code);
+            this.wavesurfer.load(AppSettings.ENDPOINT + "/" + this.username + "/audio-download/" + this.track.code);
           }
         }
       });
@@ -167,7 +166,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
     });
 
     this.appService.currTimeObs.subscribe(time => {
-      if (time != null && (this.song?.code == this.appService.getCurrentSong()?.code) && !this.busy) {
+      if (time != null && (this.track?.code == this.appService.getCurrentTrack()?.code) && !this.busy) {
         let target = time / (this.wavesurfer.getDuration() == 0 ? 1 : this.wavesurfer.getDuration());
         this.wavesurfer.seekTo(target >= 1 ? 1 : (target <= 0 ? 0 : target));
         this.currTimeStr = new Date(time * 1000).toISOString().substr(11, 8);
@@ -177,31 +176,31 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
       }
     });
 
-    this.appService.currSongObs.subscribe(song => {
-      if (this.song?.id != song?.id) {
+    this.appService.currTrackObs.subscribe(track => {
+      if (this.track?.id != track?.id) {
         this.wavesurfer.seekTo(0);
       }
     })
 
     this.trackService.getByCode(this.username, this.code).subscribe(resp => {
       if (resp.success) {
-        this.song = resp.data as Song;
-        this.song.imageUrl = this.song.imageUrl ? (AppSettings.ENDPOINT + "/" + this.username + "/image/" + this.song.imageUrl) : null;
-        this.song.src = AppSettings.ENDPOINT + "/" + this.username + "/audio/" + this.song.code;
-        this.song.link = "/" + this.username + "/" + this.song.code;
-        this.titleService.setTitle(this.song.title + " || Listening on Raku");
-        this.wavesurfer.load(AppSettings.ENDPOINT + "/" + this.username + "/audio-download/" + this.song.code);
+        this.track = resp.data as Track;
+        this.track.imageUrl = this.track.imageUrl ? (AppSettings.ENDPOINT + "/" + this.username + "/image/" + this.track.imageUrl) : null;
+        this.track.src = AppSettings.ENDPOINT + "/" + this.username + "/audio/" + this.track.code;
+        this.track.link = "/" + this.username + "/" + this.track.code;
+        this.titleService.setTitle(this.track.title + " || Listening on Raku");
+        this.wavesurfer.load(AppSettings.ENDPOINT + "/" + this.username + "/audio-download/" + this.track.code);
       }
     });
   }
 
   playTrack() {
-    if (this.song?.code == this.appService.getCurrentSong()?.code) {
+    if (this.track?.code == this.appService.getCurrentTrack()?.code) {
       if (!this.appService.getPlayState()) {
         this.appService.setPlayState(true);
       }
     } else {
-      this.appService.setSongQueue([this.song]);
+      this.appService.setTrackQueue([this.track]);
       this.appService.setQueueIdx(0);
       this.appService.setPlayState(true);
     }
@@ -212,7 +211,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   }
 
   likeTrack() {
-    this.userService.likeTrack(this.song.id).subscribe(resp => {
+    this.userService.likeTrack(this.track.id).subscribe(resp => {
       if (resp.success) {
         this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
           if (r.success) {
@@ -230,7 +229,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   }
 
   repostTrack() {
-    this.userService.repostTrack(this.song.id).subscribe(resp => {
+    this.userService.repostTrack(this.track.id).subscribe(resp => {
       if (resp.success) {
         this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
           if (r.success) {
@@ -248,7 +247,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   }
 
   followUploader() {
-    this.userService.followUser(this.song.uploader.username).subscribe(resp => {
+    this.userService.followUser(this.track.uploader.username).subscribe(resp => {
       if (resp.success) {
         this.userService.getUserStats(this.username).subscribe(r => {
           if (r.success) {
@@ -262,7 +261,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
 
   comment(event) {
     if (event.target.value != null && event.target.value.trim() != '') {
-      this.userService.comment({trackId: this.song.id, content: event.target.value}).subscribe(resp => {
+      this.userService.comment({trackId: this.track.id, content: event.target.value}).subscribe(resp => {
         if (resp.success) {
           event.target.value = '';
           this.reloadComment();
@@ -275,7 +274,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
     console.log("reload comment");
     this.trackService.getByCode(this.username, this.code).subscribe(r => {
       if (r.success) {
-        this.song.comments = r.data.comments;
+        this.track.comments = r.data.comments;
       }
     })
   }
@@ -284,7 +283,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
     return moment(time).startOf("second").fromNow();
   }
 
-  showShareDialog(track: Song) {
+  showShareDialog(track: Track) {
     const dialogRef = this.dialog.open(ShareDialogComponent, {
       width: "500px",
       height: "auto",
@@ -296,7 +295,7 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
     })
   }
 
-  addToPlaylist(track: Song) {
+  addToPlaylist(track: Track) {
     const dialogRef = this.dialog.open(AddToPlaylistComponent, {
       width: "500px",
       height: "auto",

@@ -5,7 +5,7 @@ import {Playlist} from "../../model/playlist";
 import {User} from "../../model/user";
 import {AppService} from "../../service/app.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Song} from "../../model/Song";
+import {Track} from "../../model/track";
 import {ToastrService} from "ngx-toastr";
 import {AppSettings} from "../../global/app-settings";
 
@@ -18,7 +18,7 @@ export class AddToPlaylistComponent implements OnInit {
   faMusic = faMusic;
   playlists: Playlist[] = [];
   user: User;
-  track: Song;
+  track: Track;
   title: string = '';
   privacy: string = "_PUBLIC";
   tabIndex: number = 0;
@@ -83,10 +83,10 @@ export class AddToPlaylistComponent implements OnInit {
   }
 
   inputTitle() {
-    this.code = this.handleSongCode(this.title);
+    this.code = this.handleTrackCode(this.title);
   }
 
-  handleSongCode(title: string): string {
+  handleTrackCode(title: string): string {
     title = this.removeVietnameseTones(title.toLowerCase().trim());
     // remove special characters (uncomplete)
     title = title.replace(/’|!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|{|}|\||\\/g, "").trim();

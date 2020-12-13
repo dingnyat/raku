@@ -2,4 +2,4 @@
 2. (done) Khi ở màn hình của track. track đang chạy đồng bộ với media player. chuyển bài trên queue next up thì wave ko trở về đầu
 3. (done) call many times AuditorAware. Should remove it.
 4. Xử lý khi nhập url mà ko tìm được bài hát, playlist...
-5. (ưu tiên) Update ko đổi tên file audio
+5. (ưu tiên) (done) Update ko đổi tên file audio

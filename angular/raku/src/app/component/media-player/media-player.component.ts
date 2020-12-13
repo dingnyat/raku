@@ -14,7 +14,7 @@ import {
   faUndo
 } from '@fortawesome/free-solid-svg-icons';
 import {AppService} from "../../service/app.service";
-import {Song} from "../../model/Song";
+import {Track} from "../../model/track";
 import {LoopType} from "./loop-type";
 import {UserService} from "../../service/user.service";
 import {TrackService} from "../../service/track.service";
@@ -38,8 +38,8 @@ export class MediaPlayerComponent implements OnInit {
   faEllipsis = faEllipsisH;
   faChevronDown = faChevronDown;
 
-  songQueue: Song[];
-  currSongIdx: number;
+  trackQueue: Track[];
+  currTrackIdx: number;
 
   @ViewChild(PlyrComponent, {static: true})
   plyr: PlyrComponent;
@@ -49,7 +49,7 @@ export class MediaPlayerComponent implements OnInit {
 
   currentAudio: any[];
 
-  isShowSongQueue: boolean;
+  isShowTrackQueue: boolean;
 
   loopType = LoopType.NONE;
 
@@ -60,13 +60,13 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.appService.currSongObs.subscribe(song => {
-      if (song != null) {
-        this.currentAudio = [song];
+    this.appService.currTrackObs.subscribe(track => {
+      if (track != null) {
+        this.currentAudio = [track];
         if (this.isPlaying) {
           this.playAudio();
         }
-        this.trackService.getUserTrackInfo(song.uploader.username, song.code).subscribe(resp => {
+        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(resp => {
           if (resp.success) {
             this.currentUserTrackInfo = resp.data;
           }
@@ -75,10 +75,10 @@ export class MediaPlayerComponent implements OnInit {
         this.currentAudio = null;
       }
     });
-    this.appService.songQueueObs.subscribe(songQueue => {
-      this.songQueue = songQueue;
-      if (this.songQueue != null) {
-        this.songQueue.forEach((value, index) => {
+    this.appService.trackQueueObs.subscribe(trackQueue => {
+      this.trackQueue = trackQueue;
+      if (this.trackQueue != null) {
+        this.trackQueue.forEach((value, index) => {
           this.trackService.getUserTrackInfo(value.uploader.username, value.code).subscribe(resp => {
             if (resp.success) {
               this.userTrackInfo[index] = resp.data;
@@ -88,15 +88,15 @@ export class MediaPlayerComponent implements OnInit {
       }
     });
     this.appService.queueIdxObs.subscribe(idx => {
-      this.currSongIdx = idx;
-      if (this.songQueue != null && this.songQueue.length > 0 && this.currSongIdx >= 0) {
-        this.appService.setCurrentSong(this.songQueue[this.currSongIdx]);
+      this.currTrackIdx = idx;
+      if (this.trackQueue != null && this.trackQueue.length > 0 && this.currTrackIdx >= 0) {
+        this.appService.setCurrentTrack(this.trackQueue[this.currTrackIdx]);
       } else {
-        this.appService.setCurrentSong(null);
+        this.appService.setCurrentTrack(null);
       }
     });
 
-    this.isShowSongQueue = false;
+    this.isShowTrackQueue = false;
     this.loopType = LoopType.NONE;
   }
 
@@ -147,14 +147,14 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   nextAudio() {
-    this.appService.setQueueIdx((this.currSongIdx + 1 > this.songQueue.length - 1) ? this.currSongIdx : this.currSongIdx + 1);
+    this.appService.setQueueIdx((this.currTrackIdx + 1 > this.trackQueue.length - 1) ? this.currTrackIdx : this.currTrackIdx + 1);
     if (this.isPlaying) {
       this.playAudio();
     }
   }
 
   previousAudio() {
-    this.appService.setQueueIdx((this.currSongIdx - 1 < 0) ? this.currSongIdx : this.currSongIdx - 1);
+    this.appService.setQueueIdx((this.currTrackIdx - 1 < 0) ? this.currTrackIdx : this.currTrackIdx - 1);
     if (this.isPlaying) {
       this.playAudio();
     }
@@ -165,9 +165,9 @@ export class MediaPlayerComponent implements OnInit {
     this.player.loop = this.loopType == LoopType.ONE;
   }
 
-  onSongEnd() {
-    if (this.currSongIdx < this.songQueue.length - 1) {
-      this.appService.setQueueIdx(this.currSongIdx + 1);
+  onTrackEnd() {
+    if (this.currTrackIdx < this.trackQueue.length - 1) {
+      this.appService.setQueueIdx(this.currTrackIdx + 1);
       this.playAudio();
     } else {
       if (this.loopType == LoopType.ALL) {
@@ -177,12 +177,12 @@ export class MediaPlayerComponent implements OnInit {
     }
   }
 
-  showSongQueue() {
-    this.isShowSongQueue = !this.isShowSongQueue;
+  showTrackQueue() {
+    this.isShowTrackQueue = !this.isShowTrackQueue;
   }
 
   playFromQueue(idx: number) {
-    if (idx !== this.currSongIdx) {
+    if (idx !== this.currTrackIdx) {
       this.appService.setQueueIdx(idx);
       this.playAudio();
     } else {
@@ -194,9 +194,9 @@ export class MediaPlayerComponent implements OnInit {
     this.pauseAudio();
   }
 
-  removeAllSongInQueue() {
+  removeAllTracksInQueue() {
     this.appService.setCurrentTime(0);
-    this.appService.setSongQueue([]);
+    this.appService.setTrackQueue([]);
     this.appService.setQueueIdx(0);
     this.appService.setPlayState(false);
   }
@@ -205,26 +205,26 @@ export class MediaPlayerComponent implements OnInit {
     return LoopType;
   }
 
-  likeTrack(song: Song, idx: number) {
-    this.userService.likeTrack(song.id).subscribe(resp => {
+  likeTrack(track: Track, idx: number) {
+    this.userService.likeTrack(track.id).subscribe(resp => {
       if (resp.success) {
-        this.trackService.getUserTrackInfo(song.uploader.username, song.code).subscribe(r => {
+        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
           if (r.success) {
             this.userTrackInfo[idx] = r.data;
-            if (idx == this.currSongIdx) this.currentUserTrackInfo = r.data;
+            if (idx == this.currTrackIdx) this.currentUserTrackInfo = r.data;
           }
         });
       }
     });
   }
 
-  likeCurrentTrack(song: Song) {
-    this.userService.likeTrack(song.id).subscribe(resp => {
+  likeCurrentTrack(track: Track) {
+    this.userService.likeTrack(track.id).subscribe(resp => {
       if (resp.success) {
-        this.trackService.getUserTrackInfo(song.uploader.username, song.code).subscribe(r => {
+        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
           if (r.success) {
             this.currentUserTrackInfo = r.data;
-            this.userTrackInfo[this.currSongIdx] = r.data;
+            this.userTrackInfo[this.currTrackIdx] = r.data;
           }
         });
       }

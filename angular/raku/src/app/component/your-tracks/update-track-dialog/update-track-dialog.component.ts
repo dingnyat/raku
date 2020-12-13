@@ -5,7 +5,7 @@ import {MatSelect} from "@angular/material/select";
 import {Observable, of, ReplaySubject, Subject} from "rxjs";
 import {FormControl} from "@angular/forms";
 import {Genre} from "../../../model/Genre";
-import {Song} from "../../../model/Song";
+import {Track} from "../../../model/track";
 import * as mm from "music-metadata-browser";
 import {AppSettings} from "../../../global/app-settings";
 import {AppService} from "../../../service/app.service";
@@ -64,7 +64,7 @@ export class UpdateTrackDialogComponent implements OnInit {
   genresFilterCtrl: FormControl = new FormControl();
   filteredGenres: ReplaySubject<Genre[]>;
 
-  resultSong: Song;
+  resultTrack: Track;
 
   constructor(public dialogRef: MatDialogRef<UpdateTrackDialogComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,

@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {BehaviorSubject} from "rxjs";
-import {Song} from "../model/Song";
+import {Track} from "../model/track";
 import {User} from "../model/user";
 
 @Injectable({
@@ -8,14 +8,14 @@ import {User} from "../model/user";
 })
 export class AppService {
 
-  private songQueueSub = new BehaviorSubject(null);
-  songQueueObs = this.songQueueSub.asObservable();
+  private trackQueueSub = new BehaviorSubject(null);
+  trackQueueObs = this.trackQueueSub.asObservable();
 
   private queueIdx = new BehaviorSubject(null);
   queueIdxObs = this.queueIdx.asObservable();
 
-  private currSongSub = new BehaviorSubject(null);
-  currSongObs = this.currSongSub.asObservable();
+  private currTrackSub = new BehaviorSubject(null);
+  currTrackObs = this.currTrackSub.asObservable();
 
   private playState = new BehaviorSubject(false);
   playStateObs = this.playState.asObservable();
@@ -32,22 +32,21 @@ export class AppService {
   constructor() {
   }
 
-  setSongQueue(songs: Song[]) {
-    this.songQueueSub.next(songs);
+  setTrackQueue(tracks: Track[]) {
+    this.trackQueueSub.next(tracks);
   }
 
   setQueueIdx(idx: number) {
     this.queueIdx.next(idx);
   }
 
-  setCurrentSong(song: Song) {
-    this.currSongSub.next(song);
+  setCurrentTrack(track: Track) {
+    this.currTrackSub.next(track);
   }
 
-  getCurrentSong(): Song {
-    return this.currSongSub.getValue();
+  getCurrentTrack(): Track {
+    return this.currTrackSub.getValue();
   }
-
 
   setPlayState(state: boolean) {
     this.playState.next(state);
@@ -61,7 +60,7 @@ export class AppService {
     this.currTime.next(time);
   }
 
-  setSeekTime(time: number){
+  setSeekTime(time: number) {
     this.seekTime.next(time);
   }
 

@@ -15,20 +15,20 @@ export class AppComponent implements OnInit, AfterViewInit {
   currentYear: number;
   showMediaPlayer: boolean;
 
-  constructor(public songApp: AppService, private cookieService: CookieService, private userService: UserService) {
-    songApp.songQueueObs.subscribe(songQueue => {
-      this.showMediaPlayer = !(songQueue == null || songQueue?.length == 0);
+  constructor(public appService: AppService, private cookieService: CookieService, private userService: UserService) {
+    appService.trackQueueObs.subscribe(trackQueue => {
+      this.showMediaPlayer = !(trackQueue == null || trackQueue?.length == 0);
     });
 
     userService.getAuthenticatedUserHistoryTracks().subscribe(resp => {
       if (resp.success) {
-        resp.data.forEach(song => {
-          song.imageUrl = song.imageUrl ? (AppSettings.ENDPOINT + "/" + song.uploader.username + "/image/" + song.imageUrl) : null;
-          song.src = AppSettings.ENDPOINT + "/" + song.uploader.username + "/audio/" + song.code;
-          song.link = "/" + song.uploader.username + "/" + song.code;
+        resp.data.forEach(track => {
+          track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+          track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
+          track.link = "/" + track.uploader.username + "/" + track.code;
         });
-        this.songApp.setSongQueue(resp.data);
-        this.songApp.setQueueIdx(0);
+        this.appService.setTrackQueue(resp.data);
+        this.appService.setQueueIdx(0);
       }
     })
   }

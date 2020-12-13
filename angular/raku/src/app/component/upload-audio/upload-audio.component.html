@@ -118,15 +118,17 @@
             <div *ngIf="imageBase64 == null || imageBase64 == undefined" class="audio-image"
                  style="height: 150px; width: 150px;"></div>
             <div *ngIf="imageBase64 != null && imageBase64 != undefined">
-              <img class="image-audio" [src]="resultSong.imageUrl" style="width: 150px; height: 150px">
+              <img class="image-audio" [src]="resultTrack.imageUrl" style="width: 150px; height: 150px">
             </div>
           </div>
           <div class="col-8 pl-0 pt-3 pr-3 pb-3">
             <div class="row justify-content-between align-items-center mx-0">
               <div>
-                <a [routerLink]="'/' + this.appService.getCurrentUser()?.username" class="text-muted mb-1 text-decoration-none">{{this.appService.getCurrentUser()?.name}}</a>
+                <a [routerLink]="'/' + this.appService.getCurrentUser()?.username"
+                   class="text-muted mb-1 text-decoration-none">{{this.appService.getCurrentUser()?.name}}</a>
                 <br>
-                <a [routerLink]="'/' + this.appService.getCurrentUser()?.username + '/' + resultSong.code" class="mb-1 text-decoration-none text-dark">{{title}}</a>
+                <a [routerLink]="'/' + this.appService.getCurrentUser()?.username + '/' + resultTrack.code"
+                   class="mb-1 text-decoration-none text-dark">{{title}}</a>
               </div>
               <div>
                     <span *ngIf="this.privacyCtrl.value == 'private'" class="privacy-chip text-light"><fa-icon
@@ -134,7 +136,8 @@
               </div>
             </div>
             <div class="row justify-content-start align-items-end mx-0 h-50">
-              <div class="track-manager-btn" [routerLink]="'/' + this.appService.getCurrentUser()?.username + '/tracks'">
+              <div class="track-manager-btn"
+                   [routerLink]="'/' + this.appService.getCurrentUser()?.username + '/tracks'">
                 <fa-icon [icon]="faCompactDisc" class="pr-1"></fa-icon>
                 Manage your tracks
               </div>
@@ -150,7 +153,7 @@
             <a href="#" class="social-logo logo-facebook mr-2"></a>
           </div>
           <div class="mt-5">
-            <input type="text" [value]="resultSong.link" onClick="this.setSelectionRange(0, this.value.length);"
+            <input type="text" [value]="resultTrack.link" onClick="this.setSelectionRange(0, this.value.length);"
                    readonly>
           </div>
         </div>

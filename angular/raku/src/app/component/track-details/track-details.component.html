@@ -5,11 +5,11 @@
         <div class="ml-2 d-flex justify-content-center">
           <div class="play-btn">
             <fa-icon
-              *ngIf="(song?.code == appService.getCurrentSong()?.code && !isPlaying) || song?.code != appService.getCurrentSong()?.code"
+              *ngIf="(track?.code == appService.getCurrentTrack()?.code && !isPlaying) || track?.code != appService.getCurrentTrack()?.code"
               [icon]="faPlay" class="item-view-button item-view-btn-play pointer"
               (click)="playTrack()">
             </fa-icon>
-            <fa-icon *ngIf="song?.code == appService.getCurrentSong()?.code && isPlaying" [icon]="faPause"
+            <fa-icon *ngIf="track?.code == appService.getCurrentTrack()?.code && isPlaying" [icon]="faPause"
                      class="item-view-button pointer"
                      (click)="pauseTrack()">
             </fa-icon>
@@ -17,16 +17,16 @@
         </div>
         <div class="pl-3">
           <div>
-            <a [routerLink]="'/' + username" class="uploader">{{song?.uploader.name}}</a>
+            <a [routerLink]="'/' + username" class="uploader">{{track?.uploader.name}}</a>
           </div>
-          <div class="track-title">{{song?.title}}</div>
+          <div class="track-title">{{track?.title}}</div>
         </div>
       </div>
       <div class="col-3 pr-0 d-flex justify-content-center align-items-end flex-column">
-        <div class="text-light pb-4 upload-time">{{convertTimespan(song?.uploadTime)}}</div>
-        <div *ngIf="song?.tags">
+        <div class="text-light pb-4 upload-time">{{convertTimespan(track?.uploadTime)}}</div>
+        <div *ngIf="track?.tags">
           <a [routerLink]="'/tags/' + tag.substr(1, tag.length-1)" class="tag-chip"
-             *ngFor="let tag of song.tags">{{tag}}</a>
+             *ngFor="let tag of track.tags">{{tag}}</a>
         </div>
       </div>
     </div>
@@ -37,8 +37,8 @@
     </div>
   </div>
   <div class="d-flex justify-content-center align-items-center audio-art">
-    <img *ngIf="song?.imageUrl" class="audio-image" [src]="song.imageUrl">
-    <div *ngIf="!song?.imageUrl" class="non-image-audio"></div>
+    <img *ngIf="track?.imageUrl" class="audio-image" [src]="track.imageUrl">
+    <div *ngIf="!track?.imageUrl" class="non-image-audio"></div>
   </div>
 </div>
 <div class="row mx-0 content-track">
@@ -49,12 +49,12 @@
           <fa-icon [icon]="faHeart"></fa-icon>
           {{userTrackInfo?.like ? "Liked" : "Like"}}
         </button>
-        <button (click)="repostTrack()" [class.d-none]="user?.username === song?.uploader.username"
+        <button (click)="repostTrack()" [class.d-none]="user?.username === track?.uploader.username"
                 [class.active-btn]="userTrackInfo?.repost">
           <fa-icon [icon]="faPaperclip"></fa-icon>
           {{userTrackInfo?.repost ? "Reposted" : "Repost"}}
         </button>
-        <button (click)="showShareDialog(song)">
+        <button (click)="showShareDialog(track)">
           <fa-icon [icon]="faShare"></fa-icon>
           Share
         </button>
@@ -65,7 +65,7 @@
           </svg>
           Add to Next up
         </button>
-        <button (click)="addToPlaylist(song)">
+        <button (click)="addToPlaylist(track)">
           <fa-icon [icon]="faList"></fa-icon>
           Add to playlist
         </button>
@@ -83,24 +83,24 @@
     </div>
     <div class="row">
       <div class="col-2 d-flex flex-column justify-content-start align-items-center">
-        <img [routerLink]="'/' + song?.uploader?.username" class="avatar-image pointer"
-             [src]="song?.uploader?.imageUrl ? song?.uploader?.imageUrl : '/assets/images/avatar.png'"
+        <img [routerLink]="'/' + track?.uploader?.username" class="avatar-image pointer"
+             [src]="track?.uploader?.imageUrl ? track?.uploader?.imageUrl : '/assets/images/avatar.png'"
              referrerpolicy="no-referrer"/>
-        <span [routerLink]="'/' + song?.uploader?.username" class="uploader-name pointer">
-          {{song?.uploader?.name}}
+        <span [routerLink]="'/' + track?.uploader?.username" class="uploader-name pointer">
+          {{track?.uploader?.name}}
         </span>
         <div class="uploader-stats">
-          <span [routerLink]="'/' + song?.uploader?.username + '/followers'" class="mr-2 pointer">
+          <span [routerLink]="'/' + track?.uploader?.username + '/followers'" class="mr-2 pointer">
             <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
             {{uploaderStats?.followers}}
           </span>
-          <span [routerLink]="'/' + song?.uploader?.username + '/tracks'" class="pointer">
+          <span [routerLink]="'/' + track?.uploader?.username + '/tracks'" class="pointer">
             <fa-icon class="mr-1" [icon]="faMusic"></fa-icon>
             {{uploaderStats?.tracks}}
           </span>
         </div>
         <div class="follow-uploader">
-          <button (click)="followUploader()" [class.d-none]="user?.username === song?.uploader.username">
+          <button (click)="followUploader()" [class.d-none]="user?.username === track?.uploader.username">
             <span [class.d-none]="uploaderStats?.youFollowing">
               <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
               Follow
@@ -114,8 +114,8 @@
       </div>
       <div class="col-10">
         <div>
-          <p *ngIf="song?.description">
-            {{song.description}}
+          <p *ngIf="track?.description">
+            {{track.description}}
           </p>
         </div>
         <div>
@@ -129,11 +129,11 @@
             <span><fa-icon [icon]="faCommentAlt"></fa-icon> 12 comments</span>
           </div>-->
           <div class="comment-area">
-            <ng-container *ngIf="song?.comments != null && song?.comments.length > 0">
-              <commentor *ngFor="let cmt of song?.comments" [comment]="cmt" [cur-user]="user"
+            <ng-container *ngIf="track?.comments != null && track?.comments.length > 0">
+              <commentor *ngFor="let cmt of track?.comments" [comment]="cmt" [cur-user]="user"
                          (reloadComment)="reloadComment()"></commentor>
             </ng-container>
-            <ng-container *ngIf="song?.comments == null || song?.comments.length == 0">
+            <ng-container *ngIf="track?.comments == null || track?.comments.length == 0">
               <p class="text-muted">Be the first to comment on this track</p>
             </ng-container>
           </div>

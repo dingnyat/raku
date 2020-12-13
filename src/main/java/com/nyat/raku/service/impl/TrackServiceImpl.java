@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -83,7 +84,6 @@ public class TrackServiceImpl implements TrackService {
         UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
         if (track.getUploader().getUsername().equals(userPrincipal.getUsername())) {
             track.setTitle(trackDTO.getTitle());
-            track.setCode(trackDTO.getCode());
             track.setComposer(trackDTO.getComposer());
             track.setArtist(trackDTO.getArtist());
             track.setDescription(trackDTO.getDescription());
@@ -94,6 +94,12 @@ public class TrackServiceImpl implements TrackService {
             track.setTags(trackDTO.getTags());
             if (trackDTO.getGenres() != null) {
                 track.setGenres(trackDTO.getGenres().stream().map(genreDTO -> genreDAO.get(genreDTO.getId())).collect(Collectors.toSet()));
+            }
+            if (!trackDTO.getCode().equals(track.getCode())) {
+                File tempAudio = new File(this.storagePath + File.separator + "user" + File.separator + userPrincipal.getUsername() + File.separator + "audio" + File.separator + track.getCode() + track.getExt());
+                File finalAudio = new File(this.storagePath + File.separator + "user" + File.separator + userPrincipal.getUsername() + File.separator + "audio" + File.separator + trackDTO.getCode() + track.getExt());
+                tempAudio.renameTo(finalAudio);
+                track.setCode(trackDTO.getCode());
             }
         }
     }

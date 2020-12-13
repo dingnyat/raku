@@ -1,4 +1,5 @@
-<div *ngIf="songQueue != null && songQueue.length > 0" [class.invisible]="songQueue == null || songQueue.length <= 0"
+<div *ngIf="trackQueue != null && trackQueue.length > 0"
+     [class.invisible]="trackQueue == null || trackQueue.length <= 0"
      class="player-footer fixed-bottom d-flex justify-content-center align-items-center">
   <div class="container">
     <div class="d-flex justify-content-center align-items-center">
@@ -22,54 +23,55 @@
            (plyrInit)="onInitPlayer($event)"
            (plyrPlay)="onPlayAudio()"
            (plyrPause)="onPauseAudio()"
-           (plyrEnded)="onSongEnd()">
+           (plyrEnded)="onTrackEnd()">
       </div>
       <div class="playing-audio d-flex justify-content-start align-items-center">
-        <img [routerLink]="songQueue[currSongIdx].link" *ngIf="songQueue[currSongIdx]?.imageUrl"
+        <img [routerLink]="trackQueue[currTrackIdx].link" *ngIf="trackQueue[currTrackIdx]?.imageUrl"
              class="album-photo-playing-audio pointer rounded"
-             src="{{songQueue[currSongIdx].imageUrl}}">
-        <div [routerLink]="songQueue[currSongIdx].link" *ngIf="!songQueue[currSongIdx]?.imageUrl"
+             src="{{trackQueue[currTrackIdx].imageUrl}}">
+        <div [routerLink]="trackQueue[currTrackIdx].link" *ngIf="!trackQueue[currTrackIdx]?.imageUrl"
              class="audio-image pointer"></div>
         <div class="d-flex flex-column ml-2">
-          <span [routerLink]="songQueue[currSongIdx].link"
-                class="playing-audio-title pointer">{{songQueue[currSongIdx].title}}</span>
-          <span [routerLink]="'/' + songQueue[currSongIdx].uploader.username"
-                class="playing-audio-artist pointer">{{songQueue[currSongIdx].uploader.name}}</span>
+          <span [routerLink]="trackQueue[currTrackIdx].link"
+                class="playing-audio-title pointer">{{trackQueue[currTrackIdx].title}}</span>
+          <span [routerLink]="'/' + trackQueue[currTrackIdx].uploader.username"
+                class="playing-audio-artist pointer">{{trackQueue[currTrackIdx].uploader.name}}</span>
         </div>
       </div>
       <div class="plyr-audio-player-controls d-flex justify-content-center align-items-center">
-        <fa-icon (click)="likeCurrentTrack(songQueue[currSongIdx])" class="mx-2" [class.active-btn]="currentUserTrackInfo?.like" [icon]="faHeart"></fa-icon>
+        <fa-icon (click)="likeCurrentTrack(trackQueue[currTrackIdx])" class="mx-2"
+                 [class.active-btn]="currentUserTrackInfo?.like" [icon]="faHeart"></fa-icon>
       </div>
       <div class="plyr-audio-player-controls d-flex justify-content-center align-items-center ml-2 playing-queue"
-           (click)="showSongQueue()" [class.show-queue]="isShowSongQueue">
+           (click)="showTrackQueue()" [class.show-queue]="isShowTrackQueue">
         <svg width="24" height="24">
           <path fill="#333" class="playbackSoundBadge__queueIcon"
                 d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
         </svg>
       </div>
-      <div class="song-queue" [class.queue-visible]="isShowSongQueue">
+      <div class="song-queue" [class.queue-visible]="isShowTrackQueue">
         <div class="queue">
           <div class="queue-panel px-4 py-1">
-            <div class="queue-title" (click)="showSongQueue()">
+            <div class="queue-title" (click)="showTrackQueue()">
               Next up
             </div>
-            <button type="button" class="queue-clear-all mr-4" (click)="removeAllSongInQueue()">Clear</button>
-            <button type="button" class="queue-close" (click)="showSongQueue()">
+            <button type="button" class="queue-clear-all mr-4" (click)="removeAllTracksInQueue()">Clear</button>
+            <button type="button" class="queue-close" (click)="showTrackQueue()">
               <fa-icon [icon]="faChevronDown"></fa-icon>
             </button>
           </div>
           <div class="queue-scroll">
-            <ng-container *ngIf="songQueue != null && songQueue.length > 0">
-              <div *ngFor="let song of songQueue; index as idx" class="queue-item"
-                   [class.playing-piece]="idx === currSongIdx" [class.played-piece]="idx < currSongIdx">
+            <ng-container *ngIf="trackQueue != null && trackQueue.length > 0">
+              <div *ngFor="let track of trackQueue; index as idx" class="queue-item"
+                   [class.playing-piece]="idx === currTrackIdx" [class.played-piece]="idx < currTrackIdx">
                 <div class="queue-item-view">
                   <div class="queue-item-artwork">
-                    <span *ngIf="song.imageUrl" style="{{'background-image: url(' + song.imageUrl + ');'}}"></span>
-                    <span *ngIf="!song.imageUrl"
+                    <span *ngIf="track.imageUrl" style="{{'background-image: url(' + track.imageUrl + ');'}}"></span>
+                    <span *ngIf="!track.imageUrl"
                           style="background-image: linear-gradient(135deg, #846170, #70929c);"></span>
                     <fa-icon [icon]="faPlay" class="item-view-button item-view-btn-play"
                              (click)="playFromQueue(idx)"
-                             [style.visibility]="(!isPlaying && idx === currSongIdx) ? 'visible' : ((isPlaying && idx === currSongIdx) ? 'hidden' : '')">
+                             [style.visibility]="(!isPlaying && idx === currTrackIdx) ? 'visible' : ((isPlaying && idx === currTrackIdx) ? 'hidden' : '')">
                     </fa-icon>
                     <fa-icon [icon]="faPause" class="item-view-button"
                              (click)="pauseFromQueue()"
@@ -78,17 +80,18 @@
                   </div>
                   <div class="queue-item-details">
                     <div class="queue-item-title">
-                      <a [routerLink]="song.link">{{song.title}}</a>
+                      <a [routerLink]="track.link">{{track.title}}</a>
                     </div>
                     <div class="queue-item-artist">
-                      <a [routerLink]="'/' + song.uploader.username">{{song.uploader.name}}</a>
+                      <a [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</a>
                     </div>
                   </div>
-                  <div class="queue-item-duration" [class.d-none]="idx === currSongIdx">
-                    {{song.duration}}
+                  <div class="queue-item-duration" [class.d-none]="idx === currTrackIdx">
+                    {{track.duration}}
                   </div>
-                  <div class="queue-item-actions" [class.d-block]="idx === currSongIdx">
-                    <fa-icon (click)="likeTrack(song, idx)" [class.active-btn]="userTrackInfo[idx]?.like" class="mx-2" [icon]="faHeart"></fa-icon>
+                  <div class="queue-item-actions" [class.d-block]="idx === currTrackIdx">
+                    <fa-icon (click)="likeTrack(track, idx)" [class.active-btn]="userTrackInfo[idx]?.like" class="mx-2"
+                             [icon]="faHeart"></fa-icon>
                     <fa-icon class="mx-2" [icon]="faEllipsis"></fa-icon>
                   </div>
                 </div>

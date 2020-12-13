@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {UserService} from "../../service/user.service";
-import {Song} from "../../model/Song";
+import {Track} from "../../model/track";
 import {Title} from "@angular/platform-browser";
 import * as moment from "moment";
 import {AppSettings} from "../../global/app-settings";
@@ -18,7 +18,7 @@ import {ToastrService} from "ngx-toastr";
 })
 export class YourTracksComponent implements OnInit {
 
-  tracks: Song[] = [];
+  tracks: Track[] = [];
   faTrashAlt = faTrashAlt;
   faPen = faPen;
   faDownload = faDownload;
@@ -40,7 +40,7 @@ export class YourTracksComponent implements OnInit {
     return moment(time).startOf("second").fromNow();
   }
 
-  deleteTrack(track: Song) {
+  deleteTrack(track: Track) {
     if (confirm("Do you want to delete forever this track: " + track.title)) {
       this.trackService.deleteTrack(track).subscribe(resp => {
         if (resp.success) {
@@ -54,7 +54,7 @@ export class YourTracksComponent implements OnInit {
   reloadData() {
     this.userService.getYourTrack().subscribe(resp => {
       if (resp.success) {
-        this.tracks = resp.data as Song[];
+        this.tracks = resp.data as Track[];
         this.tracks.forEach(track => {
           track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
           track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
@@ -64,7 +64,7 @@ export class YourTracksComponent implements OnInit {
     })
   }
 
-  updateTrack(track: Song) {
+  updateTrack(track: Track) {
     const dialogRef = this.dialog.open(UpdateTrackDialogComponent, {
       width: "900px",
       height: "auto",
@@ -73,14 +73,14 @@ export class YourTracksComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(res => {
-       if (res.success) {
-         this.toastr.success("Updated the track successfully!");
-         this.reloadData();
-       }
+      if (res.success) {
+        this.toastr.success("Updated the track successfully!");
+        this.reloadData();
+      }
     })
   }
 
-  download(track: Song) {
+  download(track: Track) {
     location.href = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio-download/" + track.code;
   }
 }

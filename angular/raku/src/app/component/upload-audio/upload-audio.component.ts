@@ -9,7 +9,7 @@ import {TrackService} from "../../service/track.service";
 import {AppService} from "../../service/app.service";
 import {take, takeUntil} from "rxjs/operators";
 import {HttpEventType, HttpResponse} from "@angular/common/http";
-import {Song} from "../../model/Song";
+import {Track} from "../../model/track";
 import * as mm from 'music-metadata-browser';
 import {commonLabels, formatLabels, TagLabel} from './format-tags';
 import {AppSettings} from "../../global/app-settings";
@@ -66,7 +66,7 @@ export class UploadAudioComponent implements OnInit, OnDestroy {
   genresFilterCtrl: FormControl = new FormControl();
   filteredGenres: ReplaySubject<Genre[]>;
 
-  resultSong: Song;
+  resultTrack: Track;
 
   constructor(private genreService: GenreService,
               private trackService: TrackService,
@@ -141,7 +141,7 @@ export class UploadAudioComponent implements OnInit, OnDestroy {
         this.nativeTags = this.prepareNativeTags(metadata.native);
         console.log(result.metadata);
         this.title = result.metadata?.common?.title ? result.metadata.common.title : file.name.replace(/\.[^/.]+$/, "");
-        this.code = this.handleSongCode(this.title);
+        this.code = this.handleTrackCode(this.title);
         this.artist = result.metadata.common?.artist ? result.metadata.common.artist : "";
         this.composer = result.metadata.common?.composer ? result.metadata.common.composer[0] : "";
         this.duration = new Date(result.metadata.format.duration * 1000).toISOString().substr(11, 8);
@@ -240,7 +240,7 @@ export class UploadAudioComponent implements OnInit, OnDestroy {
     }, 20);
   }
 
-  handleSongCode(title: string): string {
+  handleTrackCode(title: string): string {
     title = this.removeVietnameseTones(title.toLowerCase().trim());
     // remove special characters (uncomplete)
     title = title.replace(/’|!|@|%|\^|\*|\(|\)|\+|\=|\<|\>|\?|\/|,|\.|\:|\;|\'|\"|\&|\#|\[|\]|~|\$|_|`|{|}|\||\\/g, "").trim();
@@ -302,11 +302,11 @@ export class UploadAudioComponent implements OnInit, OnDestroy {
     this.trackService.create(formData).subscribe(data => {
       if (data.success) {
         this.status = true;
-        this.resultSong = data.data as Song;
-        this.resultSong.src = AppSettings.ENDPOINT + "/" + this.resultSong.uploader.username + "/audio/" + this.resultSong.code;
-        this.resultSong.link = AppSettings.BASE_URL + "/" + this.resultSong.uploader.username + "/" + this.resultSong.code;
-        this.resultSong.imageUrl = AppSettings.ENDPOINT + "/" + this.resultSong.uploader.username + "/image/" + this.resultSong.imageUrl;
-        console.log(this.resultSong);
+        this.resultTrack = data.data as Track;
+        this.resultTrack.src = AppSettings.ENDPOINT + "/" + this.resultTrack.uploader.username + "/audio/" + this.resultTrack.code;
+        this.resultTrack.link = AppSettings.BASE_URL + "/" + this.resultTrack.uploader.username + "/" + this.resultTrack.code;
+        this.resultTrack.imageUrl = AppSettings.ENDPOINT + "/" + this.resultTrack.uploader.username + "/image/" + this.resultTrack.imageUrl;
+        console.log(this.resultTrack);
       }
     });
   }
