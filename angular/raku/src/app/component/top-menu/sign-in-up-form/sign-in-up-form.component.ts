@@ -8,6 +8,8 @@ import {AuthenticationService} from "../../../service/authentication.service";
 import {CookieService} from "ngx-cookie-service";
 import {AppSettings} from "../../../global/app-settings";
 import * as moment from 'moment';
+import {AppService} from "../../../service/app.service";
+import {UserService} from "../../../service/user.service";
 
 @Component({
   selector: 'app-sign-in-up-form',
@@ -34,7 +36,9 @@ export class SignInUpFormComponent implements OnInit {
   constructor(public dialogRef: MatDialogRef<SignInUpFormComponent>,
               @Inject(MAT_DIALOG_DATA) public data: any,
               private authService: AuthenticationService,
-              private cookieService: CookieService) {
+              private cookieService: CookieService,
+              private appService: AppService,
+              private userService: UserService) {
   }
 
   ngOnInit(): void {
@@ -58,7 +62,20 @@ export class SignInUpFormComponent implements OnInit {
           this.oAuthToken = resp.data as OAuthRespToken;
           if (this.oAuthToken != null) {
             this.cookieService.set(AppSettings.COOKIE_TOKEN_NAME, this.oAuthToken.token,
-              moment(new Date()).add(this.oAuthToken.expireTime, 'ms').toDate());
+              moment(new Date()).add(this.oAuthToken.expireTime, 'ms').toDate(), "/");
+            if (this.cookieService.check(AppSettings.COOKIE_TOKEN_NAME)) {
+              this.userService.getAuthenticatedUserHistoryTracks().subscribe(resp => {
+                if (resp.success) {
+                  resp.data.forEach(track => {
+                    track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+                    track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
+                    track.link = "/" + track.uploader.username + "/" + track.code;
+                  });
+                  this.appService.setTrackQueue(resp.data);
+                  this.appService.setQueueIdx(0);
+                }
+              });
+            }
             this.dialogRef.close("login_success");
           }
         }

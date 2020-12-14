@@ -19,4 +19,5 @@ export class Track {
   uploader?: any;
   tags?: string[];
   comments?: any[];
+  userTrackInfo: any;
 }

@@ -36,7 +36,7 @@ export class AddToPlaylistComponent implements OnInit {
     this.loadPlaylists();
     this.user = this.appService.getCurrentUser();
     this.track = this.data.track;
-    this.link = AppSettings.BASE_URL + "/" + this.user.username + "/playlist/";
+    this.link = AppSettings.BASE_URL + "/" + this.user?.username + "/playlist/";
     // todo load playlists which have this track, if not show button add, else show "x" to remove this track from the playlist
   }
 

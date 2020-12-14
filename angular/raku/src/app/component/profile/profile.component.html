@@ -48,14 +48,14 @@
               <span class="text-muted upload-time">{{convertTimespan(track.uploadTime)}}</span>
             </div>
             <div class="track-react d-flex justify-content-start align-items-center">
-              <button (click)="likeTrack(track)" [class.active-btn]="track['userTrackInfo']['like']">
+              <button (click)="likeTrack(track)" [class.active-btn]="track?.userTrackInfo?.like">
                 <fa-icon [icon]="faHeart"></fa-icon>
-                {{track['userTrackInfo']['like'] ? "Liked" : "Like"}}
+                {{track?.userTrackInfo?.like ? "Liked" : "Like"}}
               </button>
               <button (click)="repostTrack(track)" [class.d-none]="currUser?.username == track.uploader.username"
-                      [class.active-btn]="track['userTrackInfo']['repost']">
+                      [class.active-btn]="track?.userTrackInfo?.repost">
                 <fa-icon [icon]="faThumbtack"></fa-icon>
-                {{track['userTrackInfo']['repost'] ? "Reposted" : "Repost"}}
+                {{track?.userTrackInfo?.repost ? "Reposted" : "Repost"}}
               </button>
               <button (click)="showShareDialog(track)">
                 <fa-icon [icon]="faShare"></fa-icon>
@@ -97,7 +97,7 @@
                 </div>
                 <div>
                   <p class="mb-0 text-muted">
-                    <span class="pointer" [routerLink]="'/' + currUser.username">{{currUser.name}}</span> <fa-icon class="mx-2 text-dark" [icon]="faThumbtack"></fa-icon> <span class="pointer" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</span>
+                    <span class="pointer" [routerLink]="'/' + currUser?.username">{{currUser?.name}}</span> <fa-icon class="mx-2 text-dark" [icon]="faThumbtack"></fa-icon> <span class="pointer" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</span>
                   </p>
                   <p [routerLink]="'/' + track.uploader.username + '/' + track.code"
                      class="mb-0 track-title pointer">{{track.title}}</p>
@@ -106,14 +106,14 @@
               <span class="text-muted upload-time">{{convertTimespan(track.uploadTime)}}</span>
             </div>
             <div class="track-react d-flex justify-content-start align-items-center">
-              <button (click)="likeTrack(track)" [class.active-btn]="track['userTrackInfo']['like']">
+              <button (click)="likeTrack(track)" [class.active-btn]="track?.userTrackInfo?.like">
                 <fa-icon [icon]="faHeart"></fa-icon>
-                {{track['userTrackInfo']['like'] ? "Liked" : "Like"}}
+                {{track?.userTrackInfo?.like ? "Liked" : "Like"}}
               </button>
               <button (click)="repostTrack(track)" [class.d-none]="currUser?.username == track.uploader.username"
-                      [class.active-btn]="track['userTrackInfo']['repost']">
+                      [class.active-btn]="track?.userTrackInfo?.repost">
                 <fa-icon [icon]="faThumbtack"></fa-icon>
-                {{track['userTrackInfo']['repost'] ? "Reposted" : "Repost"}}
+                {{track?.userTrackInfo?.repost ? "Reposted" : "Repost"}}
               </button>
               <button (click)="showShareDialog(track)">
                 <fa-icon [icon]="faShare"></fa-icon>
