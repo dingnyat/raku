@@ -1,6 +1,6 @@
 1. (done) Làm share bài hát
 2. (ưu tiên) Làm trang cá nhân người dùng (của mình, của người khác)
-3. (xong cơ bản) Playlist
+3. (ưu tiên) Playlist (mới xong cái create)
 4. (done) Xóa, sửa bài hát
 5. (done) Xóa comment
 6. (ưu tiên) Áp dụng private/public. Bắt đầu phân loại người dùng trả phí
@@ -15,3 +15,4 @@
 15. Xóa hàng loạt trong your tracks
 16. Tìm kiếm theo tag
 16. Playlist trong profile
+17. Xử lý chưa đăng nhập thì làm được những gì?

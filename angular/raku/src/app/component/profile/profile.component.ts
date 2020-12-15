@@ -25,6 +25,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.component";
 import {EditProfileComponent} from "../edit-profile/edit-profile.component";
 import {ToastrService} from "ngx-toastr";
+import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form.component";
 
 @Component({
   selector: 'app-profile',
@@ -113,15 +114,28 @@ export class ProfileComponent implements OnInit {
   }
 
   followUser() {
-    this.userService.followUser(this.user.username).subscribe(resp => {
-      if (resp.success) {
-        this.userService.getUserStats(this.user.username).subscribe(r => {
-          if (r.success) {
-            this.userStats = r.data;
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.followUser(this.user.username).subscribe(resp => {
+        if (resp.success) {
+          this.userService.getUserStats(this.user.username).subscribe(r => {
+            if (r.success) {
+              this.userStats = r.data;
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   convertTimespan(time: Date) {
@@ -133,27 +147,53 @@ export class ProfileComponent implements OnInit {
   }
 
   likeTrack(track: Track) {
-    this.userService.likeTrack(track.id).subscribe(resp => {
-      if (resp.success) {
-        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
-          if (r.success) {
-            track['userTrackInfo'] = r.data;
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.likeTrack(track.id).subscribe(resp => {
+        if (resp.success) {
+          this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
+            if (r.success) {
+              track['userTrackInfo'] = r.data;
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   repostTrack(track: Track) {
-    this.userService.repostTrack(track.id).subscribe(resp => {
-      if (resp.success) {
-        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
-          if (r.success) {
-            track['userTrackInfo'] = r.data;
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.repostTrack(track.id).subscribe(resp => {
+        if (resp.success) {
+          this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
+            if (r.success) {
+              track['userTrackInfo'] = r.data;
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   showShareDialog(track: Track) {
@@ -169,15 +209,28 @@ export class ProfileComponent implements OnInit {
   }
 
   addToPlaylist(track: Track) {
-    const dialogRef = this.dialog.open(AddToPlaylistComponent, {
-      width: "500px",
-      height: "auto",
-      data: {track: track}
-    });
+    if (this.appService.getCurrentUser() != null) {
+      const dialogRef = this.dialog.open(AddToPlaylistComponent, {
+        width: "500px",
+        height: "auto",
+        data: {track: track}
+      });
 
-    dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
-    })
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   showEditProfileDialog() {

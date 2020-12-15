@@ -31,6 +31,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {ShareDialogComponent} from "../share-dialog/share-dialog.component";
 import {ToastrService} from "ngx-toastr";
 import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.component";
+import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form.component";
 
 @Component({
   selector: 'track-details',
@@ -211,62 +212,114 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   }
 
   likeTrack() {
-    this.userService.likeTrack(this.track.id).subscribe(resp => {
-      if (resp.success) {
-        this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
-          if (r.success) {
-            this.userTrackInfo.like = r.data.like;
-            // xong thì nhảy số like của track ở stats lên (trên view)
-          }
-        });
-        this.trackService.getTrackStats(this.username, this.code).subscribe(resp => {
-          if (resp.success) {
-            this.trackStats = resp.data;
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.likeTrack(this.track.id).subscribe(resp => {
+        if (resp.success) {
+          this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
+            if (r.success) {
+              this.userTrackInfo.like = r.data.like;
+              // xong thì nhảy số like của track ở stats lên (trên view)
+            }
+          });
+          this.trackService.getTrackStats(this.username, this.code).subscribe(resp => {
+            if (resp.success) {
+              this.trackStats = resp.data;
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   repostTrack() {
-    this.userService.repostTrack(this.track.id).subscribe(resp => {
-      if (resp.success) {
-        this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
-          if (r.success) {
-            this.userTrackInfo.repost = r.data.repost;
-            // xong thì nhảy số repost của track ở stats lên (trên view)
-          }
-        });
-        this.trackService.getTrackStats(this.username, this.code).subscribe(resp => {
-          if (resp.success) {
-            this.trackStats = resp.data;
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.repostTrack(this.track.id).subscribe(resp => {
+        if (resp.success) {
+          this.trackService.getUserTrackInfo(this.username, this.code).subscribe(r => {
+            if (r.success) {
+              this.userTrackInfo.repost = r.data.repost;
+              // xong thì nhảy số repost của track ở stats lên (trên view)
+            }
+          });
+          this.trackService.getTrackStats(this.username, this.code).subscribe(resp => {
+            if (resp.success) {
+              this.trackStats = resp.data;
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   followUploader() {
-    this.userService.followUser(this.track.uploader.username).subscribe(resp => {
-      if (resp.success) {
-        this.userService.getUserStats(this.username).subscribe(r => {
-          if (r.success) {
-            this.uploaderStats = r.data;
-            // xong thì nhảy số follow của uploader ở dưới avatar lên
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.followUser(this.track.uploader.username).subscribe(resp => {
+        if (resp.success) {
+          this.userService.getUserStats(this.username).subscribe(r => {
+            if (r.success) {
+              this.uploaderStats = r.data;
+              // xong thì nhảy số follow của uploader ở dưới avatar lên
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   comment(event) {
-    if (event.target.value != null && event.target.value.trim() != '') {
-      this.userService.comment({trackId: this.track.id, content: event.target.value}).subscribe(resp => {
-        if (resp.success) {
-          event.target.value = '';
-          this.reloadComment();
-        }
+    if (this.appService.getCurrentUser() != null) {
+      if (event.target.value != null && event.target.value.trim() != '') {
+        this.userService.comment({trackId: this.track.id, content: event.target.value}).subscribe(resp => {
+          if (resp.success) {
+            event.target.value = '';
+            this.reloadComment();
+          }
+        });
+      }
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
       });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
     }
   }
 
@@ -296,14 +349,28 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
   }
 
   addToPlaylist(track: Track) {
-    const dialogRef = this.dialog.open(AddToPlaylistComponent, {
-      width: "500px",
-      height: "auto",
-      data: {track: track}
-    });
+    if (this.appService.getCurrentUser() != null) {
+      const dialogRef = this.dialog.open(AddToPlaylistComponent, {
+        width: "500px",
+        height: "auto",
+        data: {track: track}
+      });
 
-    dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
-    })
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
+
   }
 }

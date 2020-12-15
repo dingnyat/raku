@@ -254,9 +254,7 @@ public class UserServiceImpl implements UserService {
         userStats.setFollowing(user.getFollowingUsers().size());
         userStats.setTracks(user.getTracks().size());
         UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
-        if (user.getFollowers().stream().anyMatch(u -> u.getUsername().equals(userPrincipal.getUsername()))) {
-            userStats.setYouFollowing(true);
-        }
+        userStats.setYouFollowing(userPrincipal != null && user.getFollowers().stream().anyMatch(u -> u.getUsername().equals(userPrincipal.getUsername())));
         return userStats;
     }
 

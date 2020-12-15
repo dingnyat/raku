@@ -19,6 +19,8 @@ import {LoopType} from "./loop-type";
 import {UserService} from "../../service/user.service";
 import {TrackService} from "../../service/track.service";
 import {UserTrackInfo} from "../../model/user-track-info";
+import {MatDialog} from "@angular/material/dialog";
+import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form.component";
 
 @Component({
   selector: 'media-player',
@@ -56,7 +58,7 @@ export class MediaPlayerComponent implements OnInit {
   userTrackInfo: UserTrackInfo[] = [];
   currentUserTrackInfo: UserTrackInfo;
 
-  constructor(private appService: AppService, private userService: UserService, private trackService: TrackService) {
+  constructor(private appService: AppService, private userService: UserService, private trackService: TrackService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -206,28 +208,52 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   likeTrack(track: Track, idx: number) {
-    this.userService.likeTrack(track.id).subscribe(resp => {
-      if (resp.success) {
-        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
-          if (r.success) {
-            this.userTrackInfo[idx] = r.data;
-            if (idx == this.currTrackIdx) this.currentUserTrackInfo = r.data;
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.likeTrack(track.id).subscribe(resp => {
+        if (resp.success) {
+          this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
+            if (r.success) {
+              this.userTrackInfo[idx] = r.data;
+              if (idx == this.currTrackIdx) this.currentUserTrackInfo = r.data;
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 
   likeCurrentTrack(track: Track) {
-    this.userService.likeTrack(track.id).subscribe(resp => {
-      if (resp.success) {
-        this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
-          if (r.success) {
-            this.currentUserTrackInfo = r.data;
-            this.userTrackInfo[this.currTrackIdx] = r.data;
-          }
-        });
-      }
-    });
+    if (this.appService.getCurrentUser() != null) {
+      this.userService.likeTrack(track.id).subscribe(resp => {
+        if (resp.success) {
+          this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
+            if (r.success) {
+              this.currentUserTrackInfo = r.data;
+              this.userTrackInfo[this.currTrackIdx] = r.data;
+            }
+          });
+        }
+      });
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
+      });
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
+    }
   }
 }

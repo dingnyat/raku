@@ -189,7 +189,7 @@ public class TrackController {
             UserTrackInfo userTrackInfo = trackService.getUserTrackInfo(username, code, userPrincipal.getUsername());
             return new ApiResponse<>(true, userTrackInfo);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println(e);
             return new ApiResponse<>(false, null);
         }
     }

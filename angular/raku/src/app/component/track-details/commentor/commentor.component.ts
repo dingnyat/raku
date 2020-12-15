@@ -3,8 +3,10 @@ import {Comment} from "../../../model/comment";
 import {User} from "../../../model/user";
 import {faReply, faTrashAlt} from "@fortawesome/free-solid-svg-icons";
 import {UserService} from "../../../service/user.service";
-import {TrackService} from "../../../service/track.service";
 import * as moment from 'moment';
+import {SignInUpFormComponent} from "../../top-menu/sign-in-up-form/sign-in-up-form.component";
+import {AppService} from "../../../service/app.service";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'commentor',
@@ -30,21 +32,33 @@ export class CommentorComponent implements OnInit {
   showReply = false;
   faTrashAlt = faTrashAlt;
 
-  constructor(private userService: UserService, private trackService: TrackService) {
+  constructor(private userService: UserService, private appService: AppService, public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
   }
 
   comment(event) {
-    if (event.target.value != null && event.target.value.trim() != '') {
-      this.userService.comment({replyCommentId: this.cmt.id, content: event.target.value}).subscribe(resp => {
-        if (resp.success) {
-          event.target.value = '';
-          this.showReply = false;
-          this.reload();
-        }
+    if (this.appService.getCurrentUser() != null) {
+      if (event.target.value != null && event.target.value.trim() != '') {
+        this.userService.comment({replyCommentId: this.cmt.id, content: event.target.value}).subscribe(resp => {
+          if (resp.success) {
+            event.target.value = '';
+            this.showReply = false;
+            this.reload();
+          }
+        });
+      }
+    } else {
+      const dialogRef = this.dialog.open(SignInUpFormComponent, {
+        width: "900px",
+        height: "auto",
+        disableClose: true,
+        data: {success: false, type: 'signin'}
       });
+      dialogRef.afterClosed().subscribe(res => {
+        console.log(res);
+      })
     }
   }
 
