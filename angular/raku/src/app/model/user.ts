@@ -1,6 +1,7 @@
 import {Role} from "../global/role";
 
 export class User {
+  id: any;
   username: string;
   name: string;
   vip: boolean;

@@ -167,10 +167,13 @@ delete-icon:hover {
 }
 
 :focus {
-  outline: none;
+  outline: none !important;
 }
 
 .pointer {
   cursor: pointer !important;
 }
 
+button:focus {
+  outline: none !important;
+}

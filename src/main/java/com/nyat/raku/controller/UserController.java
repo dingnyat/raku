@@ -6,6 +6,7 @@ import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.UserFormData;
 import com.nyat.raku.payload.UserStats;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.UserPrincipal;
@@ -192,5 +193,28 @@ public class UserController {
             e.printStackTrace();
             return new ApiResponse<>(false, null);
         }
+    }
+
+    @GetMapping("/my-all-info")
+    @ResponseBody
+    public ApiResponse<UserDTO> getMyAllInfo() {
+        try {
+            return new ApiResponse<>(true, userService.getMyAllInfo());
+        } catch (Exception e) {
+            return new ApiResponse<>(false, null);
+        }
+
+    }
+
+    @PostMapping("/update-profile")
+    @ResponseBody
+    public ApiResponse<?> updateProfile(@ModelAttribute UserFormData formData) {
+        try {
+            userService.updateProfile(formData);
+            return new ApiResponse<>(true, null);
+        } catch (Exception e) {
+            return new ApiResponse<>(false, null);
+        }
+
     }
 }

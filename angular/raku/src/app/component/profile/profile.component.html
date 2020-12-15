@@ -149,7 +149,7 @@
       </button>
     </div>
     <div *ngIf="user?.username == currUser?.username" class="edit-btn text-center">
-      <button>
+      <button (click)="showEditProfileDialog()">
         <fa-icon [icon]="faPencilAlt" class="mr-1"></fa-icon>
         Edit profile
       </button>

@@ -1,22 +1,31 @@
 package com.nyat.raku.service.impl;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nyat.raku.dao.CommentDAO;
 import com.nyat.raku.dao.TrackDAO;
 import com.nyat.raku.dao.UserDAO;
 import com.nyat.raku.entity.*;
 import com.nyat.raku.model.*;
 import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.UserFormData;
 import com.nyat.raku.payload.UserStats;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.Role;
 import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.UserService;
+import com.nyat.raku.util.CropData;
 import com.nyat.raku.util.DateTimeUtils;
+import org.imgscalr.Scalr;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -36,6 +45,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Value("${raku.root-path}")
+    private String storagePath;
+
+    @Value("${raku.base-url}")
+    private String BASE_URL;
 
     @Override
     public User create(UserDTO userDTO) {
@@ -387,6 +402,53 @@ public class UserServiceImpl implements UserService {
         Playlist playlist = userDAO.getByUsername(userPrincipal.getUsername()).getPlaylists().stream().filter(p -> p.getId().equals(playlistId)).findAny().orElse(null);
         if (playlist != null) {
             playlist.getTracks().remove(track);
+        }
+    }
+
+    @Override
+    public UserDTO getMyAllInfo() {
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        User user = userDAO.getByUsername(userPrincipal.getUsername());
+        UserDTO userDTO = new UserDTO();
+        userDTO.setId(user.getId());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setUsername(user.getUsername());
+        userDTO.setName(user.getName());
+        userDTO.setImageUrl(user.getImageUrl());
+        userDTO.setBio(user.getBio());
+        userDTO.setCountry(user.getCountry());
+        userDTO.setCity(user.getCity());
+        return userDTO;
+    }
+
+    @Override
+    public void updateProfile(UserFormData formData) throws IOException {
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        User user = userDAO.get(formData.getId());
+        if (user != null && user.getUsername().equals(userPrincipal.getUsername())) {
+            user.setName(formData.getName());
+            user.setBio(formData.getBio());
+            user.setCity(formData.getCity());
+            user.setCountry(formData.getCountry());
+
+            if (formData.getImage() != null) {
+                System.out.println(formData.getImage().getOriginalFilename());
+                CropData cropData = (new ObjectMapper()).readValue(formData.getCropData(), CropData.class);
+                BufferedImage originalImg = ImageIO.read(formData.getImage().getInputStream());
+                BufferedImage scaledImg = Scalr.resize(originalImg,
+                        Scalr.Method.SPEED,
+                        Scalr.Mode.AUTOMATIC,
+                        (int) (originalImg.getWidth() * cropData.getScale()),
+                        (int) (originalImg.getHeight() * cropData.getScale()));
+
+                BufferedImage resultImg = scaledImg.getSubimage(cropData.getX(), cropData.getY(), cropData.getW(), cropData.getH());
+                File dir = new File(this.storagePath + File.separator + "user" + File.separator + userPrincipal.getUsername());
+                if (!dir.exists()) dir.mkdirs();
+                File imgFile = new File(this.storagePath + File.separator + "user" + File.separator + userPrincipal.getUsername() + File.separator + "avatar.jpg");
+                ImageIO.write(resultImg, "jpg", imgFile);
+                user.setImageUrl(BASE_URL + "/avatar/" + user.getUsername());
+                userDAO.update(user);
+            }
         }
     }
 }

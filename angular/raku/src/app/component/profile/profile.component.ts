@@ -5,11 +5,11 @@ import {ActivatedRoute} from "@angular/router";
 import {
   faHeart,
   faList,
-  faPaperclip,
   faPencilAlt,
   faPlay,
   faShare,
-  faStar, faThumbtack,
+  faStar,
+  faThumbtack,
   faUserCheck,
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
@@ -23,6 +23,8 @@ import * as moment from "moment";
 import {ShareDialogComponent} from "../share-dialog/share-dialog.component";
 import {MatDialog} from "@angular/material/dialog";
 import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.component";
+import {EditProfileComponent} from "../edit-profile/edit-profile.component";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-profile',
@@ -51,7 +53,8 @@ export class ProfileComponent implements OnInit {
               private appService: AppService,
               private title: Title,
               private trackService: TrackService,
-              public dialog: MatDialog,) {
+              public dialog: MatDialog,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -63,6 +66,9 @@ export class ProfileComponent implements OnInit {
       this.userService.getByUsername(params.username).subscribe(resp => {
         if (resp.success) {
           this.user = resp.data;
+          if (this.user.imageUrl) {
+            this.user.imageUrl = this.user.imageUrl + "?v=" + (new Date()).toISOString();
+          }
           this.title.setTitle(this.user.name + "'s profile | Raku");
           this.userService.getUserStats(this.user.username).subscribe(r => {
             if (r.success) {
@@ -171,6 +177,21 @@ export class ProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
       console.log(res);
+    })
+  }
+
+  showEditProfileDialog() {
+    const dialogRef = this.dialog.open(EditProfileComponent, {
+      width: "900px",
+      height: "auto",
+      data: null
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+      if (res.success) {
+        this.toastr.success("Updated user's profile successfully!");
+        this.ngOnInit();
+      }
     })
   }
 }

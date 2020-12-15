@@ -73,4 +73,12 @@ export class UserService extends BaseService {
   createAPlaylist(data): Observable<any> {
     return this.http.post(this.BASE_URL + this.contextUrl + "/create-playlist", data);
   }
+
+  getMyAllInfo(): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/my-all-info");
+  }
+
+  updateUserProfile(formData: FormData): Observable<any> {
+    return this.http.post(this.BASE_URL + this.contextUrl + "/update-profile", formData);
+  }
 }

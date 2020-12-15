@@ -1,15 +1,16 @@
 package com.nyat.raku.service;
 
 
-import com.nyat.raku.entity.Playlist;
 import com.nyat.raku.entity.User;
 import com.nyat.raku.model.CommentDTO;
 import com.nyat.raku.model.PlaylistDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.UserFormData;
 import com.nyat.raku.payload.UserStats;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -58,4 +59,8 @@ public interface UserService {
     void addToPlaylist(Integer trackId, Integer playlistId);
 
     void removeFromPlaylist(Integer trackId, Integer playlistId);
+
+    UserDTO getMyAllInfo();
+
+    void updateProfile(UserFormData formData) throws IOException;
 }

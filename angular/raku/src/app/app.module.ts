@@ -36,6 +36,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { ShareDialogComponent } from './component/share-dialog/share-dialog.component';
 import { CreatePlaylistDialogComponent } from './component/create-playlist-dialog/create-playlist-dialog.component';
 import { AddToPlaylistComponent } from './component/add-to-playlist/add-to-playlist.component';
+import { EditProfileComponent } from './component/edit-profile/edit-profile.component';
 
 export let InjectorInstance: Injector;
 
@@ -57,6 +58,7 @@ export let InjectorInstance: Injector;
     ShareDialogComponent,
     CreatePlaylistDialogComponent,
     AddToPlaylistComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

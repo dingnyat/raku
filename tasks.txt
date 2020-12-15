@@ -14,3 +14,4 @@
 14. add to next up
 15. Xóa hàng loạt trong your tracks
 16. Tìm kiếm theo tag
+16. Playlist trong profile

@@ -75,4 +75,19 @@ public class MediaController {
         }
         return new byte[0];
     }
+
+    @RequestMapping(value = "/avatar/{username}", produces = MediaType.IMAGE_JPEG_VALUE)
+    @ResponseBody
+    public byte[] loadAvatar(@PathVariable("username") String username) {
+        String filePath = this.ROOT_PATH + File.separator + "user" + File.separator + username + File.separator + "avatar.jpg";
+        File file = new File(filePath);
+        if (!file.exists()) {
+            return new byte[0];
+        }
+        try {
+            return Files.readAllBytes(file.toPath());
+        } catch (IOException ignored) {
+        }
+        return new byte[0];
+    }
 }
