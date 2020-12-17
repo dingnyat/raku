@@ -63,4 +63,8 @@ public interface UserService {
     UserDTO getMyAllInfo();
 
     void updateProfile(UserFormData formData) throws IOException;
+
+    boolean checkExistedUsername(String username);
+
+    User generatePasswordResetToken(String username);
 }

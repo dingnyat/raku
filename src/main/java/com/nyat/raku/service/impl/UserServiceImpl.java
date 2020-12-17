@@ -12,6 +12,7 @@ import com.nyat.raku.payload.UserStats;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.Role;
 import com.nyat.raku.security.UserPrincipal;
+import com.nyat.raku.service.EmailService;
 import com.nyat.raku.service.UserService;
 import com.nyat.raku.util.CropData;
 import com.nyat.raku.util.DateTimeUtils;
@@ -45,6 +46,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
 
     @Value("${raku.root-path}")
     private String storagePath;
@@ -448,5 +452,27 @@ public class UserServiceImpl implements UserService {
                 userDAO.update(user);
             }
         }
+    }
+
+    @Override
+    public boolean checkExistedUsername(String username) {
+        User user = userDAO.getByUsername(username);
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        if (userPrincipal != null) {
+            if (user != null) {
+                return !user.getUsername().equals(userPrincipal.getUsername());
+            }
+            return false;
+        }
+        return user == null;
+    }
+
+    @Override
+    public User generatePasswordResetToken(String username) {
+        User user = userDAO.getByUsername(username);
+        user.setPasswordResetToken(UUID.randomUUID().toString());
+        userDAO.update(user);
+        (new Thread(() -> emailService.sendPasswordResetEmail(user))).start();
+        return user;
     }
 }

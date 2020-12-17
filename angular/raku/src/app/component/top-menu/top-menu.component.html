@@ -59,11 +59,12 @@
                     <fa-icon [icon]="faMusic" class="ml-1 mr-2"></fa-icon>
                     Your tracks</a>
                 </li>
-                <!--<li>
+                <li (click)="showUserSecurity()">
                   <a class="menu-item">
-                    <fa-icon [icon]="faCog" class="ml-1 mr-2"></fa-icon>
-                    Settings</a>
-                </li>-->
+                    <fa-icon [icon]="faShieldAlt" class="ml-1 mr-2"></fa-icon>
+                    Security
+                  </a>
+                </li>
                 <li (click)="logout()">
                   <span class="menu-item"><fa-icon [icon]="faSignOut" class="ml-1 mr-2"></fa-icon>Sign out</span>
                 </li>

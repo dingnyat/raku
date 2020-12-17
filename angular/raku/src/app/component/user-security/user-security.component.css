@@ -1,0 +1,41 @@
+.close-dialog {
+  cursor: pointer;
+}
+
+.header-dialog {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  height: 30px;
+  padding-left: 15px;
+  padding-right: 15px;
+  border-bottom: 1px solid #aeaeae;
+}
+
+.title-dialog {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.content-dialog {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.profile-form {
+  box-shadow: 0 2px 12px -5px rgba(0, 0, 0, .1);
+  border: 1px solid #f2f2f2;
+  width: 100%;
+}
+
+.tab-form .row {
+  margin-right: 0 !important;
+  margin-left: 0 !important;
+}
+
+.password-reset button {
+  border: 1px solid #333333;
+  background-color: white;
+  border-radius: 2px;
+}

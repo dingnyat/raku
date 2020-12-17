@@ -37,6 +37,7 @@ import { ShareDialogComponent } from './component/share-dialog/share-dialog.comp
 import { CreatePlaylistDialogComponent } from './component/create-playlist-dialog/create-playlist-dialog.component';
 import { AddToPlaylistComponent } from './component/add-to-playlist/add-to-playlist.component';
 import { EditProfileComponent } from './component/edit-profile/edit-profile.component';
+import { UserSecurityComponent } from './component/user-security/user-security.component';
 
 export let InjectorInstance: Injector;
 
@@ -59,6 +60,7 @@ export let InjectorInstance: Injector;
     CreatePlaylistDialogComponent,
     AddToPlaylistComponent,
     EditProfileComponent,
+    UserSecurityComponent,
   ],
   imports: [
     BrowserModule,

@@ -45,6 +45,9 @@ public class User {
     @Column(name = "email_verification_key", nullable = false, unique = true)
     private String emailVerificationKey;
 
+    @Column(name = "password_reset_token", unique = true)
+    private String passwordResetToken;
+
     @Column(name = "provider_id")
     private String providerId;
 

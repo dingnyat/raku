@@ -81,4 +81,12 @@ export class UserService extends BaseService {
   updateUserProfile(formData: FormData): Observable<any> {
     return this.http.post(this.BASE_URL + this.contextUrl + "/update-profile", formData);
   }
+
+  checkExistedUsername(username: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/check-existed-username", {params: {"username": username}});
+  }
+
+  sendPasswordResetLink(): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/send-password-reset-link");
+  }
 }

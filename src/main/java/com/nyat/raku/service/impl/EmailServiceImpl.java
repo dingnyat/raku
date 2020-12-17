@@ -37,6 +37,11 @@ public class EmailServiceImpl implements EmailService {
         sendEmailFromTemplate(user, "mail/verificationEmail", "Please verify your Raku account");
     }
 
+    @Override
+    public void sendPasswordResetEmail(User user) {
+        sendEmailFromTemplate(user, "mail/passwordResetEmail", "Reset Raku account's password");
+    }
+
     @Async
     public void sendEmailFromTemplate(User user, String templateName, String subject) {
         Context context = new Context();

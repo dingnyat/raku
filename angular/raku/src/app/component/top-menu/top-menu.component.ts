@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faCog, faMusic, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCog, faMusic, faShieldAlt, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthenticationService} from "../../service/authentication.service";
 import {CookieService} from "ngx-cookie-service";
@@ -9,6 +9,7 @@ import {AppSettings} from "../../global/app-settings";
 import {User} from "../../model/user";
 import {SignInUpFormComponent} from "./sign-in-up-form/sign-in-up-form.component";
 import * as moment from 'moment';
+import {UserSecurityComponent} from "../user-security/user-security.component";
 
 @Component({
   selector: 'top-menu',
@@ -23,6 +24,7 @@ export class TopMenuComponent implements OnInit {
   userInfo: User;
   isAuthenticated: boolean;
   faMusic = faMusic;
+  faShieldAlt = faShieldAlt;
 
   constructor(public dialog: MatDialog,
               private authService: AuthenticationService,
@@ -98,5 +100,17 @@ export class TopMenuComponent implements OnInit {
       /*this.router.navigate(["/"]);*/
       location.href = '/';
     });
+  }
+
+  showUserSecurity() {
+    const dialogRef = this.dialog.open(UserSecurityComponent, {
+      width: "600px",
+      height: "auto",
+      disableClose: true,
+      data: null
+    });
+
+    dialogRef.afterClosed().subscribe(res => {
+    })
   }
 }

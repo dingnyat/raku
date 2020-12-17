@@ -217,4 +217,27 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/check-existed-username")
+    @ResponseBody
+    public ApiResponse<?> checkExistedUsername(@RequestParam("username") String username) {
+        try {
+            return new ApiResponse<>(userService.checkExistedUsername(username), null);
+        } catch (Exception e) {
+            return new ApiResponse<>(true, null);
+        }
+
+    }
+
+    @GetMapping("/send-password-reset-link")
+    @ResponseBody
+    public ApiResponse<?> sendPasswordResetLink() {
+        try {
+            UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+            userService.generatePasswordResetToken(userPrincipal.getUsername());
+            return new ApiResponse<>(true, null);
+        } catch (Exception e) {
+            return new ApiResponse<>(false, null);
+        }
+    }
 }
