@@ -7,6 +7,7 @@ import com.nyat.raku.dao.UserDAO;
 import com.nyat.raku.entity.*;
 import com.nyat.raku.model.*;
 import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.ResetPassword;
 import com.nyat.raku.payload.UserFormData;
 import com.nyat.raku.payload.UserStats;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
@@ -482,5 +483,29 @@ public class UserServiceImpl implements UserService {
         User user = userDAO.getByUsername(userPrincipal.getUsername());
         user.setUsername(username);
         userDAO.update(user);
+    }
+
+    @Override
+    public boolean resetPassword(ResetPassword resetPassword) {
+        User user = userDAO.getByResetPasswordToken(resetPassword.getToken());
+        if (user != null) {
+            user.setEncodedPassword(passwordEncoder.encode(resetPassword.getNewPassword()));
+            user.setPasswordResetToken(null);
+            userDAO.update(user);
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(user.getId());
+            userDTO.setName(user.getName());
+            userDTO.setEmail(user.getEmail());
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void generatePasswordResetTokenWithEmail(String email) {
+        User user = userDAO.getByEmail(email);
+        user.setPasswordResetToken(UUID.randomUUID().toString());
+        userDAO.update(user);
+        (new Thread(() -> emailService.sendPasswordResetEmail(user))).start();
     }
 }

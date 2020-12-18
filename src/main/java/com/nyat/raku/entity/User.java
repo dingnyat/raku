@@ -27,6 +27,7 @@ public class User {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @Column(name = "bio", columnDefinition = "text")
     private String bio;
 
     private String city;

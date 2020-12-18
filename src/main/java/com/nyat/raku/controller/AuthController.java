@@ -97,4 +97,22 @@ public class AuthController {
         }
     }
 
+    @PostMapping("/auth/reset-password")
+    public ApiResponse<String> resetPassword(@RequestBody ResetPassword resetPassword) {
+        if (!userService.resetPassword(resetPassword)) {
+            return new ApiResponse<>(false, "Can't find the account!");
+        } else {
+            return new ApiResponse<>(true, "Account is reset password successfully!");
+        }
+    }
+
+    @GetMapping("/auth/send-reset-password-email")
+    public ApiResponse<String> sendResetPasswordEmail(@RequestParam("email") String email) {
+        try {
+            userService.generatePasswordResetTokenWithEmail(email);
+            return new ApiResponse<>(true, "An email has sent to your email. Please check it!");
+        } catch (Exception e) {
+            return new ApiResponse<>(false, "Error!");
+        }
+    }
 }

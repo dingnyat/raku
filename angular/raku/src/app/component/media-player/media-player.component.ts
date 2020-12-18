@@ -54,6 +54,7 @@ export class MediaPlayerComponent implements OnInit {
   isShowTrackQueue: boolean;
 
   loopType = LoopType.NONE;
+  shuffle = false;
 
   userTrackInfo: UserTrackInfo[] = [];
   currentUserTrackInfo: UserTrackInfo;
@@ -255,5 +256,9 @@ export class MediaPlayerComponent implements OnInit {
         console.log(res);
       })
     }
+  }
+
+  clickShuffle() {
+    this.shuffle = !this.shuffle;
   }
 }

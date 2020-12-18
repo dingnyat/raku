@@ -21,4 +21,6 @@ public interface UserDAO {
     User getByEmail(String email);
 
     User getByVerificationKey(String key);
+
+    User getByResetPasswordToken(String token);
 }

@@ -8,7 +8,7 @@
         <fa-icon class="mx-3" [icon]="faPlay" (click)="playAudio(true)" *ngIf="!isPlaying"></fa-icon>
         <fa-icon class="mx-3" [icon]="faPause" (click)="pauseAudio()" *ngIf="isPlaying"></fa-icon>
         <fa-icon class="mx-3" [icon]="faStepForward" (click)="nextAudio()"></fa-icon>
-        <fa-icon class="mx-3" [icon]="faRandom"></fa-icon>
+        <fa-icon class="mx-3" [class.shuffle]="shuffle" [icon]="faRandom" (click)="clickShuffle()"></fa-icon>
         <img *ngIf="loopType == typeOfLoop.NONE" (click)="loopAudio()" class="no-repeat-control mx-1" title="No-repeat"
              src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCI+PHBhdGggZmlsbD0iIzMzMyIgZD0iTTEyIDhIOWE0IDQgMCAxIDAgMCA4aDZhNCA0IDAgMCAwIDIuMTA0LTcuNDAzbDEuNzctMS4xOC4wMi4wMThBNiA2IDAgMCAxIDE1IDE4SDlBNiA2IDAgMSAxIDkgNmgzVjRsNCAzLTQgM1Y4eiIvPjwvc3ZnPgo="/>
         <img *ngIf="loopType == typeOfLoop.ALL" (click)="loopAudio()" class="no-repeat-control mx-1"

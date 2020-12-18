@@ -68,4 +68,13 @@ public class UserDAOImpl implements UserDAO {
             return null;
         }
     }
+
+    @Override
+    public User getByResetPasswordToken(String token) {
+        try {
+            return entityManager.createQuery("select u from User u where u.passwordResetToken = '" + token + "'", User.class).getSingleResult();
+        } catch (Exception e) {
+            return null;
+        }
+    }
 }

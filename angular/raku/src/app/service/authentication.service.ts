@@ -32,4 +32,12 @@ export class AuthenticationService extends BaseService {
   verifyEmailKey(key: string): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/email-verify", {params: {key: key}});
   }
+
+  resetPassword(data): Observable<any> {
+    return this.http.post(this.BASE_URL + this.contextUrl + "/reset-password", data);
+  }
+
+  sendResetPasswordEmail(email: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/send-reset-password-email", {params: {"email": email}});
+  }
 }

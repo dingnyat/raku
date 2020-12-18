@@ -10,4 +10,3 @@
 10. truy cập /username/tracks dù username khác của mình vẫn ra của mình => cần disable cái này
 11. chưa đăng nhập vẫn hiện comment, like, repost (like, repost có thể vẫn hiện những bắt đăng nhập...)
 12. User chưa active vẫn hoạt động như thường
-13. bio set text length lỗi

@@ -330,3 +330,7 @@ button.queue-clear-all:hover {
 .active-btn {
   color: #ff5500 !important;
 }
+
+.shuffle {
+  color: #ff5500 !important;
+}

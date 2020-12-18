@@ -38,6 +38,7 @@ import { CreatePlaylistDialogComponent } from './component/create-playlist-dialo
 import { AddToPlaylistComponent } from './component/add-to-playlist/add-to-playlist.component';
 import { EditProfileComponent } from './component/edit-profile/edit-profile.component';
 import { UserSecurityComponent } from './component/user-security/user-security.component';
+import { PasswordResetComponent } from './component/password-reset/password-reset.component';
 
 export let InjectorInstance: Injector;
 
@@ -61,6 +62,7 @@ export let InjectorInstance: Injector;
     AddToPlaylistComponent,
     EditProfileComponent,
     UserSecurityComponent,
+    PasswordResetComponent,
   ],
   imports: [
     BrowserModule,

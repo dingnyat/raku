@@ -146,4 +146,8 @@ export class SignInUpFormComponent implements OnInit {
   oauthFacebook() {
     location.href = AppSettings.FACEBOOK_AUTH_URL;
   }
+
+  clickForgotPassword() {
+    location.href = '/auth/reset-password?reset=true';
+  }
 }

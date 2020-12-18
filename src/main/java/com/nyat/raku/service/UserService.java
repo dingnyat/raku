@@ -7,6 +7,7 @@ import com.nyat.raku.model.PlaylistDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.model.UserDTO;
 import com.nyat.raku.payload.CommentPayload;
+import com.nyat.raku.payload.ResetPassword;
 import com.nyat.raku.payload.UserFormData;
 import com.nyat.raku.payload.UserStats;
 
@@ -69,4 +70,8 @@ public interface UserService {
     User generatePasswordResetToken(String username);
 
     void changeUsername(String username);
+
+    boolean resetPassword(ResetPassword resetPassword);
+
+    void generatePasswordResetTokenWithEmail(String email);
 }
