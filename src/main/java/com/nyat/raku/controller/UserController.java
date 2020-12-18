@@ -240,4 +240,15 @@ public class UserController {
             return new ApiResponse<>(false, null);
         }
     }
+
+    @GetMapping("/change-username")
+    @ResponseBody
+    public ApiResponse<?> changeUsername(@RequestParam("newUsername") String username) {
+        try {
+            userService.changeUsername(username);
+            return new ApiResponse<>(true, null);
+        } catch (Exception e) {
+            return new ApiResponse<>(false, null);
+        }
+    }
 }

@@ -17,6 +17,7 @@ export class UserSecurityComponent implements OnInit {
 
   usernameExisted = false;
   sentEmail = false;
+  changeUsername = true;
 
   constructor(private userService: UserService,
               public dialogRef: MatDialogRef<UserSecurityComponent>,
@@ -55,5 +56,19 @@ export class UserSecurityComponent implements OnInit {
         this.sentEmail = true;
       }
     });
+  }
+
+  clickChangeUsername() {
+    if (this.changeUsername) {
+      this.changeUsername = !this.changeUsername;
+    } else {
+      if (!this.usernameExisted) {
+        this.userService.changeUsername(this.user.username).subscribe(resp => {
+          if (resp.success) {
+            this.changeUsername = true;
+          }
+        });
+      }
+    }
   }
 }

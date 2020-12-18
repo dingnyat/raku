@@ -39,3 +39,9 @@
   background-color: white;
   border-radius: 2px;
 }
+
+.change-username-btn {
+  border: none;
+  background-color: #ff5500;
+  color: white;
+}

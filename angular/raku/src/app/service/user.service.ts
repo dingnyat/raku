@@ -89,4 +89,8 @@ export class UserService extends BaseService {
   sendPasswordResetLink(): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/send-password-reset-link");
   }
+
+  changeUsername(username: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/change-username", {params: {"newUsername": username}});
+  }
 }

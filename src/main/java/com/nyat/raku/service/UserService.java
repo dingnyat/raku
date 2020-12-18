@@ -67,4 +67,6 @@ public interface UserService {
     boolean checkExistedUsername(String username);
 
     User generatePasswordResetToken(String username);
+
+    void changeUsername(String username);
 }

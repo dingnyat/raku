@@ -475,4 +475,12 @@ public class UserServiceImpl implements UserService {
         (new Thread(() -> emailService.sendPasswordResetEmail(user))).start();
         return user;
     }
+
+    @Override
+    public void changeUsername(String username) {
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        User user = userDAO.getByUsername(userPrincipal.getUsername());
+        user.setUsername(username);
+        userDAO.update(user);
+    }
 }

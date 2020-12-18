@@ -14,7 +14,11 @@
                 <div class="input-group-prepend">
                   <div class="input-group-text">{{link}}</div>
                 </div>
-                <input type="text" class="form-control" (blur)="onChangeUsername()" [(ngModel)]="user.username" [ngModelOptions]="{standalone: true}">
+                <input type="text" class="form-control" (blur)="onChangeUsername()" [(ngModel)]="user.username"
+                       [disabled]="changeUsername"
+                       [ngModelOptions]="{standalone: true}">
+                <button class="change-username-btn"
+                        (click)="clickChangeUsername()">{{changeUsername ? "Change" : "Confirm"}}</button>
               </div>
               <span *ngIf="usernameExisted" style="color: red; text-align: right;font-size: 0.9em">Username is not available!</span>
             </div>
@@ -29,13 +33,6 @@
               <span *ngIf="sentEmail" style="font-size: 0.8em;">We’ve sent an email to {{user.email}} with a link to reset your password.</span>
               <button (click)="sendPasswordResetLink()">Send me password-reset link</button>
             </div>
-          </div>
-        </div>
-        <div class="row d-flex justify-content-between align-items-center px-4 py-3 footer-btn">
-          <p class="m-0"><span style="color: red;">*</span> Required fields</p>
-          <div>
-            <button class="btn btn-light mr-1" (click)="cancel()">Cancel</button>
-            <button class="btn raku-btn" (click)="update()">Update</button>
           </div>
         </div>
       </form>
