@@ -159,13 +159,13 @@
                     <span class="pointer"
                           [routerLink]="'/' + playlist.createdBy.username">{{playlist.createdBy.name}}</span>
                   </p>
-                  <p [routerLink]="'/' + playlist.createdBy.username + '/' + playlist.code"
+                  <p [routerLink]="'/' + playlist.createdBy.username + '/playlist/' + playlist.code"
                      class="mb-0 track-title pointer">{{playlist.title}}</p>
                 </div>
               </div>
               <span class="text-muted upload-time">{{convertTimespan(playlist.createdTime)}}</span>
             </div>
-            <div class="w-100">
+            <div class="w-100 playlist-track-list mt-2">
               <div *ngFor="let track of playlist.tracks; index as idx" class="track-in-playlist pointer row justify-content-between mx-0 mb-1 border">
                 <div class="d-flex justify-content-start">
                   <span class="mx-1">{{idx + 1}}</span>

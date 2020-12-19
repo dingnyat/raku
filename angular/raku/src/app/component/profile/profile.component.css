@@ -162,3 +162,22 @@
 .track-in-playlist:hover {
   background-color: #dedede;
 }
+
+.playlist-track-list {
+  height: 120px;
+  overflow: scroll;
+}
+
+.playlist-track-list::-webkit-scrollbar {
+  width: 4px;
+  height: 0px;
+  background: #cccccc;
+}
+
+.playlist-track-list::-webkit-scrollbar-thumb:hover {
+  background: #ff5500;
+}
+
+.playlist-track-list::-webkit-scrollbar-thumb {
+  background: #888;
+}

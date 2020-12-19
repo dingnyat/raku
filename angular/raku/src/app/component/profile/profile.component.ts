@@ -266,6 +266,8 @@ export class ProfileComponent implements OnInit {
   }
 
   playPlaylist(playlist: Playlist) {
-
+    this.appService.setTrackQueue(playlist.tracks);
+    this.appService.setQueueIdx(0);
+    this.appService.setPlayState(true);
   }
 }
