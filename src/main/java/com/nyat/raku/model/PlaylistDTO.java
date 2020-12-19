@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.nyat.raku.util.Privacy;
 import lombok.Data;
 
+import java.util.Date;
 import java.util.Set;
 
 @Data
@@ -11,6 +12,7 @@ import java.util.Set;
 public class PlaylistDTO {
     private Integer id;
     private UserDTO createdBy;
+    private Date createdTime;
     private String code;
     private String title;
     private Privacy privacy;

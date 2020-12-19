@@ -3,6 +3,7 @@ import {UserService} from "../../service/user.service";
 import {User} from "../../model/user";
 import {ActivatedRoute} from "@angular/router";
 import {
+  faHeadphones,
   faHeart,
   faList,
   faPencilAlt,
@@ -26,6 +27,7 @@ import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.compone
 import {EditProfileComponent} from "../edit-profile/edit-profile.component";
 import {ToastrService} from "ngx-toastr";
 import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form.component";
+import {Playlist} from "../../model/playlist";
 
 @Component({
   selector: 'app-profile',
@@ -46,8 +48,10 @@ export class ProfileComponent implements OnInit {
   user: User;
   currUser: User;
   userStats: UserStats;
-  tracks: Track[];
-  repostTracks: Track[];
+  tracks: Track[] = [];
+  repostTracks: Track[] = [];
+  playlists: Playlist[] = [];
+  faHeadphone = faHeadphones;
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
@@ -105,6 +109,19 @@ export class ProfileComponent implements OnInit {
                     track['userTrackInfo'] = info.data;
                   }
                 });
+              })
+            }
+          });
+
+          this.trackService.getPlaylistsOf(this.user.username).subscribe(r => {
+            if (r.success) {
+              this.playlists = r.data;
+              this.playlists.forEach(playlist => {
+                playlist.tracks.forEach(track => {
+                  track.link = "/" + track.uploader.username + "/" + track.code;
+                  track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+                  track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
+                })
               })
             }
           });
@@ -246,5 +263,9 @@ export class ProfileComponent implements OnInit {
         this.ngOnInit();
       }
     })
+  }
+
+  playPlaylist(playlist: Playlist) {
+
   }
 }

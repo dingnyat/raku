@@ -1,8 +1,10 @@
+import {Track} from "./track";
+
 export class Playlist {
   id: number;
   code: string;
   title: string;
-  createdDate?: Date;
+  createdTime?: Date;
   createdBy?: any;
-  tracks?: any;
+  tracks?: Track[];
 }

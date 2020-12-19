@@ -3,6 +3,7 @@ package com.nyat.raku.controller;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nyat.raku.model.GenreDTO;
+import com.nyat.raku.model.PlaylistDTO;
 import com.nyat.raku.model.TrackDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.payload.TrackFormData;
@@ -224,6 +225,18 @@ public class TrackController {
         try {
             List<TrackDTO> tracks = trackService.getRepostTracksOf(username);
             return new ApiResponse<>(true, tracks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/get-playlists/{username}")
+    @ResponseBody
+    public ApiResponse<List<PlaylistDTO>> getPlaylistsOf(@PathVariable("username") String username) {
+        try {
+            List<PlaylistDTO> playlists = trackService.getPlaylistsOf(username);
+            return new ApiResponse<>(true, playlists);
         } catch (Exception e) {
             e.printStackTrace();
             return new ApiResponse<>(false, null);

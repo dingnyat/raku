@@ -97,7 +97,9 @@
                 </div>
                 <div>
                   <p class="mb-0 text-muted">
-                    <span class="pointer" [routerLink]="'/' + currUser?.username">{{currUser?.name}}</span> <fa-icon class="mx-2 text-dark" [icon]="faThumbtack"></fa-icon> <span class="pointer" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</span>
+                    <span class="pointer" [routerLink]="'/' + currUser?.username">{{currUser?.name}}</span>
+                    <fa-icon class="mx-2 text-dark" [icon]="faThumbtack"></fa-icon>
+                    <span class="pointer" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</span>
                   </p>
                   <p [routerLink]="'/' + track.uploader.username + '/' + track.code"
                      class="mb-0 track-title pointer">{{track.title}}</p>
@@ -134,7 +136,68 @@
           </div>
         </div>
       </mat-tab>
-      <mat-tab label="Playlist">Playlist</mat-tab>
+      <mat-tab label="Playlist">
+        <div *ngFor="let playlist of playlists" class="playlist-item row mx-0 mt-3 pb-3 border-bottom">
+          <div class="d-flex justify-content-center align-items-center audio-art">
+            <div class="none-image-playlist"></div>
+          </div>
+          <div class="d-flex flex-column justify-content-around align-items-start playlist-info">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="d-flex">
+                <div class="mr-2">
+                  <fa-icon
+                    [icon]="faPlay" class="item-view-button item-view-btn-play pointer"
+                    (click)="playPlaylist(playlist)">
+                  </fa-icon>
+                  <!--<fa-icon *ngIf="track?.code == appService.getCurrentTrack()?.code && isPlaying" [icon]="faPause"
+                           class="item-view-button pointer"
+                           (click)="pauseTrack()">
+                  </fa-icon>-->
+                </div>
+                <div>
+                  <p class="mb-0 text-muted">
+                    <span class="pointer"
+                          [routerLink]="'/' + playlist.createdBy.username">{{playlist.createdBy.name}}</span>
+                  </p>
+                  <p [routerLink]="'/' + playlist.createdBy.username + '/' + playlist.code"
+                     class="mb-0 track-title pointer">{{playlist.title}}</p>
+                </div>
+              </div>
+              <span class="text-muted upload-time">{{convertTimespan(playlist.createdTime)}}</span>
+            </div>
+            <div class="w-100">
+              <div *ngFor="let track of playlist.tracks; index as idx" class="track-in-playlist pointer row justify-content-between mx-0 mb-1 border">
+                <div class="d-flex justify-content-start">
+                  <span class="mx-1">{{idx + 1}}</span>
+                  <img *ngIf="track?.imageUrl" class="audio-image small-icon" [src]="track.imageUrl">
+                  <div *ngIf="!track?.imageUrl" class="non-image-audio small-icon"></div>
+                  <span class="mx-2">{{track.title}}</span>
+                </div>
+                <div class="text-muted mr-1">
+                  <fa-icon [icon]="faHeadphone"></fa-icon> {{track.plays}}
+                </div>
+              </div>
+            </div>
+            <div class="track-react d-flex justify-content-start align-items-center">
+              <button>
+                <fa-icon [icon]="faHeart"></fa-icon>
+                {{"Like"}}
+              </button>
+              <button>
+                <fa-icon [icon]="faShare"></fa-icon>
+                Share
+              </button>
+              <button>
+                <svg width="22" height="22">
+                  <path fill="#333" class="playbackSoundBadge__queueIcon"
+                        d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
+                </svg>
+                Add to Next up
+              </button>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
     </mat-tab-group>
   </div>
   <div class="col-4 pt-3 px-3">

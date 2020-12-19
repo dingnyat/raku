@@ -291,4 +291,54 @@ public class TrackServiceImpl implements TrackService {
             return track;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public List<PlaylistDTO> getPlaylistsOf(String username) {
+        User user = userDAO.getByUsername(username); // todo check người dùng đang đăng nhập đang có Pro hay chưa để lọc private
+        return user.getPlaylists().stream().map(playlist -> {
+            PlaylistDTO dto = new PlaylistDTO();
+            dto.setId(playlist.getId());
+            dto.setCode(playlist.getCode());
+            dto.setCreatedTime(playlist.getCreatedTime());
+            UserDTO userDTO = new UserDTO();
+            userDTO.setId(playlist.getCreatedBy().getId());
+            userDTO.setUsername(playlist.getCreatedBy().getUsername());
+            userDTO.setName(playlist.getCreatedBy().getName());
+            dto.setCreatedBy(userDTO);
+            dto.setPrivacy(playlist.getPrivacy());
+            dto.setTitle(playlist.getTitle());
+            dto.setTracks(playlist.getTracks().stream().map(t -> {
+                TrackDTO track = new TrackDTO();
+                track.setId(t.getId());
+                track.setTitle(t.getTitle());
+                track.setArtist(t.getArtist());
+                track.setDuration(t.getDuration());
+                track.setTags(t.getTags());
+                track.setGenres(t.getGenres().stream().map(genre -> {
+                    GenreDTO genreDTO = new GenreDTO();
+                    genreDTO.setId(genre.getId());
+                    genreDTO.setCode(genre.getCode());
+                    genreDTO.setName(genre.getName());
+                    return genreDTO;
+                }).collect(Collectors.toSet()));
+                track.setDescription(t.getDescription());
+                track.setPrivacy(t.getPrivacy());
+                track.setPlays(t.getPlays());
+                track.setExt(t.getExt());
+                track.setUploadTime(t.getUploadTime());
+                if (t.getImageUrl() != null) {
+                    track.setImageUrl(t.getImageUrl());
+                }
+                track.setComposer(t.getComposer());
+                track.setCode(t.getCode());
+                UserDTO u = new UserDTO();
+                u.setName(t.getUploader().getName());
+                u.setUsername(t.getUploader().getUsername());
+                u.setImageUrl(t.getUploader().getImageUrl());
+                track.setUploader(u);
+                return track;
+            }).collect(Collectors.toSet()));
+            return dto;
+        }).collect(Collectors.toList());
+    }
 }

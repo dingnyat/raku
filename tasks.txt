@@ -16,4 +16,5 @@
 16. Tìm kiếm theo tag
 16. Playlist trong profile
 17. Xử lý chưa đăng nhập thì làm được những gì?
-18. Quên mật khẩu
+18. (done) Quên mật khẩu
+19. đếm số lượt nghe
