@@ -1,6 +1,8 @@
 package com.nyat.raku.dao;
 
 import com.nyat.raku.entity.Track;
+import com.nyat.raku.payload.SearchPayload;
+import com.nyat.raku.payload.SearchResult;
 
 import java.util.List;
 
@@ -16,4 +18,6 @@ public interface TrackDAO {
     void delete(Track user);
 
     Track getByCode(String username, String code);
+
+    SearchResult search(SearchPayload searchPayload);
 }

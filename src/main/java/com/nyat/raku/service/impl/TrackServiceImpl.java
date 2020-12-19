@@ -7,6 +7,8 @@ import com.nyat.raku.entity.Comment;
 import com.nyat.raku.entity.Track;
 import com.nyat.raku.entity.User;
 import com.nyat.raku.model.*;
+import com.nyat.raku.payload.SearchPayload;
+import com.nyat.raku.payload.SearchResult;
 import com.nyat.raku.payload.TrackStats;
 import com.nyat.raku.payload.UserTrackInfo;
 import com.nyat.raku.security.AdvancedSecurityContextHolder;
@@ -340,5 +342,10 @@ public class TrackServiceImpl implements TrackService {
             }).collect(Collectors.toSet()));
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public SearchResult search(SearchPayload searchPayload) {
+        return trackDAO.search(searchPayload);
     }
 }

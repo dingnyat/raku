@@ -35,7 +35,7 @@ public class AOPAspect {
         });
     }
 
-    @Before("execution(* com.nyat.raku.controller.MediaController.loadSong(..))")
+    @Before("execution(* com.nyat.raku.controller.BaseController.loadSong(..))")
     public void before(JoinPoint joinPoint) {
         String code = joinPoint.getArgs()[2].toString();
         String username = joinPoint.getArgs()[3].toString();

@@ -10,6 +10,7 @@ import {User} from "../../model/user";
 import {SignInUpFormComponent} from "./sign-in-up-form/sign-in-up-form.component";
 import * as moment from 'moment';
 import {UserSecurityComponent} from "../user-security/user-security.component";
+import {BaseService} from "../../service/base.service";
 
 @Component({
   selector: 'top-menu',
@@ -25,12 +26,14 @@ export class TopMenuComponent implements OnInit {
   isAuthenticated: boolean;
   faMusic = faMusic;
   faShieldAlt = faShieldAlt;
+  searchKeyword: string;
 
   constructor(public dialog: MatDialog,
               private authService: AuthenticationService,
               private cookieService: CookieService,
               public readonly router: Router,
-              public appService: AppService) {
+              public appService: AppService,
+              private baseService: BaseService) {
   }
 
   ngOnInit(): void {
@@ -112,5 +115,13 @@ export class TopMenuComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(res => {
     })
+  }
+
+  search() {
+    if (this.searchKeyword != null || this.searchKeyword != "") {
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigateByUrl("/search?keyword=" + encodeURI(this.searchKeyword));
+      });
+    }
   }
 }

@@ -14,7 +14,7 @@
 14. add to next up
 15. Xóa hàng loạt trong your tracks
 16. Tìm kiếm theo tag
-16. Playlist trong profile
+16. (xong cơ bản) Playlist trong profile
 17. Xử lý chưa đăng nhập thì làm được những gì?
 18. (done) Quên mật khẩu
 19. đếm số lượt nghe

@@ -1,16 +1,16 @@
 package com.nyat.raku.controller;
 
 import com.nyat.raku.model.TrackDTO;
+import com.nyat.raku.payload.ApiResponse;
+import com.nyat.raku.payload.SearchPayload;
+import com.nyat.raku.payload.SearchResult;
 import com.nyat.raku.service.TrackService;
 import com.nyat.raku.util.MultipartFileSender;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,7 +19,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 
 @Controller
-public class MediaController {
+public class BaseController {
 
     @Value("${raku.root-path}")
     private String ROOT_PATH;
@@ -89,5 +89,15 @@ public class MediaController {
         } catch (IOException ignored) {
         }
         return new byte[0];
+    }
+
+    @PostMapping("/search")
+    @ResponseBody
+    public ApiResponse<SearchResult> search(@RequestBody SearchPayload searchPayload) {
+        try {
+            return new ApiResponse<>(true, trackService.search(searchPayload));
+        } catch (Exception e) {
+            return new ApiResponse<>(false, null);
+        }
     }
 }

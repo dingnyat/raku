@@ -39,6 +39,7 @@ import { AddToPlaylistComponent } from './component/add-to-playlist/add-to-playl
 import { EditProfileComponent } from './component/edit-profile/edit-profile.component';
 import { UserSecurityComponent } from './component/user-security/user-security.component';
 import { PasswordResetComponent } from './component/password-reset/password-reset.component';
+import { SearchComponent } from './component/search/search.component';
 
 export let InjectorInstance: Injector;
 
@@ -63,6 +64,7 @@ export let InjectorInstance: Injector;
     EditProfileComponent,
     UserSecurityComponent,
     PasswordResetComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

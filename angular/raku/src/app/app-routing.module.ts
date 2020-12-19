@@ -8,11 +8,13 @@ import {YourTracksComponent} from "./component/your-tracks/your-tracks.component
 import {EmailVerifyComponent} from "./component/email-verify/email-verify.component";
 import {ProfileComponent} from "./component/profile/profile.component";
 import {PasswordResetComponent} from "./component/password-reset/password-reset.component";
+import {SearchComponent} from "./component/search/search.component";
 
 const routes: Routes = [
   {path: 'oauth2/redirect', component: Oauth2RedirectComponent},
   {path: 'auth/email-verify', component: EmailVerifyComponent},
   {path: 'auth/reset-password', component: PasswordResetComponent},
+  {path: "search", component: SearchComponent},
   // phải đặt non-parameterised trước
   {path: "upload", component: UploadAudioComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
   {path: ":username", component: ProfileComponent},

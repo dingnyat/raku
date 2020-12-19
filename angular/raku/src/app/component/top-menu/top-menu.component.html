@@ -21,7 +21,7 @@
     <div class="header-center">
       <div class="header-search">
         <form class="search-form">
-          <input class="search-input" placeholder="Search" autocomplete="false">
+          <input class="search-input" placeholder="Search" autocomplete="false" (keyup.enter)="search()" [ngModelOptions]="{standalone: true}" [(ngModel)]="searchKeyword">
           <button class="search-submit" type="submit"></button>
         </form>
       </div>

@@ -2,6 +2,8 @@ package com.nyat.raku.service;
 
 import com.nyat.raku.model.PlaylistDTO;
 import com.nyat.raku.model.TrackDTO;
+import com.nyat.raku.payload.SearchPayload;
+import com.nyat.raku.payload.SearchResult;
 import com.nyat.raku.payload.TrackStats;
 import com.nyat.raku.payload.UserTrackInfo;
 
@@ -29,4 +31,6 @@ public interface TrackService {
     List<TrackDTO> getRepostTracksOf(String username);
 
     List<PlaylistDTO> getPlaylistsOf(String username);
+
+    SearchResult search(SearchPayload searchPayload);
 }
