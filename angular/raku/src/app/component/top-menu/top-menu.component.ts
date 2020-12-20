@@ -118,7 +118,7 @@ export class TopMenuComponent implements OnInit {
   }
 
   search() {
-    if (this.searchKeyword != null || this.searchKeyword != "") {
+    if (this.searchKeyword != null && this.searchKeyword.trim() != "") {
       this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigateByUrl("/search?keyword=" + encodeURI(this.searchKeyword));
       });

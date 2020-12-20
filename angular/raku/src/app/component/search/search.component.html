@@ -1,0 +1,188 @@
+<div>
+  <div class="border-bottom mt-3 px-3">
+    <h3>Search results for "{{searchReq['value']}}"</h3>
+  </div>
+  <div class="row px-3 mx-0 pt-2">
+    <div class="col-2">
+      <ul class="search-menu pb-2 border-bottom">
+        <!--<li class="menu-item" (click)="changeKey('everything')" [class.active-item]="searchReq['key'] == 'everything'">
+          <fa-icon class="mr-1" [icon]="faGlasses"></fa-icon>
+          Everything
+        </li>-->
+        <li class="menu-item" (click)="changeKey('track')" [class.active-item]="searchReq['key'] == 'track'">
+          <fa-icon class="mr-1" [icon]="faMusic"></fa-icon>
+          Tracks
+        </li>
+        <li class="menu-item" (click)="changeKey('people')" [class.active-item]="searchReq['key'] == 'people'">
+          <fa-icon class="mr-1" [icon]="faUser"></fa-icon>
+          People
+        </li>
+        <li class="menu-item" (click)="changeKey('playlist')" [class.active-item]="searchReq['key'] == 'playlist'">
+          <fa-icon class="mr-1" [icon]="faList"></fa-icon>
+          Playlist
+        </li>
+      </ul>
+      <div>
+        Filter by tags
+        <div>
+        </div>
+      </div>
+    </div>
+    <div class="col-10 border-left">
+      <div *ngIf="!searchResults?.results || searchResults?.results.length <= 0" class="text-center">
+        <p>
+          Sorry we didn't find any results for “{{searchReq['value']}}”.
+        </p>
+        <p>
+          Check the spelling, or try a different search.
+        </p>
+      </div>
+      <ng-container *ngFor="let item of searchResults.results">
+        <div *ngIf="item.value == 'track'" class="row mx-0 mt-3 track-item pb-3 border-bottom">
+          <div class="d-flex justify-content-center align-items-center audio-art">
+            <img *ngIf="item.key?.imageUrl" class="audio-image" [src]="item.key.imageUrl">
+            <div *ngIf="!item.key?.imageUrl" class="non-image-audio"></div>
+          </div>
+          <div class="d-flex flex-column justify-content-around align-items-start track-info">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="d-flex">
+                <div class="mr-2">
+                  <fa-icon
+                    [icon]="faPlay" class="item-view-button item-view-btn-play pointer"
+                    (click)="playTrack(item.key)">
+                  </fa-icon>
+                  <!--<fa-icon *ngIf="track?.code == appService.getCurrentTrack()?.code && isPlaying" [icon]="faPause"
+                           class="item-view-button pointer"
+                           (click)="pauseTrack()">
+                  </fa-icon>-->
+                </div>
+                <div>
+                  <p class="mb-0 text-muted">
+                    <span class="pointer"
+                          [routerLink]="'/' + item.key.uploader.username">{{item.key.uploader.name}}</span>
+                  </p>
+                  <p [routerLink]="'/' + item.key.uploader.username + '/' + item.key.code"
+                     class="mb-0 track-title pointer">{{item.key.title}}</p>
+                </div>
+              </div>
+              <span class="text-muted upload-time">{{convertTimespan(item.key.uploadTime)}}</span>
+            </div>
+            <div class="track-react d-flex justify-content-start align-items-center">
+              <button (click)="likeTrack(item.key)" [class.active-btn]="item.key?.userTrackInfo?.like">
+                <fa-icon [icon]="faHeart"></fa-icon>
+                {{item.key?.userTrackInfo?.like ? "Liked" : "Like"}}
+              </button>
+              <button (click)="repostTrack(item.key)"
+                      [class.active-btn]="item.key?.userTrackInfo?.repost">
+                <fa-icon [icon]="faThumbtack"></fa-icon>
+                {{item.key?.userTrackInfo?.repost ? "Reposted" : "Repost"}}
+              </button>
+              <button (click)="showShareDialog(item.key)">
+                <fa-icon [icon]="faShare"></fa-icon>
+                Share
+              </button>
+              <button>
+                <svg width="22" height="22">
+                  <path fill="#333" class="playbackSoundBadge__queueIcon"
+                        d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
+                </svg>
+                Add to Next up
+              </button>
+              <button (click)="addToPlaylist(item.key)">
+                <fa-icon [icon]="faList"></fa-icon>
+                Add to playlist
+              </button>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="item.value == 'people'" class="row mx-0 mt-3 user-item pb-3 border-bottom">
+          <img [routerLink]="'/' + item.key.username" *ngIf="item.key.imageUrl" [src]="item.key.imageUrl"
+               class="user-avatar pointer"/>
+          <img [routerLink]="'/' + item.key.username" *ngIf="!item.key.imageUrl" [src]="'/assets/images/avatar.png'"
+               class="user-avatar pointer"/>
+          <div class="d-flex justify-content-center flex-column align-content-between">
+            <div [routerLink]="'/' + item.key.username" style="font-weight: bold"
+                 class="pointer">{{item.key.name}}</div>
+            <div class="mb-2 text-muted">{{item.key.city}}, {{item.key.country}}</div>
+            <div class="user-stats mb-1">
+              <span class="mr-2">
+                <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
+                {{item.key['stats'].followers}}
+              </span>
+              <span>
+                <fa-icon class="mr-1" [icon]="faMusic"></fa-icon>
+                {{item.key['stats'].tracks}}
+              </span>
+            </div>
+            <button>
+              <fa-icon [icon]="faUserPlus" class="mr-1"></fa-icon>
+              Follow
+            </button>
+          </div>
+        </div>
+        <div *ngIf="item.value == 'playlist'" class="row mx-0 mt-3 playlist-item pb-3 border-bottom">
+          <div class="d-flex justify-content-center align-items-center audio-art">
+            <div class="none-image-playlist"></div>
+          </div>
+          <div class="d-flex flex-column justify-content-around align-items-start playlist-info">
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="d-flex">
+                <div class="mr-2">
+                  <fa-icon
+                    [icon]="faPlay" class="item-view-button item-view-btn-play pointer"
+                    (click)="playPlaylist(item.key)">
+                  </fa-icon>
+                  <!--<fa-icon *ngIf="track?.code == appService.getCurrentTrack()?.code && isPlaying" [icon]="faPause"
+                           class="item-view-button pointer"
+                           (click)="pauseTrack()">
+                  </fa-icon>-->
+                </div>
+                <div>
+                  <p class="mb-0 text-muted">
+                    <span class="pointer"
+                          [routerLink]="'/' + item.key.createdBy.username">{{item.key.createdBy.name}}</span>
+                  </p>
+                  <p [routerLink]="'/' + item.key.createdBy.username + '/playlist/' + item.key.code"
+                     class="mb-0 track-title pointer">{{item.key.title}}</p>
+                </div>
+              </div>
+              <span class="text-muted upload-time">{{convertTimespan(item.key.createdTime)}}</span>
+            </div>
+            <div class="w-100 playlist-track-list mt-2">
+              <div *ngFor="let track of item.key.tracks; index as idx"
+                   class="track-in-playlist pointer row justify-content-between mx-0 mb-1 border">
+                <div class="d-flex justify-content-start">
+                  <span class="mx-1">{{idx + 1}}</span>
+                  <img *ngIf="track?.imageUrl" class="audio-image small-icon" [src]="track.imageUrl">
+                  <div *ngIf="!track?.imageUrl" class="non-image-audio small-icon"></div>
+                  <span class="mx-2">{{track.title}}</span>
+                </div>
+                <div class="text-muted mr-1">
+                  <fa-icon [icon]="faHeadphone"></fa-icon>
+                  {{track.plays}}
+                </div>
+              </div>
+            </div>
+            <div class="track-react d-flex justify-content-start align-items-center">
+              <button>
+                <fa-icon [icon]="faHeart"></fa-icon>
+                {{"Like"}}
+              </button>
+              <button>
+                <fa-icon [icon]="faShare"></fa-icon>
+                Share
+              </button>
+              <button>
+                <svg width="22" height="22">
+                  <path fill="#333" class="playbackSoundBadge__queueIcon"
+                        d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
+                </svg>
+                Add to Next up
+              </button>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>
