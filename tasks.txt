@@ -8,7 +8,7 @@
 8. (done) Trang verify email chưa có
 9. Thống kê của riêng người dùng
 10. Trong Your track có thêm thông tin về tổng thời gian của các bài nhạc / tổng thời gian cho phép (tùy theo gói plan)
-11. Notification
+11. Notification (khi người mình follow có hoạt động)
 12. (viết luôn trong trang cá nhân người dùng) Cập nhật thông tin người dùng
 13. Làm right side bar
 14. add to next up
