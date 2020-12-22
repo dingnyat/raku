@@ -150,14 +150,22 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   nextAudio() {
-    this.appService.setQueueIdx((this.currTrackIdx + 1 > this.trackQueue.length - 1) ? this.currTrackIdx : this.currTrackIdx + 1);
+    if (this.shuffle) {
+      this.appService.setQueueIdx(Math.floor(Math.random() * this.trackQueue.length));
+    } else {
+      this.appService.setQueueIdx((this.currTrackIdx + 1 > this.trackQueue.length - 1) ? this.currTrackIdx : this.currTrackIdx + 1);
+    }
     if (this.isPlaying) {
       this.playAudio();
     }
   }
 
   previousAudio() {
-    this.appService.setQueueIdx((this.currTrackIdx - 1 < 0) ? this.currTrackIdx : this.currTrackIdx - 1);
+    if (this.shuffle) {
+      this.appService.setQueueIdx(Math.floor(Math.random() * this.trackQueue.length));
+    } else {
+      this.appService.setQueueIdx((this.currTrackIdx - 1 < 0) ? this.currTrackIdx : this.currTrackIdx - 1);
+    }
     if (this.isPlaying) {
       this.playAudio();
     }
@@ -169,13 +177,18 @@ export class MediaPlayerComponent implements OnInit {
   }
 
   onTrackEnd() {
-    if (this.currTrackIdx < this.trackQueue.length - 1) {
-      this.appService.setQueueIdx(this.currTrackIdx + 1);
+    if (this.shuffle) {
+      this.appService.setQueueIdx(Math.floor(Math.random() * this.trackQueue.length));
       this.playAudio();
     } else {
-      if (this.loopType == LoopType.ALL) {
-        this.appService.setQueueIdx(0);
+      if (this.currTrackIdx < this.trackQueue.length - 1) {
+        this.appService.setQueueIdx(this.currTrackIdx + 1);
         this.playAudio();
+      } else {
+        if (this.loopType == LoopType.ALL) {
+          this.appService.setQueueIdx(0);
+          this.playAudio();
+        }
       }
     }
   }
