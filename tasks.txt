@@ -1,6 +1,6 @@
 1. (done) Làm share bài hát
 2. (ưu tiên) Làm trang cá nhân người dùng (của mình, của người khác)
-3. (ưu tiên) Playlist (mới xong cái create)
+3. (ưu tiên) Playlist (mới xong cái create) còn xóa và xem chi tiết, chỉnh sửa
 4. (done) Xóa, sửa bài hát
 5. (done) Xóa comment
 6. (ưu tiên) Áp dụng private/public. Bắt đầu phân loại người dùng trả phí

@@ -69,4 +69,8 @@ export class TrackService extends BaseService {
   getPlaylistsOf(username: string): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get-playlists/" + username);
   }
+
+  getTracksByTag(code: string): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-by-tag/" + code);
+  }
 }

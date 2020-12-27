@@ -33,4 +33,6 @@ public interface TrackService {
     List<PlaylistDTO> getPlaylistsOf(String username);
 
     SearchResult search(SearchPayload searchPayload);
+
+    List<TrackDTO> getTracksByTag(String tagCode);
 }

@@ -242,4 +242,16 @@ public class TrackController {
             return new ApiResponse<>(false, null);
         }
     }
+
+    @GetMapping("/get-by-tag/{code}")
+    @ResponseBody
+    public ApiResponse<List<TrackDTO>> getTracksBy(@PathVariable("code") String tagCode) {
+        try {
+            List<TrackDTO> tracks = trackService.getTracksByTag(tagCode);
+            return new ApiResponse<>(true, tracks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
 }

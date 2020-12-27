@@ -9,6 +9,7 @@ import {EmailVerifyComponent} from "./component/email-verify/email-verify.compon
 import {ProfileComponent} from "./component/profile/profile.component";
 import {PasswordResetComponent} from "./component/password-reset/password-reset.component";
 import {SearchComponent} from "./component/search/search.component";
+import {TagComponent} from "./component/tag/tag.component";
 
 const routes: Routes = [
   {path: 'oauth2/redirect', component: Oauth2RedirectComponent},
@@ -16,6 +17,7 @@ const routes: Routes = [
   {path: 'auth/reset-password', component: PasswordResetComponent},
   {path: "search", component: SearchComponent},
   // phải đặt non-parameterised trước
+  {path: "tag/:code", component: TagComponent},
   {path: "upload", component: UploadAudioComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
   {path: ":username", component: ProfileComponent},
   {path: ":username/tracks", component: YourTracksComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},

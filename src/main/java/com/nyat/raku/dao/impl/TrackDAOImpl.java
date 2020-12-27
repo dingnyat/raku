@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -165,5 +166,24 @@ public class TrackDAOImpl implements TrackDAO {
             });
         }
         return searchResult;
+    }
+
+    @Override
+    public List<Track> getTracksByTag(String tagCode) {
+        List<Track> tracks = new LinkedList<>();
+        tagCode = "#" + tagCode;
+        try {
+            List ids = entityManager.createNativeQuery("select track_id from track_tag where tags='" + tagCode + "'").getResultList();
+            if (ids != null) {
+                ids.forEach(id -> {
+                    Track track = get((Integer) id);
+                    tracks.add(track);
+                });
+                return tracks;
+            }
+            /*return entityManager.createQuery("select t from Track t where t.tags='" + tagCode + "'", Track.class).getResultList();*/
+        } catch (NoResultException ignore) {
+        }
+        return null;
     }
 }

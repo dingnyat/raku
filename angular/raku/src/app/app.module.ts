@@ -40,6 +40,7 @@ import { EditProfileComponent } from './component/edit-profile/edit-profile.comp
 import { UserSecurityComponent } from './component/user-security/user-security.component';
 import { PasswordResetComponent } from './component/password-reset/password-reset.component';
 import { SearchComponent } from './component/search/search.component';
+import { TagComponent } from './component/tag/tag.component';
 
 export let InjectorInstance: Injector;
 
@@ -65,6 +66,7 @@ export let InjectorInstance: Injector;
     UserSecurityComponent,
     PasswordResetComponent,
     SearchComponent,
+    TagComponent,
   ],
   imports: [
     BrowserModule,

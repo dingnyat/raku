@@ -1,0 +1,147 @@
+.search-menu li {
+  list-style: none;
+}
+
+.search-menu {
+  padding-left: 0 !important;
+}
+
+.menu-item {
+  cursor: pointer;
+  padding: 6px 4px 6px 4px;
+}
+
+.active-item {
+  background: #ff5500;
+  color: white;
+}
+
+.audio-art {
+  margin-right: 10px;
+  margin-left: 10px;
+}
+
+.audio-image {
+  width: 150px;
+  height: 150px;
+}
+
+.non-image-audio {
+  width: 150px;
+  height: 150px;
+  background-image: linear-gradient(135deg, #846170, #70929c);
+}
+
+.track-item {
+  /*background-image: linear-gradient(135deg, #e2dee1, #909192);*/
+}
+
+.track-item .track-info {
+  width: calc(100% - 190px);
+  font-size: 0.9em;
+}
+
+.track-title {
+  font-size: 1.2em;
+  font-weight: 500;
+}
+
+.item-view-button {
+  width: 40px;
+  height: 40px;
+  background-color: #ff5500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.5em;
+  padding-left: 2px;
+}
+
+.item-view-button.item-view-btn-play {
+  padding-left: 6px; /*tệ lắm mới dùng padding*/
+}
+
+
+.track-react button {
+  border: 1px solid #cccccc;
+  background-color: white;
+  border-radius: 2px;
+  margin-right: 6px;
+  font-size: 0.9em;
+  height: 27px;
+  align-items: center;
+}
+
+.active-btn {
+  color: #ff5500;
+  border-color: #ff5500 !important;
+}
+
+.none-image-playlist {
+  width: 150px;
+  height: 150px;
+  background-image: linear-gradient(135deg, #b7547f, #21a26b);
+}
+
+.user-avatar {
+  border-radius: 50%;
+  width: 150px;
+  height: 150px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.user-item button {
+  background: white;
+  border: 1px solid #cccccc;
+  width: 100px;
+  border-radius: 3px;
+  font-size: 0.8em;
+}
+
+.user-stats {
+  color: #bebebe;
+  font-size: 0.8em;
+}
+
+
+.none-image-playlist {
+  width: 150px;
+  height: 150px;
+  background-image: linear-gradient(135deg, #b7547f, #21a26b);
+}
+
+.playlist-info {
+  width: calc(100% - 190px);
+  font-size: 0.9em;
+}
+
+.small-icon {
+  width: 20px !important;
+  height: 20px !important;
+}
+
+.track-in-playlist:hover {
+  background-color: #dedede;
+}
+
+.playlist-track-list {
+  height: 120px;
+  overflow: scroll;
+}
+
+.playlist-track-list::-webkit-scrollbar {
+  width: 4px;
+  height: 0;
+  background: #cccccc;
+}
+
+.playlist-track-list::-webkit-scrollbar-thumb:hover {
+  background: #ff5500;
+}
+
+.playlist-track-list::-webkit-scrollbar-thumb {
+  background: #888;
+}

@@ -25,7 +25,7 @@
       <div class="col-3 pr-0 d-flex justify-content-center align-items-end flex-column">
         <div class="text-light pb-4 upload-time">{{convertTimespan(track?.uploadTime)}}</div>
         <div *ngIf="track?.tags">
-          <a [routerLink]="'/tags/' + tag.substr(1, tag.length-1)" class="tag-chip"
+          <a [routerLink]="'/tag/' + tag.substr(1, tag.length-1)" class="tag-chip"
              *ngFor="let tag of track.tags">{{tag}}</a>
         </div>
       </div>
