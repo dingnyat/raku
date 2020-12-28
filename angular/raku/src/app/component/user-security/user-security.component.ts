@@ -3,6 +3,7 @@ import {UserService} from "../../service/user.service";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {faTimes} from "@fortawesome/free-solid-svg-icons";
 import {AppSettings} from "../../global/app-settings";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-user-security',
@@ -20,7 +21,8 @@ export class UserSecurityComponent implements OnInit {
 
   constructor(private userService: UserService,
               public dialogRef: MatDialogRef<UserSecurityComponent>,
-              @Inject(MAT_DIALOG_DATA) public data: any) {
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private toastr: ToastrService) {
   }
 
   ngOnInit(): void {
@@ -65,6 +67,7 @@ export class UserSecurityComponent implements OnInit {
         this.userService.changeUsername(this.user.username).subscribe(resp => {
           if (resp.success) {
             this.changeUsername = true;
+            this.toastr.success("Username has changed successfully!");
           }
         });
       }

@@ -32,8 +32,7 @@ export class TopMenuComponent implements OnInit {
               private authService: AuthenticationService,
               private cookieService: CookieService,
               public readonly router: Router,
-              public appService: AppService,
-              private baseService: BaseService) {
+              public appService: AppService) {
   }
 
   ngOnInit(): void {

@@ -1,0 +1,17 @@
+.banner {
+  background-image: url("/assets/images/banner.jpg");
+  background-size: cover;
+  background-position: 100%;
+  background-repeat: no-repeat;
+  height: 350px;
+  color: white;
+}
+
+.sign-up-btn {
+  color: white;
+  background: #ff5500;
+  border: none;
+  border-radius: 2px;
+  font-size: 1.3em;
+  padding: 5px 10px 5px 10px;
+}

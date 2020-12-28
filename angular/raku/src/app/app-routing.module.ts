@@ -10,8 +10,10 @@ import {ProfileComponent} from "./component/profile/profile.component";
 import {PasswordResetComponent} from "./component/password-reset/password-reset.component";
 import {SearchComponent} from "./component/search/search.component";
 import {TagComponent} from "./component/tag/tag.component";
+import {HomeComponent} from "./component/home/home.component";
 
 const routes: Routes = [
+  {path: '', component: HomeComponent},
   {path: 'oauth2/redirect', component: Oauth2RedirectComponent},
   {path: 'auth/email-verify', component: EmailVerifyComponent},
   {path: 'auth/reset-password', component: PasswordResetComponent},

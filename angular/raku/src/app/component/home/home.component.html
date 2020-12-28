@@ -1,0 +1,13 @@
+<div *ngIf="user">
+  Logged in
+</div>
+<div *ngIf="!user">
+  <div class="banner d-flex flex-column justify-content-center align-items-start pl-4">
+    <h1 style="font-size: 3.5em">
+      Connect on Raku Music
+    </h1>
+    <p class="w-50" style="font-size: 1.1em">Discover, stream, and share a constantly expanding mix of music
+      from emerging and major artists around the world.</p>
+    <button (click)="showSignupDialog()" class="sign-up-btn">Sign up for free</button>
+  </div>
+</div>

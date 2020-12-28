@@ -5,7 +5,6 @@ import {AppRoutingModule} from './app-routing.module';
 import {AppComponent} from './app.component';
 import {TopMenuComponent} from './component/top-menu/top-menu.component';
 import {MediaPlayerComponent} from './component/media-player/media-player.component';
-import {ContentBodyComponent} from './component/content-body/content-body.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {FontAwesomeModule} from "@fortawesome/angular-fontawesome";
@@ -41,6 +40,7 @@ import { UserSecurityComponent } from './component/user-security/user-security.c
 import { PasswordResetComponent } from './component/password-reset/password-reset.component';
 import { SearchComponent } from './component/search/search.component';
 import { TagComponent } from './component/tag/tag.component';
+import { HomeComponent } from './component/home/home.component';
 
 export let InjectorInstance: Injector;
 
@@ -49,7 +49,6 @@ export let InjectorInstance: Injector;
     AppComponent,
     TopMenuComponent,
     MediaPlayerComponent,
-    ContentBodyComponent,
     ProfileComponent,
     UploadAudioComponent,
     SignInUpFormComponent,
@@ -67,6 +66,7 @@ export let InjectorInstance: Injector;
     PasswordResetComponent,
     SearchComponent,
     TagComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
