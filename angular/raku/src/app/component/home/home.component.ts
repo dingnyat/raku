@@ -8,6 +8,10 @@ import * as moment from "moment";
 import {AuthenticationService} from "../../service/authentication.service";
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
+import {OwlOptions} from "ngx-owl-carousel-o";
+import {Track} from "../../model/track";
+import {TrackService} from "../../service/track.service";
+import {faPlay} from "@fortawesome/free-solid-svg-icons";
 
 @Component({
   selector: 'app-home',
@@ -17,16 +21,52 @@ import {Router} from "@angular/router";
 export class HomeComponent implements OnInit {
 
   user: User;
+  faPlay = faPlay;
+
+  customOptions: OwlOptions = {
+    loop: false,
+    mouseDrag: true,
+    touchDrag: true,
+    pullDrag: true,
+    dots: false,
+    responsive: {
+      0: {
+        items: 1
+      },
+      400: {
+        items: 2
+      },
+      740: {
+        items: 3
+      },
+      940: {
+        items: 6
+      }
+    },
+  }
+
+  top40: Track[];
 
   constructor(private appService: AppService,
               public dialog: MatDialog,
               private authService: AuthenticationService,
               private cookieService: CookieService,
-              public readonly router: Router,) {
+              public readonly router: Router,
+              private trackService: TrackService) {
     this.user = this.appService.getCurrentUser();
     this.appService.userObs.subscribe(user => {
       this.user = user;
     })
+
+    this.trackService.getTop40().subscribe(resp => {
+      if (resp.success) {
+        this.top40 = resp.data;
+        this.top40.forEach(track => {
+          track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+          track.link = "/" + track.uploader.username + "/" + track.code;
+        });
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -39,7 +79,7 @@ export class HomeComponent implements OnInit {
       disableClose: true,
       data: {success: false, type: "signup"}
     });
-    
+
     dialogRef.afterClosed().subscribe(res => {
       if (res == "login_success") {
         if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME)) {

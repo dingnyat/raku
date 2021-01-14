@@ -35,4 +35,6 @@ public interface TrackService {
     SearchResult search(SearchPayload searchPayload);
 
     List<TrackDTO> getTracksByTag(String tagCode);
+
+    List<TrackDTO> getTop40();
 }

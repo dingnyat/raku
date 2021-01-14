@@ -383,4 +383,39 @@ public class TrackServiceImpl implements TrackService {
             return track;
         }).collect(Collectors.toList());
     }
+
+    @Override
+    public List<TrackDTO> getTop40() {
+        return trackDAO.getTop40().stream().map(t -> {
+            TrackDTO track = new TrackDTO();
+            track.setId(t.getId());
+            track.setTitle(t.getTitle());
+            track.setArtist(t.getArtist());
+            track.setDuration(t.getDuration());
+            track.setTags(t.getTags());
+            track.setGenres(t.getGenres().stream().map(genre -> {
+                GenreDTO genreDTO = new GenreDTO();
+                genreDTO.setId(genre.getId());
+                genreDTO.setCode(genre.getCode());
+                genreDTO.setName(genre.getName());
+                return genreDTO;
+            }).collect(Collectors.toSet()));
+            track.setDescription(t.getDescription());
+            track.setPrivacy(t.getPrivacy());
+            track.setPlays(t.getPlays());
+            track.setExt(t.getExt());
+            track.setUploadTime(t.getUploadTime());
+            if (t.getImageUrl() != null) {
+                track.setImageUrl(t.getImageUrl());
+            }
+            track.setComposer(t.getComposer());
+            track.setCode(t.getCode());
+            UserDTO userDTO = new UserDTO();
+            userDTO.setName(t.getUploader().getName());
+            userDTO.setUsername(t.getUploader().getUsername());
+            userDTO.setImageUrl(t.getUploader().getImageUrl());
+            track.setUploader(userDTO);
+            return track;
+        }).collect(Collectors.toList());
+    }
 }

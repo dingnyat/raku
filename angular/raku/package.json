@@ -36,6 +36,7 @@
     "ngx-cookie-service": "^10.1.1",
     "ngx-mat-select-search": "^3.1.2",
     "ngx-moment": "^5.0.0",
+    "ngx-owl-carousel-o": "^5.0.0",
     "ngx-plyr": "^4.0.0",
     "ngx-toastr": "^13.2.0",
     "plyr": "^3.6.2",

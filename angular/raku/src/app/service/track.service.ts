@@ -73,4 +73,8 @@ export class TrackService extends BaseService {
   getTracksByTag(code: string): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get-by-tag/" + code);
   }
+
+  getTop40(): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-top-40/");
+  }
 }

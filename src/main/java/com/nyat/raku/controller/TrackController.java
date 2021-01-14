@@ -254,4 +254,17 @@ public class TrackController {
             return new ApiResponse<>(false, null);
         }
     }
+
+    @GetMapping("/get-top-40")
+    @ResponseBody
+    public ApiResponse<List<TrackDTO>> getTop40() {
+        try {
+            // todo đm đéo ai đi làm số lượng cố định như này
+            List<TrackDTO> tracks = trackService.getTop40();
+            return new ApiResponse<>(true, tracks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
 }

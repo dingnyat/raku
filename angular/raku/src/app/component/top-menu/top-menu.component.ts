@@ -10,7 +10,6 @@ import {User} from "../../model/user";
 import {SignInUpFormComponent} from "./sign-in-up-form/sign-in-up-form.component";
 import * as moment from 'moment';
 import {UserSecurityComponent} from "../user-security/user-security.component";
-import {BaseService} from "../../service/base.service";
 
 @Component({
   selector: 'top-menu',

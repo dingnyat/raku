@@ -186,4 +186,10 @@ public class TrackDAOImpl implements TrackDAO {
         }
         return null;
     }
+
+    @Override
+    public List<Track> getTop40() {
+        // todo để tạm đã :) thay đổi đi
+        return entityManager.createQuery("select t from Track t", Track.class).getResultList();
+    }
 }

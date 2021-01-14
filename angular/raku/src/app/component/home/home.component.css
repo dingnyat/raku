@@ -15,3 +15,64 @@
   font-size: 1.3em;
   padding: 5px 10px 5px 10px;
 }
+
+.top-carousel {
+
+}
+
+.track-item .background:hover {
+  cursor: pointer;
+}
+
+.track-item .background {
+  height: 190px;
+  width: 190px;
+  background-repeat: no-repeat;
+  background-origin: initial;
+  background-position: center;
+  background-size: cover;
+}
+
+.track-item p {
+  font-size: 0.9em;
+}
+
+.track-item .uploader {
+  color: #969696;
+}
+
+.play-btn {
+  padding: 10px 15px 11px 17px;
+  background-color: #ff5500;
+  color: white;
+  border-radius: 50%;
+  font-size: 1.5em;
+  position: absolute;
+  left: 35%;
+  top: 29%;
+  visibility: hidden;
+}
+
+.play-btn:hover {
+  cursor: pointer;
+}
+
+.image:hover .play-btn {
+  visibility: visible;
+}
+
+.image:hover .background {
+  opacity: 0.5;
+}
+
+.footer a {
+  color: #9c9c9c;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.footer a:hover {
+  color: #333333;
+  text-decoration: none;
+  cursor: pointer;
+}

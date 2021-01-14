@@ -23,4 +23,6 @@ public interface TrackDAO {
     SearchResult search(SearchPayload searchPayload);
 
     List<Track> getTracksByTag(String tagCode);
+
+    List<Track> getTop40();
 }

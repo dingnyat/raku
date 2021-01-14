@@ -31,16 +31,17 @@ import {YourTracksComponent} from './component/your-tracks/your-tracks.component
 import {CommentorComponent} from './component/track-details/commentor/commentor.component';
 import {EmailVerifyComponent} from './component/email-verify/email-verify.component';
 import {UpdateTrackDialogComponent} from './component/your-tracks/update-track-dialog/update-track-dialog.component';
-import { ToastrModule } from 'ngx-toastr';
-import { ShareDialogComponent } from './component/share-dialog/share-dialog.component';
-import { CreatePlaylistDialogComponent } from './component/create-playlist-dialog/create-playlist-dialog.component';
-import { AddToPlaylistComponent } from './component/add-to-playlist/add-to-playlist.component';
-import { EditProfileComponent } from './component/edit-profile/edit-profile.component';
-import { UserSecurityComponent } from './component/user-security/user-security.component';
-import { PasswordResetComponent } from './component/password-reset/password-reset.component';
-import { SearchComponent } from './component/search/search.component';
-import { TagComponent } from './component/tag/tag.component';
-import { HomeComponent } from './component/home/home.component';
+import {ToastrModule} from 'ngx-toastr';
+import {ShareDialogComponent} from './component/share-dialog/share-dialog.component';
+import {CreatePlaylistDialogComponent} from './component/create-playlist-dialog/create-playlist-dialog.component';
+import {AddToPlaylistComponent} from './component/add-to-playlist/add-to-playlist.component';
+import {EditProfileComponent} from './component/edit-profile/edit-profile.component';
+import {UserSecurityComponent} from './component/user-security/user-security.component';
+import {PasswordResetComponent} from './component/password-reset/password-reset.component';
+import {SearchComponent} from './component/search/search.component';
+import {TagComponent} from './component/tag/tag.component';
+import {HomeComponent} from './component/home/home.component';
+import {CarouselModule} from "ngx-owl-carousel-o";
 
 export let InjectorInstance: Injector;
 
@@ -86,6 +87,7 @@ export let InjectorInstance: Injector;
     MatSelectModule,
     TagInputModule,
     MatDialogModule,
+    CarouselModule
   ],
   providers: [
     AuthenticationService,
