@@ -59,6 +59,11 @@
                     <fa-icon [icon]="faMusic" class="ml-1 mr-2"></fa-icon>
                     Your tracks</a>
                 </li>
+                <li>
+                  <a [routerLink]="'/' + userInfo.username + '/playlists'" class="menu-item">
+                    <fa-icon [icon]="faStream" class="ml-1 mr-2"></fa-icon>
+                    Playlists</a>
+                </li>
                 <li (click)="showUserSecurity()">
                   <a class="menu-item">
                     <fa-icon [icon]="faShieldAlt" class="ml-1 mr-2"></fa-icon>

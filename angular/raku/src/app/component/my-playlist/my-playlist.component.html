@@ -1,0 +1,41 @@
+<div class="row mx-0 px-5 pt-5">
+  <div class="px-0 mb-5 col-12 justify-content-between row">
+    <h2>Your playlists</h2>
+    <button class="create-btn" (click)="showCreatePlaylist()">Create New Playlist</button>
+  </div>
+  <div class="row col-12 px-0">
+    <ng-container *ngFor="let playlist of playlists">
+      <div class="playlist-item row col-12 px-0 py-2 mx-0 border-top">
+        <div class="col-9 d-flex justify-content-between align-items-center">
+          <div class="d-flex justify-content-start align-items-center">
+            <fa-icon class="privacy-chip private mr-3 pointer" title="Private"
+                     *ngIf="playlist.privacy.toUpperCase() == '_PRIVATE'" [icon]="faLock"></fa-icon>
+            <fa-icon class="privacy-chip mr-3 pointer" title="Public"
+                     *ngIf="playlist.privacy.toUpperCase() == '_PUBLIC'" [icon]="faLockOpen"></fa-icon>
+            <div *ngIf="!playlist?.imageUrl" class="non-image-audio"></div>
+            <img *ngIf="playlist?.imageUrl" class="audio-image" [src]="playlist.imageUrl">
+            <div class="ml-3 d-flex flex-column justify-content-start align-items-start">
+              <span class="pointer"
+                    [routerLink]="'/' + playlist.createdBy.username + '/playlist/' + playlist.code">{{playlist.title}}
+              </span>
+              <span class="pointer text-muted"
+                    [routerLink]="'/' + playlist.createdBy.username">{{playlist.createdBy.name}}</span>
+            </div>
+          </div>
+          <div class="action-btn">
+            <button (click)="update(playlist)">
+              <fa-icon [icon]="faPen"></fa-icon>
+            </button>
+            <button (click)="delete(playlist)">
+              <fa-icon [icon]="faTrashAlt"></fa-icon>
+            </button>
+          </div>
+        </div>
+        <div class="col-3 d-flex justify-content-between align-items-center">
+          <span class="text-muted">{{convertTimespan(playlist.createdTime)}}</span>
+        </div>
+      </div>
+    </ng-container>
+    <p *ngIf="!playlists || playlists.length <= 0">You have no playlist. Create one!</p>
+  </div>
+</div>

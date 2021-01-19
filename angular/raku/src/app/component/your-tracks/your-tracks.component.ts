@@ -5,7 +5,7 @@ import {Title} from "@angular/platform-browser";
 import * as moment from "moment";
 import {AppSettings} from "../../global/app-settings";
 import {faTrashAlt} from "@fortawesome/free-regular-svg-icons";
-import {faDownload, faLock, faPen} from "@fortawesome/free-solid-svg-icons";
+import {faDownload, faLock, faLockOpen, faPen} from "@fortawesome/free-solid-svg-icons";
 import {TrackService} from "../../service/track.service";
 import {MatDialog} from "@angular/material/dialog";
 import {UpdateTrackDialogComponent} from "./update-track-dialog/update-track-dialog.component";
@@ -18,11 +18,13 @@ import {ToastrService} from "ngx-toastr";
 })
 export class YourTracksComponent implements OnInit {
 
-  tracks: Track[] = [];
   faTrashAlt = faTrashAlt;
   faPen = faPen;
   faDownload = faDownload;
   faLock = faLock;
+  faLockOpen = faLockOpen;
+
+  tracks: Track[] = [];
 
   constructor(private userService: UserService,
               private title: Title,

@@ -11,6 +11,7 @@ import {PasswordResetComponent} from "./component/password-reset/password-reset.
 import {SearchComponent} from "./component/search/search.component";
 import {TagComponent} from "./component/tag/tag.component";
 import {HomeComponent} from "./component/home/home.component";
+import {MyPlaylistComponent} from "./component/my-playlist/my-playlist.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path: "upload", component: UploadAudioComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
   {path: ":username", component: ProfileComponent},
   {path: ":username/tracks", component: YourTracksComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
+  {path: ":username/playlists", component: MyPlaylistComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
   {path: ":username/:code", component: TrackDetailsComponent},
 ];
 

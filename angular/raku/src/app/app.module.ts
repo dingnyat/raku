@@ -42,6 +42,8 @@ import {SearchComponent} from './component/search/search.component';
 import {TagComponent} from './component/tag/tag.component';
 import {HomeComponent} from './component/home/home.component';
 import {CarouselModule} from "ngx-owl-carousel-o";
+import { MyPlaylistComponent } from './component/my-playlist/my-playlist.component';
+import { PlaylistFormComponent } from './component/my-playlist/playlist-form/playlist-form.component';
 
 export let InjectorInstance: Injector;
 
@@ -68,6 +70,8 @@ export let InjectorInstance: Injector;
     SearchComponent,
     TagComponent,
     HomeComponent,
+    MyPlaylistComponent,
+    PlaylistFormComponent,
   ],
   imports: [
     BrowserModule,

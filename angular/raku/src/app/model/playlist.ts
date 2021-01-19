@@ -7,4 +7,6 @@ export class Playlist {
   createdTime?: Date;
   createdBy?: any;
   tracks?: Track[];
+  privacy: string;
+  imageUrl: string;
 }

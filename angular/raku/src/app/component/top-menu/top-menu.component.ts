@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {faCog, faMusic, faShieldAlt, faSignOutAlt, faUser} from "@fortawesome/free-solid-svg-icons";
+import {faCog, faMusic, faShieldAlt, faSignOutAlt, faStream, faUser} from "@fortawesome/free-solid-svg-icons";
 import {MatDialog} from "@angular/material/dialog";
 import {AuthenticationService} from "../../service/authentication.service";
 import {CookieService} from "ngx-cookie-service";
@@ -20,11 +20,12 @@ export class TopMenuComponent implements OnInit {
   faUser = faUser;
   faSignOut = faSignOutAlt;
   faCog = faCog;
+  faStream = faStream;
+  faMusic = faMusic;
+  faShieldAlt = faShieldAlt;
 
   userInfo: User;
   isAuthenticated: boolean;
-  faMusic = faMusic;
-  faShieldAlt = faShieldAlt;
   searchKeyword: string;
 
   constructor(public dialog: MatDialog,

@@ -1,0 +1,48 @@
+.privacy-chip {
+  color: white;
+  background: #ff5500;
+  padding: 2px 4px 3px 5px;
+  border-radius: 2px;
+}
+
+.private {
+  font-size: 1.16em;
+  padding: 1px 6px 3px 5px !important;
+}
+
+.non-image-audio {
+  width: 60px;
+  height: 60px;
+  background-image: linear-gradient(135deg, #b7547f, #21a26b);
+}
+
+.audio-image {
+  width: 60px;
+  height: 60px;
+}
+
+.playlist-item:hover {
+  background-color: #e9e9e9;
+}
+
+.action-btn {
+  visibility: hidden;
+}
+
+.playlist-item:hover .action-btn {
+  visibility: visible;
+}
+
+.action-btn button {
+  border: 1px solid #9c9c9c;
+  background-color: white;
+  border-radius: 10%;
+  margin-right: 4px;
+}
+
+.create-btn {
+  border-radius: 2px;
+  border: none;
+  background-color: #ff5500;
+  color: white;
+}

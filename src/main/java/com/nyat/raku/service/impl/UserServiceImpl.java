@@ -377,6 +377,7 @@ public class UserServiceImpl implements UserService {
             userDTO.setName(playlist.getCreatedBy().getName());
             userDTO.setImageUrl(playlist.getCreatedBy().getImageUrl());
             p.setCreatedBy(userDTO);
+            p.setCreatedTime(playlist.getCreatedTime());
             p.setTracks(playlist.getTracks().stream().map(k -> {
                 TrackDTO trackDTO = new TrackDTO();
                 trackDTO.setCode(k.getCode());

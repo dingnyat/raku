@@ -7,11 +7,12 @@
       <div class="track-item row col-12 px-0 py-2 mx-0 border-top">
         <div class="col-9 d-flex justify-content-between align-items-center">
           <div class="d-flex justify-content-start align-items-center">
-            <input type="checkbox" class="mr-3">
+            <fa-icon class="privacy-chip private mr-3 pointer" title="Private" *ngIf="track.privacy.toUpperCase() == '_PRIVATE'" [icon]="faLock"></fa-icon>
+            <fa-icon class="privacy-chip mr-3 pointer" title="Public" *ngIf="track.privacy.toUpperCase() == '_PUBLIC'" [icon]="faLockOpen"></fa-icon>
             <div *ngIf="!track?.imageUrl" class="non-image-audio"></div>
             <img *ngIf="track?.imageUrl" class="audio-image" [src]="track.imageUrl">
             <div class="ml-3 d-flex flex-column justify-content-start align-items-start">
-              <span class="pointer" [routerLink]="track.link">{{track.title}} <fa-icon title="Private Track" *ngIf="track.privacy.toUpperCase() == '_PRIVATE'" [icon]="faLock"></fa-icon></span>
+              <span class="pointer" [routerLink]="track.link">{{track.title}}</span>
               <span class="pointer text-muted" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</span>
             </div>
           </div>
