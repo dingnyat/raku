@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
 import {Track} from "../../model/track";
 import {TrackService} from "../../service/track.service";
@@ -38,7 +38,7 @@ import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form
   templateUrl: './track-details.component.html',
   styleUrls: ['./track-details.component.css']
 })
-export class TrackDetailsComponent implements OnInit, AfterViewInit {
+export class TrackDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
 
   faPlay = faPlay;
   faPause = faPause;
@@ -193,6 +193,11 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit {
         this.wavesurfer.load(AppSettings.ENDPOINT + "/" + this.username + "/audio-download/" + this.track.code);
       }
     });
+  }
+
+  ngOnDestroy() {
+    document.getElementById("audio-wave").remove();
+    this.wavesurfer.destroy();
   }
 
   playTrack() {

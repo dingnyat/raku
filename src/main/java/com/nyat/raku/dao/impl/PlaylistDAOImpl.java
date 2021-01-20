@@ -35,4 +35,12 @@ public class PlaylistDAOImpl implements PlaylistDAO {
     public Playlist get(Integer id) {
         return em.find(Playlist.class, id);
     }
+
+    @Override
+    public Playlist getByCode(String username, String code) {
+        return em.createQuery("select p from Playlist p where p.code=:code and p.createdBy.username=:username", Playlist.class)
+                .setParameter("code", code)
+                .setParameter("username", username)
+                .getSingleResult();
+    }
 }

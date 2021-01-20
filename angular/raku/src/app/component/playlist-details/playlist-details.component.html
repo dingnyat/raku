@@ -1,0 +1,110 @@
+<div class="playlist-play row mx-0 justify-content-between">
+  <div class="audio-wave-play d-flex flex-column justify-content-between">
+    <div class="row">
+      <div class="col-9 d-flex justify-content-start">
+        <div class="ml-2 d-flex justify-content-center">
+          <div class="play-btn">
+            <fa-icon
+              *ngIf="!playState"
+              [icon]="faPlay" class="item-view-button item-view-btn-play pointer"
+              (click)="playPlaylist()">
+            </fa-icon>
+            <fa-icon *ngIf="playState"
+                     [icon]="faPause"
+                     class="item-view-button pointer"
+                     (click)="pausePlaylist()">
+            </fa-icon>
+          </div>
+        </div>
+        <div class="pl-3">
+          <div>
+            <a [routerLink]="'/' + username" class="uploader">{{playlist?.createdBy.name}}</a>
+          </div>
+          <div class="playlist-title">{{playlist?.title}}</div>
+        </div>
+      </div>
+      <div class="col-3 pr-0 d-flex justify-content-center align-items-end flex-column">
+        <div class="text-light pb-4 upload-time">{{convertTimespan(playlist?.createdTime)}}</div>
+      </div>
+    </div>
+    <div class="wave-area">
+      <span *ngIf="this.currTimeStr != null" class="curr-time">{{this.currTimeStr}}</span>
+      <div id="audio-wave"></div>
+      <span *ngIf="this.durationStr != null" class="duration">{{this.durationStr}}</span>
+    </div>
+  </div>
+  <div class="d-flex justify-content-center align-items-center audio-art">
+    <img *ngIf="playlist?.imageUrl" class="audio-image" [src]="playlist.imageUrl">
+    <div *ngIf="!playlist?.imageUrl" class="non-image-audio"></div>
+  </div>
+</div>
+<div class="row mx-0 content-playlist">
+  <div class="col-8 ml-2">
+    <div class="row justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid #d6d6d6;">
+      <div class="playlist-react d-flex justify-content-start align-items-center">
+        <!--<button (click)="showShareDialog(playlist)">
+          <fa-icon [icon]="faShare"></fa-icon>
+          Share
+        </button>-->
+        <!--<button>
+          <svg width="22" height="22">
+            <path fill="#333" class="playbackSoundBadge__queueIcon"
+                  d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
+          </svg>
+          Add to Next up
+        </button>-->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2 d-flex flex-column justify-content-start align-items-center">
+        <img [routerLink]="'/' + playlist?.createdBy?.username" class="avatar-image pointer"
+             [src]="playlist?.createdBy?.imageUrl ? playlist?.createdBy?.imageUrl : '/assets/images/avatar.png'"
+             referrerpolicy="no-referrer"/>
+        <span [routerLink]="'/' + playlist?.createdBy?.username" class="uploader-name pointer">
+          {{playlist?.createdBy?.name}}
+        </span>
+        <div class="uploader-stats">
+          <span [routerLink]="'/' + playlist?.createdBy?.username + '/followers'" class="mr-2 pointer">
+            <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
+            {{uploaderStats?.followers}}
+          </span>
+          <span [routerLink]="'/' + playlist?.createdBy?.username + '/playlists'" class="pointer">
+            <fa-icon class="mr-1" [icon]="faMusic"></fa-icon>
+            {{uploaderStats?.tracks}}
+          </span>
+        </div>
+        <div class="follow-uploader">
+          <button (click)="followUploader()" [class.d-none]="user?.username === playlist?.createdBy.username">
+            <span [class.d-none]="uploaderStats?.youFollowing">
+              <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
+              Follow
+            </span>
+            <span [class.d-none]="!uploaderStats?.youFollowing">
+              <fa-icon class="mr-1" [icon]="faUserCheck"></fa-icon>
+              Followed
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="col-10">
+        <div>
+          <div class="w-100 playlist-track-list mt-2">
+            <div *ngFor="let track of playlist?.tracks; index as idx" class="track-in-playlist pointer row justify-content-between align-items-center mx-0 mb-1 border">
+              <div class="d-flex justify-content-start align-items-center">
+                <span class="mx-1">{{idx + 1}}</span>
+                <img *ngIf="track?.imageUrl" class="audio-image small-icon" [src]="track.imageUrl">
+                <div *ngIf="!track?.imageUrl" class="non-image-audio small-icon"></div>
+                <span [routerLink]="'/' + track.uploader.username + '/' + track.code" class="mx-2">{{track.title}}</span>
+              </div>
+              <div class="text-muted mr-1">
+                <fa-icon [icon]="faHeadphone"></fa-icon> {{track.plays}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+  </div>
+</div>

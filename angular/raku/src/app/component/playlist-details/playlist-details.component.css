@@ -1,0 +1,201 @@
+.playlist-play {
+  height: 300px;
+  background-image: linear-gradient(135deg, #e2dee1, #909192);
+}
+
+.audio-image {
+  width: 260px;
+  height: 260px;
+}
+
+.non-image-audio {
+  width: 260px;
+  height: 260px;
+  background-image: linear-gradient(135deg, #b7547f, #21a26b);
+}
+
+.upload-time, .tag-chip {
+  font-size: 1.1em;
+}
+
+.tag-chip {
+  background-color: #a5a5a5;
+  color: white;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-bottom: 2px;
+  border-radius: 5px;
+  margin-left: 5px;
+}
+
+.playlist-play .uploader {
+  background-color: rgba(0, 0, 0, .8);
+  color: #cccccc;
+  padding: 2px 4px 2px 4px;
+  border-radius: 1px;
+  text-decoration: none;
+  font-size: 1.2em;
+}
+
+.playlist-title {
+  background-color: rgba(0, 0, 0, .8);
+  color: #f2f2f2;
+  padding: 2px 5px 2px 5px;
+  border-radius: 1px;
+  font-size: 1.3em;
+}
+
+.item-view-button {
+  width: 50px;
+  height: 50px;
+  background-color: #ff5500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: white;
+  font-size: 1.5em;
+  padding-left: 2px;
+}
+
+.item-view-button.item-view-btn-play {
+  padding-left: 6px; /*tệ lắm mới dùng padding*/
+}
+
+.wave-area {
+  width: 100%;
+  margin-left: 10px;
+}
+
+#audio-wave:hover {
+  cursor: pointer;
+}
+
+.wave-area .curr-time {
+  z-index: 4;
+  position: relative;
+  top: 58px;
+  left: 0.15%;
+  font-size: 0.8em;
+  background-color: #333333;
+  color: #ff5500;
+  pointer-events: none;
+}
+
+.wave-area .duration {
+  z-index: 4;
+  position: relative;
+  bottom: 62px;
+  left: 97.4%;
+  font-size: 0.8em;
+  background-color: #333333;
+  color: #f2f2f2;
+  pointer-events: none;
+}
+
+.audio-wave-play {
+  min-width: calc(100% - 300px);
+  padding: 20px;
+}
+
+.audio-art {
+  margin-right: 20px;
+  margin-left: 20px;
+}
+
+.content-playlist {
+  padding: 20px;
+}
+
+.leave-comment {
+  background-color: #e3e3e3;
+  border-radius: 1px;
+  border: 1px solid #cccccc;
+}
+
+.comment-inp {
+  height: 25px;
+  width: calc(100% - 47px);
+  margin: 5px;
+  border: 1px solid #cccccc;
+  padding-left: 10px;
+}
+
+.playlist-stats span {
+  color: #333333;
+  margin-left: 10px;
+  font-size: 0.85em;
+}
+
+.playlist-stats span fa-icon {
+  margin-right: 3px;
+}
+
+.playlist-react button {
+  border: 1px solid #cccccc;
+  background-color: white;
+  border-radius: 2px;
+  margin-right: 6px;
+  font-size: 1em;
+  height: 27px;
+  align-items: center;
+}
+
+.avatar-image {
+  border: 1px solid #cccccc;
+  border-radius: 50%;
+  margin-bottom: 10px;
+  width: 100%;
+  height: auto;
+}
+
+.uploader-name {
+  font-weight: bolder;
+  margin-bottom: 4px;
+  width: 90px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.uploader-stats {
+  color: #9c9c9c;
+  font-size: 0.8em;
+  margin-bottom: 4px;
+}
+
+.follow-uploader button {
+  border-radius: 2px;
+  border: none;
+  background-color: #ff5500;
+  color: white;
+  font-size: 0.85em;
+}
+
+.comment-counts {
+  color: #9c9c9c;
+  border-bottom: 1px solid #d6d6d6;
+}
+
+.active-btn {
+  color: #ff5500;
+  border-color: #ff5500 !important;
+}
+
+button:focus {
+  outline: none;
+}
+
+.track-in-playlist {
+  height: 45px;
+}
+
+.small-icon {
+  width: 40px !important;
+  height: 40px !important;
+}
+
+.track-in-playlist:hover {
+  background-color: #cccccc;
+}

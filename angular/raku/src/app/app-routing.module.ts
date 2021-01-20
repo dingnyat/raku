@@ -12,6 +12,7 @@ import {SearchComponent} from "./component/search/search.component";
 import {TagComponent} from "./component/tag/tag.component";
 import {HomeComponent} from "./component/home/home.component";
 import {MyPlaylistComponent} from "./component/my-playlist/my-playlist.component";
+import {PlaylistDetailsComponent} from "./component/playlist-details/playlist-details.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
@@ -26,6 +27,7 @@ const routes: Routes = [
   {path: ":username/tracks", component: YourTracksComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
   {path: ":username/playlists", component: MyPlaylistComponent, canActivate: [AuthGuard], data: {roles: ["member"]}},
   {path: ":username/:code", component: TrackDetailsComponent},
+  {path: ":username/playlist/:code", component: PlaylistDetailsComponent},
 ];
 
 @NgModule({

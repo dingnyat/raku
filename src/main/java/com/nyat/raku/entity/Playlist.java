@@ -41,5 +41,6 @@ public class Playlist {
             joinColumns = {@JoinColumn(name = "playlist_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "track_id", referencedColumnName = "id")},
             uniqueConstraints = {@UniqueConstraint(columnNames = {"playlist_id", "track_id"})})
+    @OrderBy("uploadTime desc") // todo sắp xếp theo thứ tự mình add vào hoặc tùy chỉnh (phức tạp)
     private Set<Track> tracks;
 }

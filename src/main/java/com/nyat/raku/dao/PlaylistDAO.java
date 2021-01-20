@@ -10,4 +10,6 @@ public interface PlaylistDAO {
     void delete(Playlist playlist);
 
     Playlist get(Integer id);
+
+    Playlist getByCode(String username, String code);
 }

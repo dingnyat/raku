@@ -1,5 +1,6 @@
 package com.nyat.raku.controller;
 
+import com.nyat.raku.model.PlaylistDTO;
 import com.nyat.raku.payload.ApiResponse;
 import com.nyat.raku.payload.PlaylistForm;
 import com.nyat.raku.service.PlaylistService;
@@ -13,6 +14,17 @@ public class PlaylistController {
 
     @Autowired
     private PlaylistService playlistService;
+
+    @GetMapping("")
+    @ResponseBody
+    public ApiResponse<?> find(@RequestParam("username") String username, @RequestParam("code") String code) {
+        try {
+            return new ApiResponse<>(true, playlistService.getByCode(username, code));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, "Could not create playlist!");
+        }
+    }
 
     @PostMapping("/create")
     @ResponseBody

@@ -29,6 +29,9 @@ export class AppService {
   private currUser = new BehaviorSubject(null);
   userObs = this.currUser.asObservable();
 
+  private currPlayData = new BehaviorSubject(null);
+  currPlayDataObs = this.currPlayData.asObservable();
+
   constructor() {
   }
 
@@ -75,5 +78,13 @@ export class AppService {
 
   getCurrentUser() {
     return this.currUser.getValue();
+  }
+
+  getCurrPlayData() {
+    return this.currPlayData.getValue();
+  }
+
+  setCurrPlayData(data: any) {
+    this.currPlayData.next(data);
   }
 }
