@@ -90,6 +90,7 @@ public class ServerSecurityConfig extends WebSecurityConfigurerAdapter {
                         "/**/audio-download/**",
                         "/**/image/**",
                         "/avatar/**",
+                        "/search",
                         "/api/webhook/transfer",
                         "/get-qr-code-image/*",
                         "/api/**").permitAll()

@@ -1,9 +1,5 @@
-9. (Hủy) Thống kê của riêng người dùng
 10. Trong Your track có thêm thông tin về tổng thời gian của các bài nhạc / tổng thời gian cho phép (tùy theo gói plan)
 11. Notification (khi người mình follow có hoạt động)
-13. (Hủy) Làm right side bar
-20. Tìm kiếm: khi nhập vào ô input thì sổ xuống kết quả sơ bộ luôn (như auto complete)
-22. Phân loại private/public. khi người khác vào profile của mình thì họ chỉ thấy public
 23. HOMEPAGEEEEEEEEEEEEEEE
 
 4242424242424242

@@ -1,13 +1,6 @@
-1. (done) Logout chưa hoàn toàn. phải logout 2 lần mới hết (front)
-2. (done) Khi ở màn hình của track. track đang chạy đồng bộ với media player. chuyển bài trên queue next up thì wave ko trở về đầu
-3. (done) call many times AuditorAware. Should remove it.
 4. Xử lý khi nhập url mà ko tìm được bài hát, playlist...
-5. (ưu tiên) (done) Update ko đổi tên file audio
-6. (done) khi vừa đăng nhập thì load lại cái media-player
-7. (done) share khi vừa mới upload xong
-8. (đã làm tạm dùng random) shuffle bài hát trong media player
 9. ở profile chưa nhấn được nút play bài hát
 10. truy cập /username/tracks dù username khác của mình vẫn ra của mình => cần disable cái này
-11. (done) chưa đăng nhập vẫn hiện comment, like, repost (like, repost có thể vẫn hiện những bắt đăng nhập...)
 12. User chưa active vẫn hoạt động như thường
 13. Menu drop down bị lệch nếu để màn hình độ phân giải khác :)
+14. Chưa đăng nhập thì chưa search được

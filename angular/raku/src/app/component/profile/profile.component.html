@@ -91,7 +91,7 @@
                 </div>
                 <div>
                   <p class="mb-0 text-muted">
-                    <span class="pointer" [routerLink]="'/' + loggedInUser?.username">{{loggedInUser?.name}}</span>
+                    <span class="pointer" [routerLink]="'/' + user?.username">{{user?.name}}</span>
                     <fa-icon class="mx-2 text-dark" [icon]="faThumbtack"></fa-icon>
                     <span class="pointer" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</span>
                   </p>
