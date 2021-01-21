@@ -44,6 +44,10 @@ export class AppService {
   }
 
   setCurrentTrack(track: Track) {
+    caches.keys().then(function(names) {
+      for (let name of names)
+        caches.delete(name);
+    });
     this.currTrackSub.next(track);
   }
 

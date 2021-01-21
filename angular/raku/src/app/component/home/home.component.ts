@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {AppService} from "../../service/app.service";
 import {User} from "../../model/user";
 import {MatDialog} from "@angular/material/dialog";
 import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form.component";
@@ -12,15 +11,15 @@ import {OwlOptions} from "ngx-owl-carousel-o";
 import {Track} from "../../model/track";
 import {TrackService} from "../../service/track.service";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
+import {BaseController} from "../base.controller";
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent extends BaseController implements OnInit {
 
-  user: User;
   faPlay = faPlay;
 
   customOptions: OwlOptions = {
@@ -47,16 +46,12 @@ export class HomeComponent implements OnInit {
 
   top40: Track[];
 
-  constructor(private appService: AppService,
-              public dialog: MatDialog,
+  constructor(public dialog: MatDialog,
               private authService: AuthenticationService,
               private cookieService: CookieService,
               public readonly router: Router,
               private trackService: TrackService) {
-    this.user = this.appService.getCurrentUser();
-    this.appService.userObs.subscribe(user => {
-      this.user = user;
-    })
+    super();
 
     this.trackService.getTop40().subscribe(resp => {
       if (resp.success) {
@@ -84,8 +79,8 @@ export class HomeComponent implements OnInit {
       if (res == "login_success") {
         if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME)) {
           this.authService.getCurrentUser().subscribe(resp => {
-            this.user = resp.data as User;
-            this.appService.setUser(this.user);
+            this.loggedInUser = resp.data as User;
+            this.appService.setUser(this.loggedInUser);
             this.router.navigateByUrl("/");
           });
         }
@@ -97,8 +92,8 @@ export class HomeComponent implements OnInit {
               this.cookieService.set(AppSettings.COOKIE_TOKEN_NAME, resp.data.token,
                 moment(new Date()).add(resp.data.expireTime, 'ms').toDate());
               this.authService.getCurrentUser().subscribe(resp => {
-                this.user = resp.data as User;
-                this.appService.setUser(this.user);
+                this.loggedInUser = resp.data as User;
+                this.appService.setUser(this.loggedInUser);
                 this.router.navigateByUrl("/");
               });
             }

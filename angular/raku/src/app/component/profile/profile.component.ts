@@ -14,7 +14,6 @@ import {
   faUserCheck,
   faUserPlus
 } from "@fortawesome/free-solid-svg-icons";
-import {AppService} from "../../service/app.service";
 import {UserStats} from "../../model/user-stats";
 import {Title} from "@angular/platform-browser";
 import {TrackService} from "../../service/track.service";
@@ -28,13 +27,14 @@ import {EditProfileComponent} from "../edit-profile/edit-profile.component";
 import {ToastrService} from "ngx-toastr";
 import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form.component";
 import {Playlist} from "../../model/playlist";
+import {BaseController} from "../base.controller";
 
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css']
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent extends BaseController implements OnInit {
   faPencilAlt = faPencilAlt;
   faUserPlus = faUserPlus;
   faUserCheck = faUserCheck;
@@ -46,7 +46,6 @@ export class ProfileComponent implements OnInit {
   faList = faList;
 
   user: User;
-  currUser: User;
   userStats: UserStats;
   tracks: Track[] = [];
   repostTracks: Track[] = [];
@@ -55,18 +54,14 @@ export class ProfileComponent implements OnInit {
 
   constructor(private userService: UserService,
               private route: ActivatedRoute,
-              private appService: AppService,
               private title: Title,
               private trackService: TrackService,
               public dialog: MatDialog,
               private toastr: ToastrService) {
+    super();
   }
 
   ngOnInit(): void {
-    this.currUser = this.appService.getCurrentUser();
-    this.appService.userObs.subscribe(u => {
-      this.currUser = u;
-    })
     this.route.params.subscribe(params => {
       this.userService.getByUsername(params.username).subscribe(resp => {
         if (resp.success) {
@@ -161,56 +156,6 @@ export class ProfileComponent implements OnInit {
 
   playTrack(track: Track) {
 
-  }
-
-  likeTrack(track: Track) {
-    if (this.appService.getCurrentUser() != null) {
-      this.userService.likeTrack(track.id).subscribe(resp => {
-        if (resp.success) {
-          this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
-            if (r.success) {
-              track['userTrackInfo'] = r.data;
-            }
-          });
-        }
-      });
-    } else {
-      const dialogRef = this.dialog.open(SignInUpFormComponent, {
-        width: "900px",
-        height: "auto",
-        disableClose: true,
-        data: {success: false, type: 'signin'}
-      });
-
-      dialogRef.afterClosed().subscribe(res => {
-        console.log(res);
-      })
-    }
-  }
-
-  repostTrack(track: Track) {
-    if (this.appService.getCurrentUser() != null) {
-      this.userService.repostTrack(track.id).subscribe(resp => {
-        if (resp.success) {
-          this.trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(r => {
-            if (r.success) {
-              track['userTrackInfo'] = r.data;
-            }
-          });
-        }
-      });
-    } else {
-      const dialogRef = this.dialog.open(SignInUpFormComponent, {
-        width: "900px",
-        height: "auto",
-        disableClose: true,
-        data: {success: false, type: 'signin'}
-      });
-
-      dialogRef.afterClosed().subscribe(res => {
-        console.log(res);
-      })
-    }
   }
 
   showShareDialog(track: Track) {

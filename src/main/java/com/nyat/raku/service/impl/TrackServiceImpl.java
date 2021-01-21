@@ -15,6 +15,7 @@ import com.nyat.raku.security.AdvancedSecurityContextHolder;
 import com.nyat.raku.security.UserPrincipal;
 import com.nyat.raku.service.TrackService;
 import com.nyat.raku.util.DateTimeUtils;
+import com.nyat.raku.util.Privacy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -223,125 +224,135 @@ public class TrackServiceImpl implements TrackService {
 
     @Override
     public List<TrackDTO> getTracksOf(String username) {
-        User user = userDAO.getByUsername(username); // todo check người dùng đang đăng nhập đang có Pro hay chưa để lọc private
-        return user.getTracks().stream().map(t -> {
-            TrackDTO track = new TrackDTO();
-            track.setId(t.getId());
-            track.setTitle(t.getTitle());
-            track.setArtist(t.getArtist());
-            track.setDuration(t.getDuration());
-            track.setTags(t.getTags());
-            track.setGenres(t.getGenres().stream().map(genre -> {
-                GenreDTO genreDTO = new GenreDTO();
-                genreDTO.setId(genre.getId());
-                genreDTO.setCode(genre.getCode());
-                genreDTO.setName(genre.getName());
-                return genreDTO;
-            }).collect(Collectors.toSet()));
-            track.setDescription(t.getDescription());
-            track.setPrivacy(t.getPrivacy());
-            track.setPlays(t.getPlays());
-            track.setExt(t.getExt());
-            track.setUploadTime(t.getUploadTime());
-            if (t.getImageUrl() != null) {
-                track.setImageUrl(t.getImageUrl());
-            }
-            track.setComposer(t.getComposer());
-            track.setCode(t.getCode());
-            UserDTO userDTO = new UserDTO();
-            userDTO.setName(t.getUploader().getName());
-            userDTO.setUsername(t.getUploader().getUsername());
-            userDTO.setImageUrl(t.getUploader().getImageUrl());
-            track.setUploader(userDTO);
-            return track;
-        }).collect(Collectors.toList());
+        User user = userDAO.getByUsername(username);
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        return user.getTracks()
+                .stream()
+                .filter(t -> t.getPrivacy().equals(Privacy._PUBLIC) || (userPrincipal != null && username.equals(userPrincipal.getUsername())))
+                .map(t -> {
+                    TrackDTO track = new TrackDTO();
+                    track.setId(t.getId());
+                    track.setTitle(t.getTitle());
+                    track.setArtist(t.getArtist());
+                    track.setDuration(t.getDuration());
+                    track.setTags(t.getTags());
+                    track.setGenres(t.getGenres().stream().map(genre -> {
+                        GenreDTO genreDTO = new GenreDTO();
+                        genreDTO.setId(genre.getId());
+                        genreDTO.setCode(genre.getCode());
+                        genreDTO.setName(genre.getName());
+                        return genreDTO;
+                    }).collect(Collectors.toSet()));
+                    track.setDescription(t.getDescription());
+                    track.setPrivacy(t.getPrivacy());
+                    track.setPlays(t.getPlays());
+                    track.setExt(t.getExt());
+                    track.setUploadTime(t.getUploadTime());
+                    if (t.getImageUrl() != null) {
+                        track.setImageUrl(t.getImageUrl());
+                    }
+                    track.setComposer(t.getComposer());
+                    track.setCode(t.getCode());
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setName(t.getUploader().getName());
+                    userDTO.setUsername(t.getUploader().getUsername());
+                    userDTO.setImageUrl(t.getUploader().getImageUrl());
+                    track.setUploader(userDTO);
+                    return track;
+                }).collect(Collectors.toList());
     }
 
     @Override
     public List<TrackDTO> getRepostTracksOf(String username) {
-        User user = userDAO.getByUsername(username); // todo check người dùng đang đăng nhập đang có Pro hay chưa để lọc private
-        return user.getRepostTracks().stream().map(repostTrack -> {
-            Track t = repostTrack.getTrack();
-            TrackDTO track = new TrackDTO();
-            track.setId(t.getId());
-            track.setTitle(t.getTitle());
-            track.setArtist(t.getArtist());
-            track.setDuration(t.getDuration());
-            track.setTags(t.getTags());
-            track.setGenres(t.getGenres().stream().map(genre -> {
-                GenreDTO genreDTO = new GenreDTO();
-                genreDTO.setId(genre.getId());
-                genreDTO.setCode(genre.getCode());
-                genreDTO.setName(genre.getName());
-                return genreDTO;
-            }).collect(Collectors.toSet()));
-            track.setDescription(t.getDescription());
-            track.setPrivacy(t.getPrivacy());
-            track.setPlays(t.getPlays());
-            track.setExt(t.getExt());
-            track.setUploadTime(t.getUploadTime());
-            if (t.getImageUrl() != null) {
-                track.setImageUrl(t.getImageUrl());
-            }
-            track.setComposer(t.getComposer());
-            track.setCode(t.getCode());
-            UserDTO userDTO = new UserDTO();
-            userDTO.setName(t.getUploader().getName());
-            userDTO.setUsername(t.getUploader().getUsername());
-            userDTO.setImageUrl(t.getUploader().getImageUrl());
-            track.setUploader(userDTO);
-            return track;
-        }).collect(Collectors.toList());
+        User user = userDAO.getByUsername(username); // ton tai loi bao mat
+        return user.getRepostTracks()
+                .stream()
+                .map(repostTrack -> {
+                    Track t = repostTrack.getTrack();
+                    TrackDTO track = new TrackDTO();
+                    track.setId(t.getId());
+                    track.setTitle(t.getTitle());
+                    track.setArtist(t.getArtist());
+                    track.setDuration(t.getDuration());
+                    track.setTags(t.getTags());
+                    track.setGenres(t.getGenres().stream().map(genre -> {
+                        GenreDTO genreDTO = new GenreDTO();
+                        genreDTO.setId(genre.getId());
+                        genreDTO.setCode(genre.getCode());
+                        genreDTO.setName(genre.getName());
+                        return genreDTO;
+                    }).collect(Collectors.toSet()));
+                    track.setDescription(t.getDescription());
+                    track.setPrivacy(t.getPrivacy());
+                    track.setPlays(t.getPlays());
+                    track.setExt(t.getExt());
+                    track.setUploadTime(t.getUploadTime());
+                    if (t.getImageUrl() != null) {
+                        track.setImageUrl(t.getImageUrl());
+                    }
+                    track.setComposer(t.getComposer());
+                    track.setCode(t.getCode());
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setName(t.getUploader().getName());
+                    userDTO.setUsername(t.getUploader().getUsername());
+                    userDTO.setImageUrl(t.getUploader().getImageUrl());
+                    track.setUploader(userDTO);
+                    return track;
+                }).collect(Collectors.toList());
     }
 
     @Override
     public List<PlaylistDTO> getPlaylistsOf(String username) {
-        User user = userDAO.getByUsername(username); // todo check người dùng đang đăng nhập đang có Pro hay chưa để lọc private
-        return user.getPlaylists().stream().map(playlist -> {
-            PlaylistDTO dto = new PlaylistDTO();
-            dto.setId(playlist.getId());
-            dto.setCode(playlist.getCode());
-            dto.setCreatedTime(playlist.getCreatedTime());
-            UserDTO userDTO = new UserDTO();
-            userDTO.setId(playlist.getCreatedBy().getId());
-            userDTO.setUsername(playlist.getCreatedBy().getUsername());
-            userDTO.setName(playlist.getCreatedBy().getName());
-            dto.setCreatedBy(userDTO);
-            dto.setPrivacy(playlist.getPrivacy());
-            dto.setTitle(playlist.getTitle());
-            dto.setTracks(playlist.getTracks().stream().map(t -> {
-                TrackDTO track = new TrackDTO();
-                track.setId(t.getId());
-                track.setTitle(t.getTitle());
-                track.setArtist(t.getArtist());
-                track.setDuration(t.getDuration());
-                track.setTags(t.getTags());
-                track.setGenres(t.getGenres().stream().map(genre -> {
-                    GenreDTO genreDTO = new GenreDTO();
-                    genreDTO.setId(genre.getId());
-                    genreDTO.setCode(genre.getCode());
-                    genreDTO.setName(genre.getName());
-                    return genreDTO;
-                }).collect(Collectors.toSet()));
-                track.setDescription(t.getDescription());
-                track.setPrivacy(t.getPrivacy());
-                track.setPlays(t.getPlays());
-                track.setExt(t.getExt());
-                track.setUploadTime(t.getUploadTime());
-                if (t.getImageUrl() != null) {
-                    track.setImageUrl(t.getImageUrl());
-                }
-                track.setComposer(t.getComposer());
-                track.setCode(t.getCode());
-                UserDTO u = new UserDTO();
-                u.setName(t.getUploader().getName());
-                u.setUsername(t.getUploader().getUsername());
-                u.setImageUrl(t.getUploader().getImageUrl());
-                track.setUploader(u);
-                return track;
-            }).collect(Collectors.toSet()));
-            return dto;
-        }).collect(Collectors.toList());
+        UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
+        User user = userDAO.getByUsername(username);
+        return user.getPlaylists()
+                .stream()
+                .filter(t -> t.getPrivacy().equals(Privacy._PUBLIC) || (userPrincipal != null && username.equals(userPrincipal.getUsername())))
+                .map(playlist -> {
+                    PlaylistDTO dto = new PlaylistDTO();
+                    dto.setId(playlist.getId());
+                    dto.setCode(playlist.getCode());
+                    dto.setCreatedTime(playlist.getCreatedTime());
+                    UserDTO userDTO = new UserDTO();
+                    userDTO.setId(playlist.getCreatedBy().getId());
+                    userDTO.setUsername(playlist.getCreatedBy().getUsername());
+                    userDTO.setName(playlist.getCreatedBy().getName());
+                    dto.setCreatedBy(userDTO);
+                    dto.setPrivacy(playlist.getPrivacy());
+                    dto.setTitle(playlist.getTitle());
+                    dto.setTracks(playlist.getTracks().stream().map(t -> {
+                        TrackDTO track = new TrackDTO();
+                        track.setId(t.getId());
+                        track.setTitle(t.getTitle());
+                        track.setArtist(t.getArtist());
+                        track.setDuration(t.getDuration());
+                        track.setTags(t.getTags());
+                        track.setGenres(t.getGenres().stream().map(genre -> {
+                            GenreDTO genreDTO = new GenreDTO();
+                            genreDTO.setId(genre.getId());
+                            genreDTO.setCode(genre.getCode());
+                            genreDTO.setName(genre.getName());
+                            return genreDTO;
+                        }).collect(Collectors.toSet()));
+                        track.setDescription(t.getDescription());
+                        track.setPrivacy(t.getPrivacy());
+                        track.setPlays(t.getPlays());
+                        track.setExt(t.getExt());
+                        track.setUploadTime(t.getUploadTime());
+                        if (t.getImageUrl() != null) {
+                            track.setImageUrl(t.getImageUrl());
+                        }
+                        track.setComposer(t.getComposer());
+                        track.setCode(t.getCode());
+                        UserDTO u = new UserDTO();
+                        u.setName(t.getUploader().getName());
+                        u.setUsername(t.getUploader().getUsername());
+                        u.setImageUrl(t.getUploader().getImageUrl());
+                        track.setUploader(u);
+                        return track;
+                    }).collect(Collectors.toSet()));
+                    return dto;
+                }).collect(Collectors.toList());
     }
 
     @Override
@@ -417,5 +428,11 @@ public class TrackServiceImpl implements TrackService {
             track.setUploader(userDTO);
             return track;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public void countPlay(String username, String code) {
+        Track track = trackDAO.getByCode(username, code);
+        track.setPlays(track.getPlays() + 1);
     }
 }

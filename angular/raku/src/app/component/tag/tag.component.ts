@@ -47,6 +47,13 @@ export class TagComponent implements OnInit {
           this.tracks = resp.data;
           this.tracks.forEach(track => {
             track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+
+            trackService.getUserTrackInfo(track.uploader.username, track.code).subscribe(info => {
+              if (info.success) {
+                track['userTrackInfo'] = info.data;
+              }
+            });
+
           })
         }
       });
@@ -58,12 +65,6 @@ export class TagComponent implements OnInit {
 
   convertTimespan(time: Date) {
     return moment(time).startOf("second").fromNow();
-  }
-
-  likeTrack(track: any) {
-  }
-
-  repostTrack(track: any) {
   }
 
   showShareDialog(track: any) {

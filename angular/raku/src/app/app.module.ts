@@ -45,11 +45,15 @@ import {CarouselModule} from "ngx-owl-carousel-o";
 import { MyPlaylistComponent } from './component/my-playlist/my-playlist.component';
 import { PlaylistFormComponent } from './component/my-playlist/playlist-form/playlist-form.component';
 import { PlaylistDetailsComponent } from './component/playlist-details/playlist-details.component';
+import { LikeButtonComponent } from './component/like-button/like-button.component';
+import { RepostButtonComponent } from './component/repost-button/repost-button.component';
+import {BaseController} from "./component/base.controller";
 
 export let InjectorInstance: Injector;
 
 @NgModule({
   declarations: [
+    BaseController,
     AppComponent,
     TopMenuComponent,
     MediaPlayerComponent,
@@ -74,6 +78,8 @@ export let InjectorInstance: Injector;
     MyPlaylistComponent,
     PlaylistFormComponent,
     PlaylistDetailsComponent,
+    LikeButtonComponent,
+    RepostButtonComponent,
   ],
   imports: [
     BrowserModule,

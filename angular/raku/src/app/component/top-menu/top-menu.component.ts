@@ -4,19 +4,19 @@ import {MatDialog} from "@angular/material/dialog";
 import {AuthenticationService} from "../../service/authentication.service";
 import {CookieService} from "ngx-cookie-service";
 import {Router} from "@angular/router";
-import {AppService} from "../../service/app.service";
 import {AppSettings} from "../../global/app-settings";
 import {User} from "../../model/user";
 import {SignInUpFormComponent} from "./sign-in-up-form/sign-in-up-form.component";
 import * as moment from 'moment';
 import {UserSecurityComponent} from "../user-security/user-security.component";
+import {BaseController} from "../base.controller";
 
 @Component({
   selector: 'top-menu',
   templateUrl: './top-menu.component.html',
   styleUrls: ['./top-menu.component.css']
 })
-export class TopMenuComponent implements OnInit {
+export class TopMenuComponent extends BaseController implements OnInit {
   faUser = faUser;
   faSignOut = faSignOutAlt;
   faCog = faCog;
@@ -24,34 +24,24 @@ export class TopMenuComponent implements OnInit {
   faMusic = faMusic;
   faShieldAlt = faShieldAlt;
 
-  userInfo: User;
-  isAuthenticated: boolean;
+  loggedInUser: User;
   searchKeyword: string;
 
   constructor(public dialog: MatDialog,
               private authService: AuthenticationService,
               private cookieService: CookieService,
-              public readonly router: Router,
-              public appService: AppService) {
+              public readonly router: Router) {
+    super();
   }
 
   ngOnInit(): void {
     if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME)) {
       this.authService.getCurrentUser().subscribe(resp => {
-        this.userInfo = resp.data as User;
-        this.appService.setUser(this.userInfo);
+        this.loggedInUser = resp.data as User;
+        this.appService.setUser(this.loggedInUser);
       }, error => {
       });
     }
-
-    this.appService.userObs.subscribe(currUser => {
-      if (currUser == null) {
-        this.isAuthenticated = false;
-      } else {
-        this.userInfo = currUser;
-        this.isAuthenticated = true;
-      }
-    })
   }
 
   showSignInUpDialog(type) {
@@ -66,8 +56,8 @@ export class TopMenuComponent implements OnInit {
       if (res == "login_success") {
         if (this.cookieService.get(AppSettings.COOKIE_TOKEN_NAME)) {
           this.authService.getCurrentUser().subscribe(resp => {
-            this.userInfo = resp.data as User;
-            this.appService.setUser(this.userInfo);
+            this.loggedInUser = resp.data as User;
+            this.appService.setUser(this.loggedInUser);
             this.router.navigateByUrl("/");
           });
         }
@@ -79,8 +69,8 @@ export class TopMenuComponent implements OnInit {
               this.cookieService.set(AppSettings.COOKIE_TOKEN_NAME, resp.data.token,
                 moment(new Date()).add(resp.data.expireTime, 'ms').toDate());
               this.authService.getCurrentUser().subscribe(resp => {
-                this.userInfo = resp.data as User;
-                this.appService.setUser(this.userInfo);
+                this.loggedInUser = resp.data as User;
+                this.appService.setUser(this.loggedInUser);
                 this.router.navigateByUrl("/");
               });
             }

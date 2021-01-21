@@ -41,12 +41,10 @@ public class UserController {
     public ApiResponse<?> likeTrack(@RequestParam("track") Integer trackId) {
         try {
             UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
-            userService.likeTrack(trackId, userPrincipal.getUsername());
-            return new ApiResponse<>(true, null);
+            return new ApiResponse<>(true, userService.likeTrack(trackId, userPrincipal.getUsername()));
         } catch (Exception e) {
-            e.printStackTrace();
+            return new ApiResponse<>(false, null);
         }
-        return new ApiResponse<>(false, null);
     }
 
     @GetMapping("/repost-track")
@@ -54,12 +52,10 @@ public class UserController {
     public ApiResponse<?> repostTrack(@RequestParam("track") Integer trackId) {
         try {
             UserPrincipal userPrincipal = AdvancedSecurityContextHolder.getUserPrincipal();
-            userService.repostTrack(trackId, userPrincipal.getUsername());
-            return new ApiResponse<>(true, null);
+            return new ApiResponse<>(true, userService.repostTrack(trackId, userPrincipal.getUsername()));
         } catch (Exception e) {
-            e.printStackTrace();
+            return new ApiResponse<>(false, null);
         }
-        return new ApiResponse<>(false, null);
     }
 
     @GetMapping("/follow-user")

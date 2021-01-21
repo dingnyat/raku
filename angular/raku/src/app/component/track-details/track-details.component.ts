@@ -21,7 +21,6 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import {AppService} from "../../service/app.service";
 import WaveSurfer from "wavesurfer.js/dist/wavesurfer";
-import {User} from "../../model/user";
 import {UserService} from "../../service/user.service";
 import {UserTrackInfo} from "../../model/user-track-info";
 import {TrackStats} from "../../model/track-stats";
@@ -29,16 +28,16 @@ import {UserStats} from "../../model/user-stats";
 import * as moment from 'moment';
 import {MatDialog} from "@angular/material/dialog";
 import {ShareDialogComponent} from "../share-dialog/share-dialog.component";
-import {ToastrService} from "ngx-toastr";
 import {AddToPlaylistComponent} from "../add-to-playlist/add-to-playlist.component";
 import {SignInUpFormComponent} from "../top-menu/sign-in-up-form/sign-in-up-form.component";
+import {BaseController} from "../base.controller";
 
 @Component({
   selector: 'track-details',
   templateUrl: './track-details.component.html',
   styleUrls: ['./track-details.component.css']
 })
-export class TrackDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TrackDetailsComponent extends BaseController implements OnInit, AfterViewInit, OnDestroy {
 
   faPlay = faPlay;
   faPause = faPause;
@@ -63,7 +62,6 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   busy = false;
   currTimeStr: string;
   durationStr: string;
-  user: User;
   userTrackInfo: UserTrackInfo;
   trackStats: TrackStats;
   uploaderStats: UserStats;
@@ -71,10 +69,9 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(private route: ActivatedRoute,
               private trackService: TrackService,
               private titleService: Title,
-              public appService: AppService,
               private userService: UserService,
-              public dialog: MatDialog,
-              private toastr: ToastrService) {
+              public dialog: MatDialog) {
+    super();
   }
 
   ngOnInit(): void {
@@ -118,10 +115,6 @@ export class TrackDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
     this.appService.playStateObs.subscribe(state => {
       this.isPlaying = state;
     });
-
-    this.appService.userObs.subscribe(user => {
-      this.user = user;
-    })
   }
 
   ngAfterViewInit(): void {

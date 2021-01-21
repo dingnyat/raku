@@ -21,16 +21,17 @@
     <div class="header-center">
       <div class="header-search">
         <form class="search-form">
-          <input class="search-input" placeholder="Search" autocomplete="false" (keyup.enter)="search()" [ngModelOptions]="{standalone: true}" [(ngModel)]="searchKeyword">
+          <input class="search-input" placeholder="Search" autocomplete="false" (keyup.enter)="search()"
+                 [ngModelOptions]="{standalone: true}" [(ngModel)]="searchKeyword">
           <button class="search-submit" type="submit"></button>
         </form>
       </div>
     </div>
-    <div class="header-right d-flex justify-content-start align-items-center ml-2" *ngIf="!isAuthenticated">
+    <div class="header-right d-flex justify-content-start align-items-center ml-2" *ngIf="loggedInUser == null">
       <button id="signInBtn" (click)="showSignInUpDialog('signin')">Sign In</button>
       <button id="signUpBtn" (click)="showSignInUpDialog('signup')">Create an account</button>
     </div>
-    <div class="header-right" *ngIf="isAuthenticated">
+    <div class="header-right" *ngIf="loggedInUser != null">
       <a href="/" class="try-pro-link">Try Pro</a>
       <div class="header-uploader float-left">
         <a routerLink="/upload" class="header-upload-link">Upload</a>
@@ -38,29 +39,29 @@
       <div class="header-user-nav float-left p-0">
         <a class="header-user-nav-button">
           <div class="header-user-avatar">
-            <img class="avatar-image" [src]="userInfo.imageUrl ? userInfo.imageUrl : '/assets/images/avatar.png'"
+            <img class="avatar-image" [src]="loggedInUser.imageUrl ? loggedInUser.imageUrl : '/assets/images/avatar.png'"
                  referrerpolicy="no-referrer" style="width: 26px; height: 26px; opacity: 1;"/>
           </div>
           <div class="header-user-name float-left">
             <div class="user-name">
-              <span>{{userInfo.name}}</span>
+              <span>{{loggedInUser.name}}</span>
             </div>
           </div>
           <div class="user-profile-dropdown">
             <div class="profile-menu">
               <ul class="menu-list">
                 <li>
-                  <a [routerLink]="'/' + userInfo.username" class="menu-item">
+                  <a [routerLink]="'/' + loggedInUser.username" class="menu-item">
                     <fa-icon [icon]="faUser" class="ml-1 mr-2"></fa-icon>
                     Profile</a>
                 </li>
                 <li>
-                  <a [routerLink]="'/' + userInfo.username + '/tracks'" class="menu-item">
+                  <a [routerLink]="'/' + loggedInUser.username + '/tracks'" class="menu-item">
                     <fa-icon [icon]="faMusic" class="ml-1 mr-2"></fa-icon>
                     Your tracks</a>
                 </li>
                 <li>
-                  <a [routerLink]="'/' + userInfo.username + '/playlists'" class="menu-item">
+                  <a [routerLink]="'/' + loggedInUser.username + '/playlists'" class="menu-item">
                     <fa-icon [icon]="faStream" class="ml-1 mr-2"></fa-icon>
                     Playlists</a>
                 </li>

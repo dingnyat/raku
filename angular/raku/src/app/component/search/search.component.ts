@@ -18,13 +18,15 @@ import * as moment from "moment";
 import {AppSettings} from "../../global/app-settings";
 import {Title} from "@angular/platform-browser";
 import {UserService} from "../../service/user.service";
+import {TrackService} from "../../service/track.service";
+import {BaseController} from "../base.controller";
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent extends BaseController implements OnInit {
 
   faGlasses = faGlasses;
   faMusic = faMusic;
@@ -41,7 +43,12 @@ export class SearchComponent implements OnInit {
   searchReq = {};
   searchResults: any;
 
-  constructor(private route: ActivatedRoute, private baseService: BaseService, private title: Title, private userService: UserService) {
+  constructor(private route: ActivatedRoute,
+              private baseService: BaseService,
+              private title: Title,
+              private userService: UserService,
+              private trackService: TrackService,) {
+    super();
     this.searchReq['key'] = 'track';
     this.searchReq['start'] = 0;
     this.searchReq['length'] = 6;
@@ -62,6 +69,11 @@ export class SearchComponent implements OnInit {
         this.searchResults.results.forEach(e => {
           if (e.value == "track") {
             e.key.imageUrl = e.key.imageUrl ? (AppSettings.ENDPOINT + "/" + e.key.uploader.username + "/image/" + e.key.imageUrl) : null;
+            this.trackService.getUserTrackInfo(e.key.uploader.username, e.key.code).subscribe(info => {
+              if (info.success) {
+                e.key['userTrackInfo'] = info.data;
+              }
+            });
           }
           if (e.value == "people") {
             this.userService.getUserStats(e.key.username).subscribe(r => {
@@ -91,14 +103,6 @@ export class SearchComponent implements OnInit {
 
   convertTimespan(time: Date) {
     return moment(time).startOf("second").fromNow();
-  }
-
-  likeTrack(track: any) {
-
-  }
-
-  repostTrack(track: any) {
-
   }
 
   showShareDialog(track: any) {

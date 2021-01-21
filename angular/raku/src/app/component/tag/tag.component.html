@@ -21,7 +21,8 @@
       </div>
       <div *ngIf="tracks">
         <div *ngFor="let track of tracks" class="row mx-0 mt-3 track-item pb-3 border-bottom">
-          <div class="d-flex justify-content-center align-items-center audio-art">
+          <div [routerLink]="'/' + track.uploader.username + '/' + track.code"
+               class="d-flex justify-content-center align-items-center audio-art pointer">
             <img *ngIf="track.imageUrl" class="audio-image" [src]="track.imageUrl">
             <div *ngIf="!track.imageUrl" class="non-image-audio"></div>
           </div>
@@ -50,26 +51,19 @@
               <span class="text-muted upload-time">{{convertTimespan(track.uploadTime)}}</span>
             </div>
             <div class="track-react d-flex justify-content-start align-items-center">
-              <button (click)="likeTrack(track)" [class.active-btn]="track.userTrackInfo?.like">
-                <fa-icon [icon]="faHeart"></fa-icon>
-                {{track.userTrackInfo?.like ? "Liked" : "Like"}}
-              </button>
-              <button (click)="repostTrack(track)"
-                      [class.active-btn]="track.userTrackInfo?.repost">
-                <fa-icon [icon]="faThumbtack"></fa-icon>
-                {{track.userTrackInfo?.repost ? "Reposted" : "Repost"}}
-              </button>
+              <like-button [target]="track" [active]="track.userTrackInfo?.like"></like-button>
+              <repost-button [target]="track" [active]="track.userTrackInfo?.repost"></repost-button>
               <button (click)="showShareDialog(track)">
                 <fa-icon [icon]="faShare"></fa-icon>
                 Share
               </button>
-              <button>
+              <!--<button>
                 <svg width="22" height="22">
                   <path fill="#333" class="playbackSoundBadge__queueIcon"
                         d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
                 </svg>
                 Add to Next up
-              </button>
+              </button>-->
               <button (click)="addToPlaylist(track)">
                 <fa-icon [icon]="faList"></fa-icon>
                 Add to playlist

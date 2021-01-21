@@ -37,4 +37,6 @@ public interface TrackService {
     List<TrackDTO> getTracksByTag(String tagCode);
 
     List<TrackDTO> getTop40();
+
+    void countPlay(String username, String code);
 }

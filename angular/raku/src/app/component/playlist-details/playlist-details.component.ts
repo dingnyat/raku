@@ -21,10 +21,9 @@ import {
 import * as moment from "moment";
 import {UserStats} from "../../model/user-stats";
 import {UserService} from "../../service/user.service";
-import {User} from "../../model/user";
-import {AppService} from "../../service/app.service";
 import {AppSettings} from "../../global/app-settings";
 import WaveSurfer from "wavesurfer.js/dist/wavesurfer";
+import {BaseController} from "../base.controller";
 
 
 @Component({
@@ -32,7 +31,7 @@ import WaveSurfer from "wavesurfer.js/dist/wavesurfer";
   templateUrl: './playlist-details.component.html',
   styleUrls: ['./playlist-details.component.css']
 })
-export class PlaylistDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class PlaylistDetailsComponent extends BaseController implements OnInit, AfterViewInit, OnDestroy {
 
   faPlay = faPlay;
   faPause = faPause;
@@ -55,7 +54,6 @@ export class PlaylistDetailsComponent implements OnInit, AfterViewInit, OnDestro
   code: string;
 
   uploaderStats: UserStats;
-  user: User;
 
   currTimeStr: string;
   durationStr: string;
@@ -67,8 +65,8 @@ export class PlaylistDetailsComponent implements OnInit, AfterViewInit, OnDestro
   constructor(private route: ActivatedRoute,
               private playlistService: PlaylistService,
               private titleService: Title,
-              private userService: UserService,
-              private appService: AppService) {
+              private userService: UserService) {
+    super();
   }
 
   ngOnInit(): void {
@@ -93,10 +91,6 @@ export class PlaylistDetailsComponent implements OnInit, AfterViewInit, OnDestro
           this.uploaderStats = resp.data;
         }
       });
-
-      this.appService.userObs.subscribe(user => {
-        this.user = user;
-      })
 
     });
   }
@@ -130,7 +124,7 @@ export class PlaylistDetailsComponent implements OnInit, AfterViewInit, OnDestro
     this.playlistService.find(this.username, this.code).subscribe(resp => {
       if (resp.success) {
         this.playlist = resp.data;
-        if (this.wavesurfer){
+        if (this.wavesurfer) {
           if (this.playlist.tracks.length > 0) {
             this.wavesurfer.load(AppSettings.ENDPOINT + "/" + this.username + "/audio-download/" + this.playlist.tracks[0].code);
           }

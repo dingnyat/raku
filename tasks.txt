@@ -1,24 +1,11 @@
-1. (done) Làm share bài hát
-2. (ưu tiên) Làm trang cá nhân người dùng (của mình, của người khác)
-3. (ưu tiên) Playlist (mới xong cái create) còn xóa và xem chi tiết, chỉnh sửa
-4. (done) Xóa, sửa bài hát
-5. (done) Xóa comment
-6. (ưu tiên) Áp dụng private/public. Bắt đầu phân loại người dùng trả phí
-7. (ưu tiên) Search trên thanh search
-8. (done) Trang verify email chưa có
-9. Thống kê của riêng người dùng
+9. (Hủy) Thống kê của riêng người dùng
 10. Trong Your track có thêm thông tin về tổng thời gian của các bài nhạc / tổng thời gian cho phép (tùy theo gói plan)
 11. Notification (khi người mình follow có hoạt động)
-12. (viết luôn trong trang cá nhân người dùng) Cập nhật thông tin người dùng
-13. Làm right side bar
-14. add to next up
-15. Xóa hàng loạt trong your tracks
-16. Tìm kiếm theo tag
-16. (xong cơ bản) Playlist trong profile
-17. Xử lý chưa đăng nhập thì làm được những gì?
-18. (done) Quên mật khẩu
-19. đếm số lượt nghe
+13. (Hủy) Làm right side bar
 20. Tìm kiếm: khi nhập vào ô input thì sổ xuống kết quả sơ bộ luôn (như auto complete)
+22. Phân loại private/public. khi người khác vào profile của mình thì họ chỉ thấy public
+23. HOMEPAGEEEEEEEEEEEEEEE
+
 4242424242424242
 5555555555554444
 4000000000000077

@@ -45,26 +45,20 @@
   <div class="col-8 ml-2">
     <div class="row justify-content-between align-items-center mb-3 pb-3" style="border-bottom: 1px solid #d6d6d6;">
       <div class="track-react d-flex justify-content-start align-items-center">
-        <button (click)="likeTrack()" [class.active-btn]="userTrackInfo?.like">
-          <fa-icon [icon]="faHeart"></fa-icon>
-          {{userTrackInfo?.like ? "Liked" : "Like"}}
-        </button>
-        <button (click)="repostTrack()" [class.d-none]="user?.username === track?.uploader.username"
-                [class.active-btn]="userTrackInfo?.repost">
-          <fa-icon [icon]="faThumbtack"></fa-icon>
-          {{userTrackInfo?.repost ? "Reposted" : "Repost"}}
-        </button>
+        <like-button [active]="userTrackInfo?.like" [target]="track"></like-button>
+        <repost-button [active]="userTrackInfo?.repost" [target]="track"
+                       [class.d-none]="loggedInUser?.username === track?.uploader.username"></repost-button>
         <button (click)="showShareDialog(track)">
           <fa-icon [icon]="faShare"></fa-icon>
           Share
         </button>
-        <button>
+        <!--<button>
           <svg width="22" height="22">
             <path fill="#333" class="playbackSoundBadge__queueIcon"
                   d="M6 11h12v2H6zM6 7h8v2H6zM6 15h12v2H6zM16 3v6l4-3z"></path>
           </svg>
           Add to Next up
-        </button>
+        </button>-->
         <button (click)="addToPlaylist(track)">
           <fa-icon [icon]="faList"></fa-icon>
           Add to playlist
@@ -100,7 +94,7 @@
           </span>
         </div>
         <div class="follow-uploader">
-          <button (click)="followUploader()" [class.d-none]="user?.username === track?.uploader.username">
+          <button (click)="followUploader()" [class.d-none]="loggedInUser?.username === track?.uploader.username">
             <span [class.d-none]="uploaderStats?.youFollowing">
               <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
               Follow
@@ -120,7 +114,7 @@
         </div>
         <div>
           <div class="leave-comment mb-2">
-            <img [src]="user?.imageUrl ? user?.imageUrl : '/assets/images/avatar.png'"
+            <img [src]="loggedInUser?.imageUrl ? loggedInUser?.imageUrl : '/assets/images/avatar.png'"
                  referrerpolicy="no-referrer"
                  style="width: 35px; height: 35px; opacity: 1; margin-bottom: 2px; margin-left: 2px"/>
             <input (keyup.enter)="comment($event)" class="comment-inp" placeholder="Leave a comment" type="text">
@@ -130,7 +124,7 @@
           </div>-->
           <div class="comment-area">
             <ng-container *ngIf="track?.comments != null && track?.comments.length > 0">
-              <commentor *ngFor="let cmt of track?.comments" [comment]="cmt" [cur-user]="user"
+              <commentor *ngFor="let cmt of track?.comments" [comment]="cmt" [cur-user]="loggedInUser"
                          (reloadComment)="reloadComment()"></commentor>
             </ng-container>
             <ng-container *ngIf="track?.comments == null || track?.comments.length == 0">

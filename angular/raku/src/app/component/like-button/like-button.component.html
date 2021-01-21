@@ -1,0 +1,4 @@
+<button (click)="clickLike()" [class.active-button]="active">
+  <fa-icon [icon]="faHeart"></fa-icon>
+  {{active ? "Liked" : "Like"}}
+</button>

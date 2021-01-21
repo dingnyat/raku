@@ -74,7 +74,7 @@
           </span>
         </div>
         <div class="follow-uploader">
-          <button (click)="followUploader()" [class.d-none]="user?.username === playlist?.createdBy.username">
+          <button (click)="followUploader()" [class.d-none]="loggedInUser?.username === playlist?.createdBy.username">
             <span [class.d-none]="uploaderStats?.youFollowing">
               <fa-icon class="mr-1" [icon]="faUserPlus"></fa-icon>
               Follow

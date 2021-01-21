@@ -1,0 +1,15 @@
+.active-button {
+  color: #ff5500;
+  border-color: #ff5500 !important;
+}
+
+button {
+  border: 1px solid #cccccc;
+  background-color: white;
+  border-radius: 2px;
+  margin-right: 6px;
+  font-size: 0.9em;
+  height: 27px;
+  align-items: center;
+  width: 60px;
+}
