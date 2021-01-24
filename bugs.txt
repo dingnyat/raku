@@ -3,4 +3,3 @@
 10. truy cập /username/tracks dù username khác của mình vẫn ra của mình => cần disable cái này
 12. User chưa active vẫn hoạt động như thường
 13. Menu drop down bị lệch nếu để màn hình độ phân giải khác :)
-14. Chưa đăng nhập thì chưa search được

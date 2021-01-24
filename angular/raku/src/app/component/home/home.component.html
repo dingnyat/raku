@@ -21,7 +21,27 @@
             <div class="background"
                  [style]="track.imageUrl ? ('background-image: url(' + track.imageUrl + ')') : 'background-image: linear-gradient(135deg, #846170, #70929c);'">
             </div>
-            <fa-icon class="play-btn" [icon]="faPlay"></fa-icon>
+            <fa-icon (click)="onTrackPlay(track)" class="play-btn" [icon]="faPlay"></fa-icon>
+          </div>
+          <p class="pointer my-1" [routerLink]="track.link">{{track.title}}</p>
+          <p class="pointer uploader" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</p>
+        </div>
+      </ng-template>
+    </ng-container>
+  </owl-carousel-o>
+</div>
+
+<div class="top-carousel mt-4 px-3">
+  <h3 class="px-1 mb-3 border-bottom">NEWEST UPLOAD TRACKS</h3>
+  <owl-carousel-o [options]="customOptions">
+    <ng-container *ngFor="let track of newestTracks">
+      <ng-template carouselSlide>
+        <div class="track-item">
+          <div class="image">
+            <div class="background"
+                 [style]="track.imageUrl ? ('background-image: url(' + track.imageUrl + ')') : 'background-image: linear-gradient(135deg, #846170, #70929c);'">
+            </div>
+            <fa-icon (click)="onTrackPlay(track)" class="play-btn" [icon]="faPlay"></fa-icon>
           </div>
           <p class="pointer my-1" [routerLink]="track.link">{{track.title}}</p>
           <p class="pointer uploader" [routerLink]="'/' + track.uploader.username">{{track.uploader.name}}</p>

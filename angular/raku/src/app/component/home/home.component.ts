@@ -12,6 +12,7 @@ import {Track} from "../../model/track";
 import {TrackService} from "../../service/track.service";
 import {faPlay} from "@fortawesome/free-solid-svg-icons";
 import {BaseController} from "../base.controller";
+import {AppService} from "../../service/app.service";
 
 @Component({
   selector: 'app-home',
@@ -45,6 +46,7 @@ export class HomeComponent extends BaseController implements OnInit {
   }
 
   top40: Track[];
+  newestTracks: Track[];
 
   constructor(public dialog: MatDialog,
               private authService: AuthenticationService,
@@ -57,6 +59,16 @@ export class HomeComponent extends BaseController implements OnInit {
       if (resp.success) {
         this.top40 = resp.data;
         this.top40.forEach(track => {
+          track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
+          track.link = "/" + track.uploader.username + "/" + track.code;
+        });
+      }
+    });
+
+    this.trackService.getNewestTracks().subscribe(resp => {
+      if (resp.success) {
+        this.newestTracks = resp.data;
+        this.newestTracks.forEach(track => {
           track.imageUrl = track.imageUrl ? (AppSettings.ENDPOINT + "/" + track.uploader.username + "/image/" + track.imageUrl) : null;
           track.link = "/" + track.uploader.username + "/" + track.code;
         });
@@ -102,5 +114,15 @@ export class HomeComponent extends BaseController implements OnInit {
 
       }
     })
+  }
+
+  onTrackPlay(track: Track) {
+    console.log(track);
+    track.src = AppSettings.ENDPOINT + "/" + track.uploader.username + "/audio/" + track.code;
+    track.link = "/" + track.uploader.username + "/" + track.code;
+    this.appService.setTrackQueue([track]);
+    this.appService.setQueueIdx(0);
+    this.appService.setCurrentTrack(track);
+    this.appService.setPlayState(true);
   }
 }

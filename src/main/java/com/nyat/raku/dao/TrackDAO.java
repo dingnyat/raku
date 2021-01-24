@@ -25,4 +25,6 @@ public interface TrackDAO {
     List<Track> getTracksByTag(String tagCode);
 
     List<Track> getTop40();
+
+    List<Track> getNewestTracks();
 }

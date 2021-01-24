@@ -198,6 +198,11 @@ public class TrackDAOImpl implements TrackDAO {
     @Override
     public List<Track> getTop40() {
         // todo để tạm đã :) thay đổi đi
-        return entityManager.createQuery("select t from Track t", Track.class).getResultList();
+        return entityManager.createQuery("select t from Track t order by t.plays desc", Track.class).getResultList();
+    }
+
+    @Override
+    public List<Track> getNewestTracks() {
+        return entityManager.createQuery("select t from Track t order by t.uploadTime desc", Track.class).setFirstResult(0).setMaxResults(30).getResultList();
     }
 }

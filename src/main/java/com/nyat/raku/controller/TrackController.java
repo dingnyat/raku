@@ -259,8 +259,19 @@ public class TrackController {
     @ResponseBody
     public ApiResponse<List<TrackDTO>> getTop40() {
         try {
-            // todo đm đéo ai đi làm số lượng cố định như này
             List<TrackDTO> tracks = trackService.getTop40();
+            return new ApiResponse<>(true, tracks);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ApiResponse<>(false, null);
+        }
+    }
+
+    @GetMapping("/get-newest-tracks")
+    @ResponseBody
+    public ApiResponse<List<TrackDTO>> getNewestTracks() {
+        try {
+            List<TrackDTO> tracks = trackService.getNewestTracks();
             return new ApiResponse<>(true, tracks);
         } catch (Exception e) {
             e.printStackTrace();

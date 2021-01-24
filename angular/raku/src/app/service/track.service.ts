@@ -63,7 +63,6 @@ export class TrackService extends BaseService {
 
   getRepostTracksOf(username: string): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get-repost-tracks/" + username);
-
   }
 
   getPlaylistsOf(username: string): Observable<any> {
@@ -76,5 +75,9 @@ export class TrackService extends BaseService {
 
   getTop40(): Observable<any> {
     return this.http.get(this.BASE_URL + this.contextUrl + "/get-top-40/");
+  }
+
+  getNewestTracks(): Observable<any> {
+    return this.http.get(this.BASE_URL + this.contextUrl + "/get-newest-tracks");
   }
 }
